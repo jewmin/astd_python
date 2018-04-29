@@ -2,6 +2,7 @@
 # http管理
 from logging import getLogger
 import requests
+import zlib
 
 
 class TransferMgr(object):
@@ -12,11 +13,15 @@ class TransferMgr(object):
         elif result.status_code != 200 and result.status_code != 304:
             return "code:{}".format(result.status_code)
         else:
-            index = result.text.find("<results>")
+            if result.headers["content-type"] == "application/x-gzip-compressed":
+                content = zlib.decompress(result.content)
+            else:
+                content = result.content
+            index = content.find("<results>")
             if index < 0:
                 return ""
             else:
-                return result.text[index:]
+                return content[index:]
 
     @staticmethod
     def get(url, cookies):
@@ -31,13 +36,19 @@ class TransferMgr(object):
     @staticmethod
     def get_pure(url, cookies, headers=None):
         try:
-            return requests.get(url=url, cookies=cookies, headers=headers)
+            session = requests.session()
+            response = session.get(url=url, cookies=cookies, headers=headers, allow_redirects=False)
+            cookies.update(session.cookies)
+            return response
         except Exception as ex:
             getLogger("TransferMgr").error(str(ex))
 
     @staticmethod
     def post_pure(url, data, cookies, headers=None):
         try:
-            return requests.post(url=url, data=data, cookies=cookies, headers=headers)
+            session = requests.session()
+            response = session.post(url=url, data=data, cookies=cookies, headers=headers, allow_redirects=False)
+            cookies.update(session.cookies)
+            return response
         except Exception as ex:
             getLogger("TransferMgr").error(str(ex))

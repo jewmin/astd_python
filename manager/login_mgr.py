@@ -15,8 +15,7 @@ class LoginMgr(object):
             raise NotImplementedError
 
     def login(self, account, cookies, verify=None, extra=None):
-        if account is None:
-            return None
-        else:
+        if account is not None:
             partner = self.get_login_impl(account.m_eServerType)
+            partner.set_account(account)
             return partner.login(cookies, verify, extra)

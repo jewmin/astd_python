@@ -14,13 +14,13 @@ class Account(object):
         # self.m_szCustomServerName = None
         self.m_szUserName = None
         self.m_szPassword = None
-        # self.m_szRoleName = None
+        self.m_szRoleName = None
         # self.m_szCustomLoginUrl = None
         # self.m_szCustomGameUrl = None
         # self.m_bIsLastLogin = None
-        # self.m_eAccountStatus = None
+        self.m_eAccountStatus = None
         # self.m_ GameConfig _gameConf;
         # self.m_ OtherConfig _otherConf;
-        # self.m_szGameUrl = None
-        # self.m_szSessionId = None
-        # self.m_distCookies = None
+        self.m_szGameUrl = None
+        self.m_szJSessionId = None
+        self.m_distCookies = None

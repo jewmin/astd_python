@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # 登录基类
 from logging import getLogger
-from urllib import urlencode
 import hashlib
 from urlparse import urlparse
 from threading import Lock
@@ -13,18 +12,18 @@ from model.enum.login_status import LoginStatus
 class LoginBase(object):
     def __init__(self):
         super(LoginBase, self).__init__()
+        self.logger = getLogger(self.__class__.__name__)
         self.m_szUserName = None
         self.m_szPassword = None
         self.m_szMd5Password = None
         self.m_szMd5PasswordLower = None
         self.m_objAccount = None
-        self.logger = getLogger(self.__class__.__name__)
         self.lock = Lock()
 
     def set_account(self, account):
         self.m_objAccount = account
-        self.m_szUserName = urlencode(self.m_objAccount.m_szUserName)
-        self.m_szPassword = urlencode(self.m_objAccount.m_szPassword)
+        self.m_szUserName = self.m_objAccount.m_szUserName
+        self.m_szPassword = self.m_objAccount.m_szPassword
         self.m_szMd5Password = hashlib.md5(self.m_objAccount.m_szPassword).hexdigest()
         self.m_szMd5PasswordLower = self.m_szMd5Password.lower()
 
@@ -46,11 +45,10 @@ class LoginBase(object):
         try:
             fd = open("{}/{}".format(folder, file_name), "r+")
             content = fd.read()
+            fd.close()
         except IOError as ex:
             self.logger.error(str(ex))
             content = ""
-        finally:
-            fd.close()
         self.lock.release()
         return content
 
@@ -69,27 +67,27 @@ class LoginBase(object):
             else:
                 location = LoginBase.make_sure_valid_url(redirect_url, location)
                 if "start.action" not in location:
-                    LoginBase.process_redirect(location, login_result, cookies)
+                    self.process_redirect(location, login_result, cookies)
                 else:
-                    LoginBase.process_start_game(location, login_result, cookies)
+                    self.process_start_game(location, login_result, cookies)
 
     def process_start_game(self, start_url, login_result, cookies):
         self.getting_session()
         result = TransferMgr.get_pure(start_url, cookies)
-        self.handle_start_game(result, login_result)
+        self.handle_start_game(result, login_result, cookies)
 
     def post_start_game(self, start_url, data, login_result, cookies):
         self.getting_session()
         result = TransferMgr.post_pure(start_url, data, cookies)
-        self.handle_start_game(result, login_result)
+        self.handle_start_game(result, login_result, cookies)
 
-    def handle_start_game(self, result, login_result):
+    def handle_start_game(self, result, login_result, cookies):
         if result is None:
             login_result.m_eLoginStatus = LoginStatus.FailInGetSession
         else:
             login_result.m_szGameUrl = result.headers["location"]
             login_result.m_szJSessionId = result.cookies["JSESSIONID"]
-            login_result.m_dictCookies = result.cookies.get_dict()
+            login_result.m_dictCookies = cookies
             if login_result.m_szJSessionId is None or login_result.m_szJSessionId == "":
                 login_result.m_eLoginStatus = LoginStatus.FailInGetSession
             else:
