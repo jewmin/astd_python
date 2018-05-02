@@ -23,10 +23,10 @@ def main():
     logging.getLogger().addHandler(console)
 
     account = Account()
-    account.m_szUserName = "cat000005"
-    account.m_szPassword = "332211"
+    account.m_szUserName = "jewminchan"
+    account.m_szPassword = "1986czm"
     account.m_eServerType = ServerType.YaoWan
-    account.m_nServerId = 211
+    account.m_nServerId = 265
     account.m_szRoleName = ""
 
     cookies = requests.cookies.RequestsCookieJar()
@@ -47,10 +47,23 @@ def init_session(account):
     user = User()
     factory = ServiceFactory()
     protocol = ProtocolMgr(user, account.m_szGameUrl, account.m_szJSessionId, factory)
-    result = protocol.get_xml("/root/server!getServerTime.action", "获取系统时间")
-    print(result)
+    factory.get_misc_mgr().get_server_time()
+    # factory.get_misc_mgr().get_player_info_by_user_id(account.m_szRoleName)
+    # print(factory.get_misc_mgr().immediate())
+    # print(factory.get_misc_mgr().an_hour_later())
+    # print(factory.get_misc_mgr().next_half_hour())
+    # print(factory.get_misc_mgr().next_hour())
+    # print(factory.get_misc_mgr().next_dinner())
+    # print(factory.get_misc_mgr().next_day())
+    # print(factory.get_misc_mgr().next_day(8))
     result = protocol.get_xml("/root/server!getPlayerInfoByUserId.action", "获取玩家信息")
-    print(result)
+    # data = {"playerId": result.m_objResult["player"][1]["playerid"], "code": result.m_objResult["code"]}
+    # result = protocol.post_xml("/root/server!chooseRole.action", data, "选择玩家角色")
+    # result = protocol.get_xml("/root/server!getPlayerInfoByUserId.action", "获取玩家信息")
+    result = protocol.get_xml("/root/mainCity.action", "获取主城信息")
+    result = protocol.get_xml("/root/server!getExtraInfo.action", "获取玩家额外信息")
+    result = protocol.get_xml("/root/server!getPlayerExtraInfo2.action", "获取玩家额外信息")
+    # print(result)
 
 
 if __name__ == "__main__":

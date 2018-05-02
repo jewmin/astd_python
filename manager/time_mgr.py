@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # 时间管理
 import time
+from datetime import datetime
+import pytz
 
 
 class TimeMgr(object):
@@ -13,3 +15,7 @@ class TimeMgr(object):
 
     def get_timestamp(self):
         return int(round(time.time() * 1000)) - self.m_nTimeSpan
+
+    # year, month, day, hour, minute, second, microsecond
+    def get_datetime(self):
+        return datetime.fromtimestamp(self.get_timestamp() / 1000, pytz.timezone("UTC"))

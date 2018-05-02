@@ -13,11 +13,15 @@ class ProtocolMgr(object):
         self.logger = getLogger(self.__class__.__name__)
         self.m_objUser = user
         self.m_objServiceFactory = service_factory
+        self.m_objServiceFactory.set_protocol_mgr(self)
 
         url = urlparse(game_url)
         self.m_szGameUrl = "{}://{}".format(url.scheme, url.netloc)
         self.m_objJar = requests.cookies.RequestsCookieJar()
         self.m_objJar.set("JSESSIONID", j_session_id, domain=url.hostname, path="/root")
+
+    def get_user(self):
+        return self.m_objUser
 
     def get_xml(self, url, desc):
         self.logger.info(desc)
@@ -37,11 +41,9 @@ class ProtocolMgr(object):
             if server_result.is_http_succeed():
                 if server_result.m_bSucceed:
                     if "playerupdateinfo" in server_result.m_objResult:
-                        # this._user.refreshPlayerInfo(xmlNode);
-                        pass
+                        self.m_objUser.update_player_info(server_result.m_objResult["playerupdateinfo"])
                     if "playerbattleinfo" in server_result.m_objResult:
-                        # this._user.refreshPlayerInfo(xmlNode2);
-                        pass
+                        self.m_objUser.update_player_battle_info(server_result.m_objResult["playerbattleinfo"])
                 elif "连接已超时" in server_result.m_szError or "用户已在别处登陆" in server_result.m_szError:
                     raise Exception("需要重新登录")
 

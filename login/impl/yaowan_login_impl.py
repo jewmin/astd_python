@@ -4,7 +4,7 @@ from logging import getLogger
 import re
 from login.login_base import LoginBase
 from manager.transfer_mgr import TransferMgr
-from login.login_result import LoginResult
+from model.login_result import LoginResult
 from model.enum.login_status import LoginStatus
 
 
@@ -71,7 +71,6 @@ class YaoWanLogin(LoginBase):
             name = "龍"
         else:
             name = "双线{}区".format(self.m_objAccount.m_nServerId)
-        # re.compile("<a.*href=\"([^\"']*?)\".*>{}.*</a>".format(name))
         compiler = re.compile("<a.*href=\"(.*?)\".*>({}.*)</a>".format(name))
         search = re.search(compiler, content)
         if search is None:
