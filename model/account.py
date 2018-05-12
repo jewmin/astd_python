@@ -4,6 +4,7 @@
 
 class Account(object):
     def __init__(self):
+        super(Account, self).__init__()
         # self.m_nId = None
         # self.m_nUserId = None
         # self.m_dtEnableTime = None

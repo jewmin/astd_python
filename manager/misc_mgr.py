@@ -27,7 +27,7 @@ class MiscMgr(BaseMgr):
         # 选择角色
         if result.m_objResult.get("op", "") == "xzjs":
             code = result.m_objResult["code"]
-            for v in result.m_objResult["player"].itervalues():
+            for v in result.m_objResult["player"]:
                 if role_name == v["playername"]:
                     player_id = v["playerid"]
                     break
@@ -65,10 +65,10 @@ class MiscMgr(BaseMgr):
             user.m_nGold, user.m_nCopper))
 
         if user.m_bHasVersionGift:
-            self.get_update_reward()
+            self.get_service_factory().get_city_mgr().get_update_reward()
 
-        if user.m_bHasPerDayReward:
-            self.get_per_day_reward()
+        # if user.m_bHasPerDayReward:
+        #     self.get_service_factory().get_city_mgr().get_per_day_reward()
 
         return True
 
@@ -94,16 +94,18 @@ class MiscMgr(BaseMgr):
             user = self.get_protocol_mgr().get_user()
             user.update_player_extra_info2(result.m_objResult["player"])
 
-    def get_update_reward(self):
-        url = "/root/mainCity!getUpdateReward.action"
-        result = self.get_protocol_mgr().get_xml(url, "领取版本更新奖励")
+    def get_new_gift_list(self):
+        url = "/root/newGift!getNewGiftList.action"
+        data = {"type": 1}
+        result = self.get_protocol_mgr().post_xml(url, data, "获取登录礼包列表")
         if result and result.m_bSucceed:
-            user = self.get_protocol_mgr().get_user()
-            user.m_bHasVersionGift = False
+            if "weekendgift" in result.m_objResult:
+                self.get_new_gift_reward(result.m_objResult["weekendgift"]["id"])
 
-    def get_per_day_reward(self):
-        url = "/root/mainCity!getPerDayReward.action"
-        result = self.get_protocol_mgr().get_xml(url, "试试手气")
+    def get_new_gift_reward(self, gift_id):
+        url = "/root/newGift!getNewGiftReward.action"
+        data = {"giftId": gift_id}
+        result = self.get_protocol_mgr().post_xml(url, data, "领取登录礼包")
         if result and result.m_bSucceed:
-            user = self.get_protocol_mgr().get_user()
-            user.m_bHasPerDayReward = False
+            content = result.m_objResult.get("content", "无效奖励")
+            self.logger.info("领取登录礼包，获得{}".format(content))

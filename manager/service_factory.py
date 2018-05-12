@@ -2,6 +2,7 @@
 # 统一管理
 from manager.time_mgr import TimeMgr
 from manager.misc_mgr import MiscMgr
+from manager.city_mgr import CityMgr
 
 
 class ServiceFactory(object):
@@ -10,6 +11,7 @@ class ServiceFactory(object):
         self.m_objProtocolMgr = None
         self.m_objTimeMgr = TimeMgr()
         self.m_objMiscMgr = MiscMgr(self.m_objTimeMgr, self)
+        self.m_objCityMgr = CityMgr(self.m_objTimeMgr, self)
 
     def set_protocol_mgr(self, protocol_mgr):
         self.m_objProtocolMgr = protocol_mgr
@@ -22,3 +24,6 @@ class ServiceFactory(object):
 
     def get_misc_mgr(self):
         return self.m_objMiscMgr
+
+    def get_city_mgr(self):
+        return self.m_objCityMgr

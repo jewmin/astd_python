@@ -6,7 +6,7 @@ from login.impl.yaowan_login_impl import YaoWanLogin
 
 class LoginMgr(object):
     def __init__(self):
-        pass
+        super(LoginMgr, self).__init__()
 
     def get_login_impl(self, server_type):
         if server_type == ServerType.YaoWan:

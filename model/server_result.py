@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 # 返回结果
+from logging import getLogger
 from encoder import XML2Dict
 
 
 class ServerResult(object):
     def __init__(self, result):
+        super(ServerResult, self).__init__()
+        self.logger = getLogger(self.__class__.__name__)
         self.m_nHttpCode = 0
         self.m_bSucceed = False
         self.m_szError = ""
@@ -15,17 +18,21 @@ class ServerResult(object):
                 self.m_nHttpCode = int(result.replace("code:", ""))
             else:
                 self.m_nHttpCode = 200
-                self.m_objResult = XML2Dict().parse(result)["results"]
-                if self.m_objResult.get("state", "0") == "1":
-                    self.m_bSucceed = True
-                    self.m_szXml = result
-                else:
-                    if "message" in self.m_objResult:
-                        self.m_szError = self.m_objResult["message"]
-                    elif "exception" in self.m_objResult:
-                        self.m_szError = self.m_objResult["exception"]
-                    if self.m_szError == "":
-                        self.m_szError = result
+                try:
+                    self.m_objResult = XML2Dict().parse(result)["results"]
+                    if self.m_objResult.get("state", "0") == "1":
+                        self.m_bSucceed = True
+                        self.m_szXml = result
+                    else:
+                        if "message" in self.m_objResult:
+                            self.m_szError = self.m_objResult["message"]
+                        elif "exception" in self.m_objResult:
+                            self.m_szError = self.m_objResult["exception"]
+                        if self.m_szError == "":
+                            self.m_szError = result
+                except Exception as ex:
+                    self.m_szError = str(ex)
+                    self.logger.error("解析结果失败：{}".format(self.m_szError))
 
     def is_http_succeed(self):
         return self.m_nHttpCode == 200

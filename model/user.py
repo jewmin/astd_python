@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 # 角色信息
+from model.main_city_dto import MainCityDto
+from model.constructor_dto import ConstructorDto
+from model.mo_zi_building import MoZiBuilding
 
 
 class User(object):
     def __init__(self):
         super(User, self).__init__()
-        self.m_bHasPerDayReward = False  # 今日手气
-        self.m_bHasVersionGift = False  # 版本更新奖励
         self.m_nId = 0  # 角色id
         self.m_szUserName = ""  # 角色名
         self.m_nLevel = 0  # 角色等级
@@ -49,80 +50,141 @@ class User(object):
         self.m_nCurActive = 0  # 当前行动力
         self.m_nArrestState = 0  # 劳作状态
         self.m_bCanTech = False  # 技术研究
+        self.m_bHasPerDayReward = False  # 今日手气
+        self.m_bHasVersionGift = False  # 版本更新奖励
+
+        self.m_nRemainSeniorSlaves = 0  # 剩余高级劳工(墨子改造)
+        self.m_bCanVisit = False  # 恭贺争霸风云榜
+        self.m_bNewTechnology = False  # 科技
+        self.m_bWarChariot = False  # 战车
 
         self.m_nAreaId = 0  # 当前所在城池id
         self.m_szAreaName = ""  # 当前所在城池名称
 
-        self.m_listActivities = []  # 活动列表
+        self.m_dictActivities = {}  # 活动列表
+        self.m_dictMainCityBuildings = {}  # 主城建筑
+        self.m_listConstructorDto = []  # 建筑建造队列
+        self.m_dictMoZiBuildings = {}  # 墨子建筑
+
+    def handle_info(self, dict_info):
+        if "playerid" in dict_info:
+            self.m_nId = int(dict_info["playerid"])
+        if "playername" in dict_info:
+            self.m_szUserName = dict_info["playername"]
+        if "playerlevel" in dict_info:
+            self.m_nLevel = int(dict_info["playerlevel"])
+        if "year" in dict_info:
+            self.m_nYear = int(dict_info["year"])
+        if "season" in dict_info:
+            self.set_season(int(dict_info["season"]))
+        if "nation" in dict_info:
+            self.set_nation(int(dict_info["nation"]))
+        if "innewarea" in dict_info:
+            self.m_bInNewArea = dict_info["innewarea"] == "1"
+
+        if "copper" in dict_info:
+            self.m_nCopper = int(dict_info["copper"])
+        if "food" in dict_info:
+            self.m_nFood = int(dict_info["food"])
+        if "forces" in dict_info:
+            self.m_nForces = int(dict_info["forces"])
+        if "sys_gold" in dict_info:
+            self.m_nGold = int(dict_info["sys_gold"])
+        if "user_gold" in dict_info:
+            self.m_nRechargeGold = int(dict_info["user_gold"])
+        if "jyungong" in dict_info:
+            self.m_nJunGong = int(dict_info["jyungong"])
+        if "prestige" in dict_info:
+            self.m_nPrestige = int(dict_info["prestige"])
+        if "bowlder" in dict_info:
+            self.m_nBowlder = int(dict_info["bowlder"])
+        if "token" in dict_info:
+            self.m_nToken = int(dict_info["token"])
+        if "atttoken" in dict_info:
+            self.m_nAttToken = int(dict_info["atttoken"])
+        if "attacktoken" in dict_info:
+            self.m_nAttToken = int(dict_info["attacktoken"])
+        if "cityhp" in dict_info:
+            self.m_nCityHp = int(dict_info["cityhp"])
+
+        if "imposecd" in dict_info:
+            self.m_nImposeCd = int(dict_info["imposecd"])
+        if "imposecdflag" in dict_info:
+            self.m_bImposeCdFlag = dict_info["imposecdflag"] == "1"
+        if "tokencd" in dict_info:
+            self.m_nTokenCd = int(dict_info["tokencd"])
+        if "tokencdflag" in dict_info:
+            self.m_bTokenCdFlag = dict_info["tokencdflag"] == "1"
+        if "transfercd" in dict_info:
+            self.m_nTransferCd = int(dict_info["transfercd"])
+        if "protectcd" in dict_info:
+            self.m_nProtectCd = int(dict_info["protectcd"])
+        if "inspirecd" in dict_info:
+            self.m_nInspireCd = int(dict_info["inspirecd"])
+        if "inspirestate" in dict_info:
+            self.m_nInspireState = int(dict_info["inspirestate"])
+
+        if "maxbowlder" in dict_info:
+            self.m_nMaxBowlder = int(eval(dict_info["maxbowlder"]))
+        if "maxtoken" in dict_info:
+            self.m_nMaxToken = int(dict_info["maxtoken"])
+        if "maxattacktoken" in dict_info:
+            self.m_nMaxAttToken = int(dict_info["maxattacktoken"])
+        if "maxcityhp" in dict_info:
+            self.m_nMaxCityHp = int(dict_info["maxcityhp"])
+        if "maxfood" in dict_info:
+            self.m_nMaxFood = int(dict_info["maxfood"])
+        if "maxcoin" in dict_info:
+            self.m_nMaxCopper = int(dict_info["maxcoin"])
+        if "maxforce" in dict_info:
+            self.m_nMaxForces = int(dict_info["maxforce"])
+
+        if "jailbaoshi" in dict_info:
+            self.m_nJailBaoShi += int(dict_info["jailbaoshi"])
+        if "battlescore" in dict_info:
+            self.m_nBattleScore = int(dict_info["battlescore"])
+        if "curactive" in dict_info:
+            self.m_nCurActive = int(dict_info["curactive"])
+        if "arreststate" in dict_info:
+            self.m_nArrestState = int(dict_info["arreststate"])
+        if "cantech" in dict_info:
+            self.m_bCanTech = dict_info["cantech"] == "1"
+        if "perdayreward" in dict_info:
+            self.m_bHasPerDayReward = dict_info["perdayreward"] == "1"
+        if "version_gift" in dict_info:
+            self.m_bHasVersionGift = dict_info["version_gift"] == "1"
+
+        if "areaid" in dict_info:
+            self.m_nAreaId = int(dict_info["areaid"])
+        if "areaname" in dict_info:
+            self.m_szAreaName = dict_info["areaname"]
 
     def update_player_info(self, dict_player_info):
-        self.m_nJailBaoShi += int(dict_player_info.get("battlescore", "0"))
-        self.m_nBattleScore = int(dict_player_info.get("battlescore", "0"))
-        self.m_nCurActive = int(dict_player_info.get("curactive", "0"))
-        self.m_nArrestState = int(dict_player_info.get("arreststate", "0"))
+        if dict_player_info is not None:
+            self.handle_info(dict_player_info)
 
     def update_player_battle_info(self, dict_player_battle_info):
-        pass
+        if dict_player_battle_info is not None:
+            self.handle_info(dict_player_battle_info)
 
     def refresh_player_info(self, dict_player_info):
         if dict_player_info is not None:
-            self.m_bHasPerDayReward = dict_player_info.get("perdayreward", "0") == "1"
-            self.m_bHasVersionGift = dict_player_info.get("version_gift", "0") == "1"
-            self.m_nId = int(dict_player_info["playerid"])
-            self.m_szUserName = dict_player_info["playername"]
-            self.m_nLevel = int(dict_player_info["playerlevel"])
-            self.m_nYear = int(dict_player_info["year"])
-            self.set_season(int(dict_player_info["season"]))
-            self.set_nation(int(dict_player_info["nation"]))
-            self.m_bInNewArea = dict_player_info.get("innewarea", "0") == "1"
-
-            self.m_nCopper = int(dict_player_info["copper"])
-            self.m_nFood = int(dict_player_info["food"])
-            self.m_nForces = int(dict_player_info["forces"])
-            self.m_nGold = int(dict_player_info["sys_gold"])
-            self.m_nRechargeGold = int(dict_player_info["user_gold"])
-            self.m_nJunGong = int(dict_player_info["jyungong"])
-            self.m_nPrestige = int(dict_player_info["prestige"])
-            self.m_nBowlder = int(dict_player_info["bowlder"])
-            self.m_nToken = int(dict_player_info["token"])
-            self.m_nAttToken = int(dict_player_info["atttoken"])
-            self.m_nCityHp = int(dict_player_info["cityhp"])
-
-            self.m_nImposeCd = int(dict_player_info["imposecd"])
-            self.m_bImposeCdFlag = dict_player_info.get("imposecdflag", "0") == "1"
-            self.m_nTokenCd = int(dict_player_info["tokencd"])
-            self.m_bTokenCdFlag = dict_player_info.get("tokencdflag", "0") == "1"
-            self.m_nTransferCd = int(dict_player_info["transfercd"])
-            self.m_nProtectCd = int(dict_player_info["protectcd"])
-            self.m_nInspireCd = int(dict_player_info["inspirecd"])
-            self.m_nInspireState = int(dict_player_info["inspirestate"])
-
-            self.m_nMaxBowlder = int(eval(dict_player_info["maxbowlder"]))
-            self.m_nMaxToken = int(dict_player_info["maxtoken"])
-            self.m_nMaxAttToken = int(dict_player_info["maxattacktoken"])
-            self.m_nMaxCityHp = int(dict_player_info["maxcityhp"])
-
-            self.m_nAreaId = int(dict_player_info["areaid"])
-            self.m_szAreaName = dict_player_info["areaname"]
+            self.handle_info(dict_player_info)
 
     def update_limits(self, dict_limits):
         if dict_limits is not None:
-            self.m_nMaxFood = int(dict_limits["maxfood"])
-            self.m_nMaxCopper = int(dict_limits["maxcoin"])
-            self.m_nMaxForces = int(dict_limits["maxforce"])
+            self.handle_info(dict_limits)
 
     def update_player_extra_info(self, dict_player_extra_info):
         if dict_player_extra_info is not None:
-            pass
+            self.handle_info(dict_player_extra_info)
 
     def update_player_extra_info2(self, dict_player_extra_info):
         if dict_player_extra_info is not None:
-            self.m_bCanTech = dict_player_extra_info.get("cantech", "0") == "1"
-            self.m_nCurActive = int(dict_player_extra_info.get("curactive", "0"))
-            self.m_nArrestState = int(dict_player_extra_info.get("arreststate", "0"))
+            self.handle_info(dict_player_extra_info)
 
     def clear_activities(self):
-        self.m_listActivities = []
+        self.m_dictActivities = {}
 
     def set_season(self, season):
         season_tuple = ("春", "夏", "秋", "冬")
@@ -131,3 +193,24 @@ class User(object):
     def set_nation(self, nation):
         nation_tuple = ("中立", "魏国", "蜀国", "吴国")
         self.m_szNation = nation_tuple[nation]
+
+    def set_main_city_dto(self, list_main_city_dto):
+        self.m_dictMainCityBuildings = {}
+        for main_city_dto in list_main_city_dto:
+            dto = MainCityDto()
+            dto.handle_info(main_city_dto)
+            self.m_dictMainCityBuildings[dto.id] = dto
+
+    def set_constructor_dto(self, list_constructor_dto):
+        self.m_listConstructorDto = []
+        for constructor_dto in list_constructor_dto:
+            dto = ConstructorDto()
+            dto.handle_info(constructor_dto)
+            self.m_listConstructorDto.append(dto)
+
+    def set_mo_zi_building(self, list_mo_zi_building):
+        self.m_dictMoZiBuildings = {}
+        for mo_zi_building in list_mo_zi_building:
+            building = MoZiBuilding()
+            building.handle_info(mo_zi_building)
+            self.m_dictMoZiBuildings[building.id] = building
