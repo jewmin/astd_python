@@ -2,6 +2,8 @@
 # 杂七杂八管理
 from logging import getLogger
 from manager.base_mgr import BaseMgr
+from model.fete import Fete
+from model.reward_info import RewardInfo
 
 
 class MiscMgr(BaseMgr):
@@ -97,7 +99,7 @@ class MiscMgr(BaseMgr):
     def get_new_gift_list(self):
         url = "/root/newGift!getNewGiftList.action"
         data = {"type": 1}
-        result = self.get_protocol_mgr().post_xml(url, data, "获取登录礼包列表")
+        result = self.get_protocol_mgr().post_xml(url, data, "登录礼包")
         if result and result.m_bSucceed:
             if "weekendgift" in result.m_objResult:
                 self.get_new_gift_reward(result.m_objResult["weekendgift"]["id"])
@@ -109,3 +111,71 @@ class MiscMgr(BaseMgr):
         if result and result.m_bSucceed:
             content = result.m_objResult.get("content", "无效奖励")
             self.logger.info("领取登录礼包，获得{}".format(content))
+
+    def fete(self):
+        fete_list = []
+        free_all_fete = 0
+        url = "/root/fete.action"
+        result = self.get_protocol_mgr().get_xml(url, "祭祀神庙")
+        if result and result.m_bSucceed:
+            for v in result.m_objResult["fetelist"]["fete"]:
+                f = Fete()
+                f.handle_info(v)
+                fete_list.append(f)
+            free_all_fete = int(result.m_objResult["fetelist"].get("freeallfete", "0"))
+        return fete_list, free_all_fete
+
+    def do_fete(self, fete_id, fete_gold, fete_name):
+        url = "/root/fete!dofete.action"
+        data = {"feteId": fete_id}
+        result = self.get_protocol_mgr().post_xml(url, data, "祭祀")
+        if result and result.m_bSucceed:
+            self.logger.info("花费{}金币祭祀{}".format(fete_gold, fete_name))
+            gain = result.m_objResult["gains"]["gain"]
+            if isinstance(gain, list):
+                for v in gain:
+                    self.logger.info("{}倍暴击，获得{}+{}".format(v["pro"], v["addtype"], v["addvalue"]))
+            else:
+                self.logger.info("{}倍暴击，获得{}+{}".format(gain["pro"], gain["addtype"], gain["addvalue"]))
+
+    def get_new_per_day_task(self):
+        url = "/root/task!getNewPerdayTask.action"
+        result = self.get_protocol_mgr().get_xml(url, "日常任务")
+        if result and result.m_bSucceed:
+            day_box_state = result.m_objResult["dayboxstate"].split(",")
+            for k, v in enumerate(day_box_state, 1):
+                if v == "0":
+                    self.open_day_box(k)
+            if result.m_objResult["redpacketinfo"]["redpacket"] == "0":
+                self.open_week_red_packet()
+            user = self.get_protocol_mgr().get_user()
+            user.set_task(result.m_objResult["task"])
+            for task in result.m_objResult["task"]:
+                if task["taskstate"] == "3":
+                    self.get_new_per_day_task_reward(task["taskid"])
+
+    def open_day_box(self, reward_id):
+        url = "/root/task!openDayBox.action"
+        data = {"rewardId": reward_id}
+        result = self.get_protocol_mgr().post_xml(url, data, "开启宝箱")
+        if result and result.m_bSucceed:
+            reward_info = RewardInfo()
+            reward_info.handle_info(result.m_objResult["rewardinfo"])
+            self.logger.info("开启日常任务活跃宝箱，获得{}".format(str(reward_info)))
+
+    def open_week_red_packet(self):
+        url = "/root/task!openWeekRedPacket.action"
+        result = self.get_protocol_mgr().get_xml(url, "活跃红包")
+        if result and result.m_bSucceed:
+            reward_info = RewardInfo()
+            reward_info.handle_info(result.m_objResult["rewardinfo"])
+            self.logger.info("日常任务活跃红包开奖，获得{}".format(str(reward_info)))
+
+    def get_new_per_day_task_reward(self, reward_id):
+        url = "/root/task!getNewPerdayTaskReward.action"
+        data = {"rewardId": reward_id}
+        result = self.get_protocol_mgr().post_xml(url, data, "日常任务领奖")
+        if result and result.m_bSucceed:
+            reward_info = RewardInfo()
+            reward_info.handle_info(result.m_objResult["rewardinfo"])
+            self.logger.info("日常任务领奖，获得{}".format(str(reward_info)))

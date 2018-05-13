@@ -27,10 +27,10 @@ class ActivityType(Enum):
     BombNianEvent = 19
     BorrowingArrowsEvent = 20  # 草船借箭
     ParadeEvent = 21  # 阅兵庆典
-    TowerStage = 22
+    TowerStage = 22  # 宝塔活动
     MoonTowerEvent = 23
     GoldBoxEvent = 24
-    NationDayGoldBoxEvent = 25
+    NationDayGoldBoxEvent = 25  # 充值赠礼
     HasDayTreasureGame = 26
     HasTroopFeedback = 27
     HasCakeEvent = 28
@@ -39,3 +39,5 @@ class ActivityType(Enum):
     ShowKfYZ = 31
     ShowKfWD = 32  # 武斗会
     ShowKfPVP = 33
+    RingEvent = 34  # 新年敲钟
+

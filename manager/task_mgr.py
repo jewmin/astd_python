@@ -20,11 +20,6 @@ class TaskMgr(object):
                 self.m_listTasks.append(task)
                 self.m_dictTasks[task.m_szName] = task
 
-    def remove_task(self, task):
-        if task is not None:
-            self.m_listTasks.remove(task)
-            self.m_dictTasks.pop(task.m_szName)
-
     def set_variables(self, service_factory, protocol_mgr, user):
         self.m_objServiceFactory = service_factory
         self.m_objUser = user

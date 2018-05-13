@@ -29,7 +29,7 @@ class CommonTask(BaseTask):
             if self.m_objUser.m_bHasPerDayReward:
                 city_mgr.get_per_day_reward()
             # 登录礼包
-            city_mgr.get_new_gift_list()
+            misc_mgr.get_new_gift_list()
             # 登录签到送礼
             city_mgr.get_login_reward_info()
             # 恭贺
@@ -38,3 +38,12 @@ class CommonTask(BaseTask):
         # 将军塔
         if config["mainCity"]["auto_build_general_tower"]:
             city_mgr.get_general_tower_info()
+
+        # 免费征兵
+        if config["mainCity"]["auto_right_army"]:
+            if self.m_objUser.m_nRightNum > 0 and self.m_objUser.m_nRightCd == 0:
+                city_mgr.right_army()
+
+        # 日常任务
+        if config["task"]["auto_task"]:
+            misc_mgr.get_new_per_day_task()

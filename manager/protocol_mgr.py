@@ -24,13 +24,13 @@ class ProtocolMgr(object):
         return self.m_objUser
 
     def get_xml(self, url, desc):
-        self.logger.info(desc)
+        self.logger.debug(desc)
         server_result = self.get(url)
         self.handle_result(server_result)
         return server_result
 
     def post_xml(self, url, data, desc):
-        self.logger.info(desc)
+        self.logger.debug(desc)
         server_result = self.post(url, data)
         self.handle_result(server_result)
         return server_result

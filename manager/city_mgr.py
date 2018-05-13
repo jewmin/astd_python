@@ -14,13 +14,15 @@ class CityMgr(BaseMgr):
 
     def get_main_city(self):
         url = "/root/mainCity.action"
-        result = self.get_protocol_mgr().get_xml(url, "获取主城信息")
+        result = self.get_protocol_mgr().get_xml(url, "主城信息")
         if result and result.m_bSucceed:
             user = self.get_protocol_mgr().get_user()
             user.m_nRemainSeniorSlaves = int(result.m_objResult.get("remainseniorslaves", "0"))
             user.m_bCanVisit = result.m_objResult.get("canvisit", "0") == "1"
             user.m_bNewTechnology = result.m_objResult.get("newtechnology", "0") == "1"
             user.m_bWarChariot = result.m_objResult.get("warchariot", "0") == "1"
+            user.m_nRightCd = int(result.m_objResult.get("rightcd", "0"))
+            user.m_nRightNum = int(result.m_objResult.get("rightnum", "0"))
             self.set_activities(user, result.m_objResult)
             user.set_main_city_dto(result.m_objResult.get("maincitydto", []))
             user.set_constructor_dto(result.m_objResult.get("constructordto", []))
@@ -96,6 +98,8 @@ class CityMgr(BaseMgr):
             user.m_dictActivities[ActivityType.ShowKfWD] = True
         if dict_activities_info.get("showkfpvp", "0") != "0":
             user.m_dictActivities[ActivityType.ShowKfPVP] = True
+        if dict_activities_info.get("ringevent", "0") == "1":
+            user.m_dictActivities[ActivityType.RingEvent] = True
 
     def get_update_reward(self):
         url = "/root/mainCity!getUpdateReward.action"
@@ -118,7 +122,7 @@ class CityMgr(BaseMgr):
 
     def get_login_reward_info(self):
         url = "/root/mainCity!getLoginRewardInfo.action"
-        result = self.get_protocol_mgr().get_xml(url, "获取登录送礼")
+        result = self.get_protocol_mgr().get_xml(url, "登录送礼")
         if result and result.m_bSucceed:
             if result.m_objResult["lastmonth"]["state15"] == "1":
                 self.get_reward(1, 1)
@@ -172,3 +176,24 @@ class CityMgr(BaseMgr):
             self.logger.info("{}级将军塔({}/{})，剩余{}筑造石".format(tower.generaltowerlevel, tower.buildingprogress, tower.leveluprequirement, tower.buildingstone))
         else:
             tower.buildingstone = 0
+
+    def right_army(self):
+        url = "/root/mainCity!rightArmy.action"
+        result = self.get_protocol_mgr().get_xml(url, "征义兵")
+        if result and result.m_bSucceed:
+            user = self.get_protocol_mgr().get_user()
+            user.m_nRightCd = int(result.m_objResult.get("rightcd", "0"))
+            user.m_nRightNum = int(result.m_objResult.get("rightnum", "0"))
+            forces = result.m_objResult.get("forces", "0")
+            self.logger.info("征义兵，获得兵力+{}，剩余{}次征义兵".format(forces, user.m_nRightNum))
+
+    def draught(self, percent):
+        user = self.get_protocol_mgr().get_user()
+        need_forces = user.m_nMaxForces * percent
+        if user.m_nForces < need_forces:
+            forces = int(need_forces - user.m_nForces)
+            url = "/root/mainCity!draught.action"
+            data = {"forceNum": forces}
+            result = self.get_protocol_mgr().post_xml(url, data, "征兵")
+            if result and result.m_bSucceed:
+                self.logger.info("征兵，兵力+{}".format(forces))

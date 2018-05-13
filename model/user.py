@@ -3,6 +3,7 @@
 from model.main_city_dto import MainCityDto
 from model.constructor_dto import ConstructorDto
 from model.mo_zi_building import MoZiBuilding
+from model.task import Task
 
 
 class User(object):
@@ -36,6 +37,8 @@ class User(object):
         self.m_nProtectCd = 0  # 保护冷却时间
         self.m_nInspireCd = 0  # 鼓舞冷却时间
         self.m_nInspireState = 0  # 鼓舞状态
+        self.m_nRightCd = 0  # 征义兵冷却时间
+        self.m_nRightNum = 0  # 可征义兵次数
 
         self.m_nMaxBowlder = 0  # 原石上限
         self.m_nMaxToken = 0  # 军令上限
@@ -65,6 +68,7 @@ class User(object):
         self.m_dictMainCityBuildings = {}  # 主城建筑
         self.m_listConstructorDto = []  # 建筑建造队列
         self.m_dictMoZiBuildings = {}  # 墨子建筑
+        self.m_dictTasks = {}  # 日常任务
 
     def handle_info(self, dict_info):
         if "playerid" in dict_info:
@@ -149,10 +153,6 @@ class User(object):
             self.m_nArrestState = int(dict_info["arreststate"])
         if "cantech" in dict_info:
             self.m_bCanTech = dict_info["cantech"] == "1"
-        if "perdayreward" in dict_info:
-            self.m_bHasPerDayReward = dict_info["perdayreward"] == "1"
-        if "version_gift" in dict_info:
-            self.m_bHasVersionGift = dict_info["version_gift"] == "1"
 
         if "areaid" in dict_info:
             self.m_nAreaId = int(dict_info["areaid"])
@@ -168,6 +168,8 @@ class User(object):
             self.handle_info(dict_player_battle_info)
 
     def refresh_player_info(self, dict_player_info):
+        self.m_bHasPerDayReward = dict_player_info.get("perdayreward", "0") == "1"
+        self.m_bHasVersionGift = dict_player_info.get("version_gift", "0") == "1"
         if dict_player_info is not None:
             self.handle_info(dict_player_info)
 
@@ -214,3 +216,11 @@ class User(object):
             building = MoZiBuilding()
             building.handle_info(mo_zi_building)
             self.m_dictMoZiBuildings[building.id] = building
+
+    def set_task(self, list_task):
+        self.m_dictTasks = {}
+        for task in list_task:
+            if task["taskstate"] == "1":
+                t = Task()
+                t.handle_info(task)
+                self.m_dictTasks[t.type] = t

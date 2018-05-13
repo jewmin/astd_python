@@ -39,6 +39,9 @@ class BaseTask(object):
     def run(self):
         return 0
 
+    def get_available_gold(self):
+        return self.get_available("gold", self.m_objUser.m_nGold + self.m_objUser.m_nRechargeGold)
+
     @staticmethod
     def get_available(key, value):
         reserve = config["global"]["reserve"].get(key, 0)
