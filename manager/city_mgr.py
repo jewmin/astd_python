@@ -139,7 +139,7 @@ class CityMgr(BaseMgr):
         result = self.get_protocol_mgr().post_xml(url, data, "领取登录送礼")
         if result and result.m_bSucceed:
             reward_info = RewardInfo()
-            reward_info.handle_info(result.m_objResult["rewardinfo"])
+            reward_info.handle_info(result.m_objResult["rewardinfo"]["reward"])
             self.logger.info("领取登录送礼，获得{}".format(str(reward_info)))
 
     def get_champion_info(self):

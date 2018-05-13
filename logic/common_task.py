@@ -25,10 +25,10 @@ class CommonTask(BaseTask):
 
         # 登录奖励
         if config["mainCity"]["auto_get_login_reward"]:
-            # 试试手气
+            # 今日手气
             if self.m_objUser.m_bHasPerDayReward:
                 city_mgr.get_per_day_reward()
-            # 登录礼包
+            # 礼包
             misc_mgr.get_new_gift_list()
             # 登录签到送礼
             city_mgr.get_login_reward_info()

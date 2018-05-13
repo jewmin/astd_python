@@ -99,18 +99,21 @@ class MiscMgr(BaseMgr):
     def get_new_gift_list(self):
         url = "/root/newGift!getNewGiftList.action"
         data = {"type": 1}
-        result = self.get_protocol_mgr().post_xml(url, data, "登录礼包")
+        result = self.get_protocol_mgr().post_xml(url, data, "礼包")
         if result and result.m_bSucceed:
             if "weekendgift" in result.m_objResult:
                 self.get_new_gift_reward(result.m_objResult["weekendgift"]["id"])
+            if "gift" in result.m_objResult:
+                if result.m_objResult["gift"]["intime"] == "1" and result.m_objResult["gift"]["statuts"] == "0":
+                    self.get_new_gift_reward(result.m_objResult["gift"]["id"])
 
     def get_new_gift_reward(self, gift_id):
         url = "/root/newGift!getNewGiftReward.action"
         data = {"giftId": gift_id}
-        result = self.get_protocol_mgr().post_xml(url, data, "领取登录礼包")
+        result = self.get_protocol_mgr().post_xml(url, data, "领取礼包")
         if result and result.m_bSucceed:
             content = result.m_objResult.get("content", "无效奖励")
-            self.logger.info("领取登录礼包，获得{}".format(content))
+            self.logger.info("领取礼包，获得{}".format(content))
 
     def fete(self):
         fete_list = []
@@ -160,7 +163,7 @@ class MiscMgr(BaseMgr):
         result = self.get_protocol_mgr().post_xml(url, data, "开启宝箱")
         if result and result.m_bSucceed:
             reward_info = RewardInfo()
-            reward_info.handle_info(result.m_objResult["rewardinfo"])
+            reward_info.handle_info(result.m_objResult["rewardinfo"]["reward"])
             self.logger.info("开启日常任务活跃宝箱，获得{}".format(str(reward_info)))
 
     def open_week_red_packet(self):
@@ -168,7 +171,7 @@ class MiscMgr(BaseMgr):
         result = self.get_protocol_mgr().get_xml(url, "活跃红包")
         if result and result.m_bSucceed:
             reward_info = RewardInfo()
-            reward_info.handle_info(result.m_objResult["rewardinfo"])
+            reward_info.handle_info(result.m_objResult["rewardinfo"]["reward"])
             self.logger.info("日常任务活跃红包开奖，获得{}".format(str(reward_info)))
 
     def get_new_per_day_task_reward(self, reward_id):
@@ -177,5 +180,5 @@ class MiscMgr(BaseMgr):
         result = self.get_protocol_mgr().post_xml(url, data, "日常任务领奖")
         if result and result.m_bSucceed:
             reward_info = RewardInfo()
-            reward_info.handle_info(result.m_objResult["rewardinfo"])
+            reward_info.handle_info(result.m_objResult["rewardinfo"]["reward"])
             self.logger.info("日常任务领奖，获得{}".format(str(reward_info)))

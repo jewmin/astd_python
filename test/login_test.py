@@ -28,26 +28,29 @@ def main():
     logging.getLogger().addHandler(console)
 
     account = Account()
-    # account.m_szUserName = "jewmin"
-    # account.m_szPassword = "1986czm"
-    # account.m_eServerType = ServerType.YaoWan
-    # account.m_nServerId = 211
-    # account.m_szRoleName = "英雄杯具"
+    account.m_szUserName = "jewmin"
+    account.m_szPassword = "1986czm"
+    account.m_eServerType = ServerType.YaoWan
+    account.m_nServerId = 211
+    account.m_szRoleName = "英雄杯具"
+
     # account.m_szUserName = "cat000005"
     # account.m_szPassword = "332211"
     # account.m_eServerType = ServerType.YaoWan
     # account.m_nServerId = 211
     # account.m_szRoleName = ""
+
     # account.m_szUserName = "jewmin"
     # account.m_szPassword = "1986czm"
     # account.m_eServerType = ServerType.YaoWan
     # account.m_nServerId = 211
     # account.m_szRoleName = "杯具"
-    account.m_szUserName = "jewminchan"
-    account.m_szPassword = "1986czm"
-    account.m_eServerType = ServerType.YaoWan
-    account.m_nServerId = 265
-    account.m_szRoleName = ""
+
+    # account.m_szUserName = "jewminchan"
+    # account.m_szPassword = "1986czm"
+    # account.m_eServerType = ServerType.YaoWan
+    # account.m_nServerId = 265
+    # account.m_szRoleName = ""
 
     cookies = requests.cookies.RequestsCookieJar()
     login_mgr = LoginMgr()

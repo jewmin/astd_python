@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # 奖励
 from model.base_object import BaseObject
+from logic.config import config
 
 
 class RewardInfo(object):
@@ -16,9 +17,14 @@ class RewardInfo(object):
 
     def handle_info(self, list_info):
         if list_info is not None:
-            for v in list_info:
+            if isinstance(list_info, list):
+                for v in list_info:
+                    reward = Reward()
+                    reward.handle_info(v)
+                    self.m_listRewards.append(reward)
+            else:
                 reward = Reward()
-                reward.handle_info(v)
+                reward.handle_info(list_info)
                 self.m_listRewards.append(reward)
 
 
@@ -32,4 +38,6 @@ class Reward(BaseObject):
         self.num = 0
 
     def __str__(self):
+        if self.itemname == "" and self.type < len(config["reward"]["name"]):
+            self.itemname = config["reward"]["name"][self.type]
         return "{}(lv.{})+{}".format(self.itemname, self.lv, self.num)
