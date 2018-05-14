@@ -19,9 +19,9 @@ class ActivityType(Enum):
     CuiLianEvent = 11
     PayHongBaoEvent = 12
     BGEvent = 13  # 大宴群雄
-    QingMingEvent = 14  #
+    QingMingEvent = 14  # 群雄煮酒
     DuanWuEvent = 15  # 百家宴
-    MoonGeneralEvent = 16  #
+    MoonGeneralEvent = 16  # 赏月送礼
     TrainingEvent = 17  # 大练兵
     SnowTradingEvent = 18
     BombNianEvent = 19

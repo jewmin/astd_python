@@ -2,24 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c90e65b6-e2a7-4650-b14f-1b091bdf34a2" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logic/impose_task.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/global_func.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/supper_market_dto.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logic/base_task.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/base_task.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logic/common_task.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/common_task.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logic/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logic/fete_task.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/fete_task.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manager/base_mgr.py" beforeDir="false" afterPath="$PROJECT_DIR$/manager/base_mgr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manager/city_mgr.py" beforeDir="false" afterPath="$PROJECT_DIR$/manager/city_mgr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manager/misc_mgr.py" beforeDir="false" afterPath="$PROJECT_DIR$/manager/misc_mgr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manager/task_mgr.py" beforeDir="false" afterPath="$PROJECT_DIR$/manager/task_mgr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/account.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/account.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/enum/activity_type.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/enum/activity_type.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/reward_info.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/reward_info.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/login_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/login_test.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -36,7 +20,7 @@
       <file leaf-file-name="base_task.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/logic/base_task.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
+            <state relative-caret-position="897">
               <caret line="41" column="26" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="26" />
               <folding>
                 <element signature="e#31#60#0" expanded="true" />
@@ -45,14 +29,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="misc_mgr.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="misc_mgr.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/manager/misc_mgr.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3265">
-              <caret line="260" column="19" lean-forward="true" selection-start-line="260" selection-start-column="19" selection-end-line="260" selection-end-column="19" />
+            <state relative-caret-position="665">
+              <caret line="260" column="19" selection-start-line="260" selection-start-column="19" selection-end-line="260" selection-end-column="19" />
               <folding>
                 <element signature="e#33#62#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_type.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/model/enum/activity_type.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="779">
+              <caret line="37" column="21" lean-forward="true" selection-start-line="37" selection-start-column="21" selection-end-line="37" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -69,7 +62,7 @@
       <file leaf-file-name="global_func.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/global_func.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
+            <state relative-caret-position="322">
               <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
             </state>
           </provider>
@@ -87,8 +80,8 @@
       <file leaf-file-name="supper_market_dto.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/supper_market_dto.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+            <state relative-caret-position="644">
+              <caret line="28" selection-start-line="28" selection-end-line="28" />
             </state>
           </provider>
         </entry>
@@ -96,7 +89,7 @@
       <file leaf-file-name="city_mgr.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/manager/city_mgr.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
+            <state relative-caret-position="3473">
               <caret line="156" column="37" selection-start-line="156" selection-start-column="37" selection-end-line="156" selection-end-column="37" />
               <folding>
                 <element signature="e#31#60#0" expanded="true" />
@@ -108,7 +101,7 @@
       <file leaf-file-name="user.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/user.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
+            <state relative-caret-position="368">
               <caret line="19" column="22" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="22" />
               <folding>
                 <element signature="e#31#74#0" expanded="true" />
@@ -120,20 +113,11 @@
       <file leaf-file-name="reward_info.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/reward_info.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
+            <state relative-caret-position="851">
               <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
               <folding>
                 <element signature="e#29#69#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="task.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/task.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="7" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -149,7 +133,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>试试手气</find>
       <find>server_res</find>
       <find>right</find>
       <find>Task</find>
@@ -179,6 +162,7 @@
       <find>/root/tickets.action</find>
       <find>点</find>
       <find>点卷</find>
+      <find>moontowerevent</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -226,7 +210,6 @@
         <option value="$PROJECT_DIR$/model/account.py" />
         <option value="$PROJECT_DIR$/manager/base_mgr.py" />
         <option value="$PROJECT_DIR$/logic/common_task.py" />
-        <option value="$PROJECT_DIR$/model/enum/activity_type.py" />
         <option value="$PROJECT_DIR$/logic/impose_task.py" />
         <option value="$PROJECT_DIR$/model/user.py" />
         <option value="$PROJECT_DIR$/test/login_test.py" />
@@ -239,6 +222,7 @@
         <option value="$PROJECT_DIR$/logic/base_task.py" />
         <option value="$PROJECT_DIR$/manager/city_mgr.py" />
         <option value="$PROJECT_DIR$/manager/misc_mgr.py" />
+        <option value="$PROJECT_DIR$/model/enum/activity_type.py" />
       </list>
     </option>
   </component>
@@ -286,6 +270,12 @@
               <item name="astdpython" type="b2602c69:ProjectViewProjectNode" />
               <item name="astdpython" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="astdpython" type="b2602c69:ProjectViewProjectNode" />
+              <item name="astdpython" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="enum" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -376,7 +366,6 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -387,6 +376,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -786,9 +776,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="552">
           <caret line="24" column="33" selection-start-line="24" selection-start-column="33" selection-end-line="24" selection-end-column="33" />
-          <folding>
-            <element signature="e#31#60#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -910,13 +897,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/enum/activity_type.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/logic/common_task.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="250">
@@ -1012,14 +992,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/supper_market_dto.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+        <state relative-caret-position="644">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model/reward_info.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
+        <state relative-caret-position="851">
           <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
           <folding>
             <element signature="e#29#69#0" expanded="true" />
@@ -1036,14 +1016,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/global_func.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
+        <state relative-caret-position="322">
           <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/logic/base_task.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
+        <state relative-caret-position="897">
           <caret line="41" column="26" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="26" />
           <folding>
             <element signature="e#31#60#0" expanded="true" />
@@ -1053,7 +1033,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/manager/city_mgr.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
+        <state relative-caret-position="3473">
           <caret line="156" column="37" selection-start-line="156" selection-start-column="37" selection-end-line="156" selection-end-column="37" />
           <folding>
             <element signature="e#31#60#0" expanded="true" />
@@ -1063,7 +1043,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/user.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
+        <state relative-caret-position="368">
           <caret line="19" column="22" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="22" />
           <folding>
             <element signature="e#31#74#0" expanded="true" />
@@ -1073,11 +1053,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/manager/misc_mgr.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3265">
-          <caret line="260" column="19" lean-forward="true" selection-start-line="260" selection-start-column="19" selection-end-line="260" selection-end-column="19" />
+        <state relative-caret-position="665">
+          <caret line="260" column="19" selection-start-line="260" selection-start-column="19" selection-end-line="260" selection-end-column="19" />
           <folding>
             <element signature="e#33#62#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/enum/activity_type.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="779">
+          <caret line="37" column="21" lean-forward="true" selection-start-line="37" selection-start-column="21" selection-end-line="37" selection-end-column="21" />
         </state>
       </provider>
     </entry>
