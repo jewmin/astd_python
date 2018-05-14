@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 # 任务管理
+from logging import getLogger
 
 
 class TaskMgr(object):
     def __init__(self):
         super(TaskMgr, self).__init__()
+        self.logger = getLogger(self.__class__.__name__)
         self.m_objServiceFactory = None
         self.m_objUser = None
-        self.m_listTasks = []
-        self.m_dictTasks = {}
+        self.m_listTasks = list()
+        self.m_dictTasks = dict()
         self.m_szStatus = ""
 
     def find_task(self, task_name):
@@ -38,8 +40,12 @@ class TaskMgr(object):
         timestamp = self.m_objServiceFactory.get_time_mgr().get_timestamp()
         for item in self.m_listTasks:
             if item.get_next_running_time() <= timestamp:
-                next_running_time = item.run()
-                item.set_next_running_time(next_running_time)
+                try:
+                    next_running_time = item.run()
+                    item.set_next_running_time(next_running_time)
+                except Exception as ex:
+                    self.logger.error("执行任务[{}]报错：{}".format(item.m_szReadable, str(ex)))
+                    item.set_next_running_time(item.next_half_hour())
         self.m_szStatus = ""
         self.m_listTasks.sort()
         for item in self.m_listTasks:

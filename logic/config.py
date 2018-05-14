@@ -11,7 +11,7 @@ config = {
         },
     },
     "mainCity": {
-        "auto_get_login_reward": True,  # 自动领取登录奖励(今日手气、礼包、登录送礼、恭贺)
+        "auto_get_login_reward": True,  # 自动领取登录奖励(今日手气、礼包、登录送礼、恭贺、俸禄)
         "auto_build_general_tower": True,  # 自动筑造将军塔
         "auto_right_army": True,  # 自动征义兵
     },
@@ -48,9 +48,21 @@ config = {
     "reward": {
         "name": ["type:0", "银币", "玉石", "type:3", "type:4", "宝石", "兵器", "兵器碎片", "征收次数", "纺织次数",
                  "通商次数", "炼化次数", "兵力减少", "副本重置卡", "战役双倍卡", "强化暴击卡", "强化打折卡", "兵器提升卡", "兵器暴击卡", "type:19",
-                 "type:20", "type:21", "type:22", "type:23", "type:24", "type:25", "type:26", "进货令", "军令", "政绩翻倍卡",
+                 "type:20", "type:21", "type:22", "type:23", "type:24", "攻击令", "type:26", "进货令", "军令", "政绩翻倍卡",
                  "征收翻倍卡", "商人召唤卡", "纺织翻倍卡", "type:33", "行动力", "摇钱树", "超级门票", "type:37", "宝物", "金币",
                  "type:40", "type:41", "点券", "神秘宝箱", "家传玉佩", "type:45", "type:46", "type:47", "铁锤", "大将令",
                  "镔铁", "专属装备", "type:52", "type:53", "type:54", "type:55", "觉醒酒", "磨砺石", "紫晶石"]
+    },
+    "impose": {
+        "auto_impose": True,  # 自动征收
+        "impose_event": ("金币", "征收", "民忠", "银币", "威望"),  # 征收事件回答优先顺序
+        "reserve": 30,  # 保留次数
+        "force": 0,  # 强征到多少金币
+        "finish_task": True,  # 完成日常任务
+    },
+    "market": {
+        "auto_buy_item": True,  # 自动购买
+        "withdraw_gold_item": True,  # 下架金币商品
+        "buy_special_item": True,  # 购买特供商品
     }
 }

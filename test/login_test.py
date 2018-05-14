@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import requests
-
+import logging
+import signal
+import time
 from model.account import Account
 from model.enum.server_type import ServerType
 from manager.login_mgr import LoginMgr
-import logging
 from model.enum.account_status import AccountStatus
 from model.user import User
 from manager.protocol_mgr import ProtocolMgr
@@ -13,26 +14,38 @@ from model.enum.login_status import LoginStatus
 from manager.task_mgr import TaskMgr
 from logic.common_task import CommonTask
 from logic.fete_task import FeteTask
-import time
+from logic.impose_task import ImposeTask
+
+g_terminate = False
+
+
+def sig_handler():
+    global g_terminate
+    g_terminate = True
 
 
 def main():
     logging.basicConfig(level=logging.DEBUG,
                         format="%(asctime)s %(filename)s [%(levelname)s] %(message)s",
                         datefmt="%Y-%m-%d %H:%M:%S",
-                        filename="astd.log")
+                        filename="astd.log",
+                        when="D",
+                        interval=1)
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
     formatter = logging.Formatter("%(asctime)s %(filename)s [%(levelname)s] %(message)s")
     console.setFormatter(formatter)
     logging.getLogger().addHandler(console)
 
+    signal.signal(signal.SIGTERM, sig_handler)
+    signal.signal(signal.SIGINT, sig_handler)
+
     account = Account()
-    account.m_szUserName = "jewmin"
-    account.m_szPassword = "1986czm"
-    account.m_eServerType = ServerType.YaoWan
-    account.m_nServerId = 211
-    account.m_szRoleName = "英雄杯具"
+    # account.m_szUserName = "jewmin"
+    # account.m_szPassword = "1986czm"
+    # account.m_eServerType = ServerType.YaoWan
+    # account.m_nServerId = 211
+    # account.m_szRoleName = "英雄杯具"
 
     # account.m_szUserName = "cat000005"
     # account.m_szPassword = "332211"
@@ -40,11 +53,11 @@ def main():
     # account.m_nServerId = 211
     # account.m_szRoleName = ""
 
-    # account.m_szUserName = "jewmin"
-    # account.m_szPassword = "1986czm"
-    # account.m_eServerType = ServerType.YaoWan
-    # account.m_nServerId = 211
-    # account.m_szRoleName = "杯具"
+    account.m_szUserName = "jewmin"
+    account.m_szPassword = "1986czm"
+    account.m_eServerType = ServerType.YaoWan
+    account.m_nServerId = 211
+    account.m_szRoleName = "杯具"
 
     # account.m_szUserName = "jewminchan"
     # account.m_szPassword = "1986czm"
@@ -85,17 +98,20 @@ def init_session(account):
 def build_services(task_mgr):
     task_mgr.add_task(CommonTask())
     task_mgr.add_task(FeteTask())
+    task_mgr.add_task(ImposeTask())
 
 
 def init_completed(task_mgr):
-    try:
-        task_mgr.reset_running_time()
-        for i in range(10):
+    task_mgr.reset_running_time()
+
+    global g_terminate
+    while not g_terminate:
+        try:
             task_mgr.run_all_task()
-            time.sleep(5)
-        task_mgr.run_single_task("common")
-    except Exception as ex:
-        logging.getLogger().error(str(ex))
+            logging.getLogger().debug(task_mgr.m_szStatus)
+            time.sleep(1)
+        except Exception as ex:
+            logging.getLogger().error(str(ex))
 
 
 if __name__ == "__main__":

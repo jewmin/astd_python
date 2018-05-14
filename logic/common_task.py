@@ -34,6 +34,8 @@ class CommonTask(BaseTask):
             city_mgr.get_login_reward_info()
             # 恭贺
             city_mgr.get_champion_info()
+            # 俸禄
+            misc_mgr.officer()
 
         # 将军塔
         if config["mainCity"]["auto_build_general_tower"]:

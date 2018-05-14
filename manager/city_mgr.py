@@ -5,6 +5,7 @@ from manager.base_mgr import BaseMgr
 from model.enum.activity_type import ActivityType
 from model.reward_info import RewardInfo
 from model.general_tower import GeneralTower
+from model.global_func import GlobalFunc
 
 
 class CityMgr(BaseMgr):
@@ -140,7 +141,7 @@ class CityMgr(BaseMgr):
         if result and result.m_bSucceed:
             reward_info = RewardInfo()
             reward_info.handle_info(result.m_objResult["rewardinfo"]["reward"])
-            self.logger.info("领取登录送礼，获得{}".format(str(reward_info)))
+            self.logger.info("领取登录送礼，获得{}".format(reward_info))
 
     def get_champion_info(self):
         url = "/root/mainCity!getChampionInfo.action"
@@ -153,7 +154,7 @@ class CityMgr(BaseMgr):
         url = "/root/mainCity!visitChampion.action"
         result = self.get_protocol_mgr().get_xml(url, "恭贺")
         if result and result.m_bSucceed:
-            self.logger.info("恭贺，获得点卷+{}".format(result.m_objResult["tickets"]))
+            self.logger.info("恭贺，获得点券+{}".format(GlobalFunc.get_short_readable(result.m_objResult["tickets"])))
 
     def get_general_tower_info(self):
         url = "/root/mainCity!getGeneralTowerInfo.action"
@@ -169,10 +170,10 @@ class CityMgr(BaseMgr):
         result = self.get_protocol_mgr().get_xml(url, "筑造将军塔")
         if result and result.m_bSucceed:
             tower.handle_info(result.m_objResult["generaltower"])
-            string = "筑造将军塔，进度增加{}".format(tower.addprogress)
+            msg = "筑造将军塔，进度增加{}".format(tower.addprogress)
             if tower.levelup == 1:
-                string += "，升级"
-            self.logger.info(string)
+                msg += "，升级"
+            self.logger.info(msg)
             self.logger.info("{}级将军塔({}/{})，剩余{}筑造石".format(tower.generaltowerlevel, tower.buildingprogress, tower.leveluprequirement, tower.buildingstone))
         else:
             tower.buildingstone = 0
@@ -184,8 +185,8 @@ class CityMgr(BaseMgr):
             user = self.get_protocol_mgr().get_user()
             user.m_nRightCd = int(result.m_objResult.get("rightcd", "0"))
             user.m_nRightNum = int(result.m_objResult.get("rightnum", "0"))
-            forces = result.m_objResult.get("forces", "0")
-            self.logger.info("征义兵，获得兵力+{}，剩余{}次征义兵".format(forces, user.m_nRightNum))
+            forces = int(result.m_objResult.get("forces", "0"))
+            self.logger.info("征义兵，获得兵力+{}，剩余{}次征义兵".format(GlobalFunc.get_short_readable(forces), user.m_nRightNum))
 
     def draught(self, percent):
         user = self.get_protocol_mgr().get_user()
@@ -196,4 +197,59 @@ class CityMgr(BaseMgr):
             data = {"forceNum": forces}
             result = self.get_protocol_mgr().post_xml(url, data, "征兵")
             if result and result.m_bSucceed:
-                self.logger.info("征兵，兵力+{}".format(forces))
+                self.logger.info("征兵，兵力+{}".format(GlobalFunc.get_short_readable(forces)))
+
+    def per_impose(self):
+        url = "/root/mainCity!perImpose.action"
+        result = self.get_protocol_mgr().get_xml(url, "征收")
+        if result and result.m_bSucceed:
+            user = self.get_protocol_mgr().get_user()
+            impose_num = int(result.m_objResult["imposedto"]["imposenum"])
+            impose_max_num = int(result.m_objResult["imposedto"]["imposemaxnum"])
+            force_impose_cost = int(result.m_objResult["imposedto"]["forceimposecost"])
+            user.m_bImposeCdFlag = result.m_objResult["imposedto"]["cdflag"] == "1"
+            user.m_nImposeCd = int(result.m_objResult["imposedto"]["lastimposetime"])
+            self.logger.info("今日可征收次数：{}/{}，强征需要花费{}金币".format(impose_num, impose_max_num, force_impose_cost))
+
+            if "larrydto" in result.m_objResult:
+                self.select_le(result.m_objResult["larrydto"]["effect1"], result.m_objResult["larrydto"]["effect2"])
+
+            return impose_num, force_impose_cost
+
+    def select_le(self, effect1, effect2):
+        opt = self.get_impose_select_le(effect1, effect2)
+        url = "/root/mainCity!selectLE.action"
+        data = {"opt": opt}
+        result = self.get_protocol_mgr().post_xml(url, data, "回答征收问题")
+        if result and result.m_bSucceed:
+            dict_reward = dict()
+            dict_reward["民忠"] = int(result.m_objResult["ledto"]["l"])
+            dict_reward["征收"] = int(result.m_objResult["ledto"]["f"])
+            dict_reward["威望"] = int(result.m_objResult["ledto"]["s"])
+            dict_reward["金币"] = int(result.m_objResult["ledto"]["g"])
+            dict_reward["银币"] = int(result.m_objResult["ledto"]["c"])
+            msg = "征收问题[({})，({})]，选择答案[{}]，获得".format(effect1, effect2, opt)
+            for k, v in dict_reward.iteritems():
+                if v > 0:
+                    msg += "{}+{}，".format(k, v)
+            self.logger.info(msg)
+
+    def impose(self, force):
+        url = "/root/mainCity!impose.action"
+        desc = "征收"
+        if force:
+            url = "/root/mainCity!forceImpose.action"
+            desc = "强征"
+        result = self.get_protocol_mgr().get_xml(url, desc)
+        if result and result.m_bSucceed:
+            user = self.get_protocol_mgr().get_user()
+            if force:
+                force_impose_task = user.m_dictTasks.get(2, None)
+                force_impose_task.finishnum += 1
+            impose_task = user.m_dictTasks.get(1, None)
+            impose_task.finishnum += 1
+            msg = "{}，获得银币+{}".format(desc, GlobalFunc.get_short_readable(int(result.m_objResult["cooperdis"])))
+            gold_dis = result.m_objResult["golddis"]
+            if gold_dis != "0":
+                msg += "，金币+{}".format(gold_dis)
+            self.logger.info(msg)

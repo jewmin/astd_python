@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # 管理基类
+from logic.config import config
 
 
 class BaseMgr(object):
@@ -13,3 +14,11 @@ class BaseMgr(object):
 
     def get_service_factory(self):
         return self.m_objServiceFactory
+
+    @staticmethod
+    def get_impose_select_le(effect1, effect2):
+        for v in config["impose"]["impose_event"]:
+            if effect1.find(v) >= 0:
+                return 1
+            elif effect2.find(v) >= 0:
+                return 2

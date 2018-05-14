@@ -2,7 +2,7 @@
 # 任务基类
 from datetime import datetime
 import pytz
-from logic.config import config
+from model.global_func import GlobalFunc
 
 
 class BaseTask(object):
@@ -40,12 +40,10 @@ class BaseTask(object):
         return 0
 
     def get_available_gold(self):
-        return self.get_available("gold", self.m_objUser.m_nGold + self.m_objUser.m_nRechargeGold)
+        return GlobalFunc.get_available("gold", self.m_objUser.m_nGold + self.m_objUser.m_nRechargeGold)
 
-    @staticmethod
-    def get_available(key, value):
-        reserve = config["global"]["reserve"].get(key, 0)
-        return max(value - reserve, 0)
+    def get_available_copper(self):
+        return GlobalFunc.get_available("copper", self.m_objUser.m_nCopper)
 
     @staticmethod
     def immediate():
@@ -70,20 +68,20 @@ class BaseTask(object):
 
     def next_day(self, next_hour=5):
         """距离第二天相差的毫秒数"""
-        datetime = self.m_objServiceFactory.get_time_mgr().get_datetime()
-        if datetime.hour < next_hour:
-            remainder = next_hour - datetime.hour - 1
+        date_time = self.m_objServiceFactory.get_time_mgr().get_datetime()
+        if date_time.hour < next_hour:
+            remainder = next_hour - date_time.hour - 1
         else:
-            remainder = 24 + next_hour - datetime.hour - 1
-        return (remainder * 60 + 90 - datetime.minute) * 60000
+            remainder = 24 + next_hour - date_time.hour - 1
+        return (remainder * 60 + 90 - date_time.minute) * 60000
 
     def next_dinner(self):
         """距离下一次宴会相差的毫秒数"""
-        datetime = self.m_objServiceFactory.get_time_mgr().get_datetime()
-        if datetime.hour < 10:
-            remainder = 10 - datetime.hour - 1
-        elif datetime.hour < 19:
-            remainder = 19 - datetime.hour - 1
+        date_time = self.m_objServiceFactory.get_time_mgr().get_datetime()
+        if date_time.hour < 10:
+            remainder = 10 - date_time.hour - 1
+        elif date_time.hour < 19:
+            remainder = 19 - date_time.hour - 1
         else:
-            remainder = 34 - datetime.hour - 1
-        return (remainder * 60 + 90 - datetime.minute) * 60000
+            remainder = 34 - date_time.hour - 1
+        return (remainder * 60 + 90 - date_time.minute) * 60000

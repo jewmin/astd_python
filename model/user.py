@@ -64,11 +64,11 @@ class User(object):
         self.m_nAreaId = 0  # 当前所在城池id
         self.m_szAreaName = ""  # 当前所在城池名称
 
-        self.m_dictActivities = {}  # 活动列表
-        self.m_dictMainCityBuildings = {}  # 主城建筑
-        self.m_listConstructorDto = []  # 建筑建造队列
-        self.m_dictMoZiBuildings = {}  # 墨子建筑
-        self.m_dictTasks = {}  # 日常任务
+        self.m_dictActivities = dict()  # 活动列表
+        self.m_dictMainCityBuildings = dict()  # 主城建筑
+        self.m_listConstructorDto = list()  # 建筑建造队列
+        self.m_dictMoZiBuildings = dict()  # 墨子建筑
+        self.m_dictTasks = dict()  # 日常任务
 
     def handle_info(self, dict_info):
         if "playerid" in dict_info:
@@ -186,7 +186,7 @@ class User(object):
             self.handle_info(dict_player_extra_info)
 
     def clear_activities(self):
-        self.m_dictActivities = {}
+        self.m_dictActivities = dict()
 
     def set_season(self, season):
         season_tuple = ("春", "夏", "秋", "冬")
@@ -197,28 +197,28 @@ class User(object):
         self.m_szNation = nation_tuple[nation]
 
     def set_main_city_dto(self, list_main_city_dto):
-        self.m_dictMainCityBuildings = {}
+        self.m_dictMainCityBuildings = dict()
         for main_city_dto in list_main_city_dto:
             dto = MainCityDto()
             dto.handle_info(main_city_dto)
             self.m_dictMainCityBuildings[dto.id] = dto
 
     def set_constructor_dto(self, list_constructor_dto):
-        self.m_listConstructorDto = []
+        self.m_listConstructorDto = list()
         for constructor_dto in list_constructor_dto:
             dto = ConstructorDto()
             dto.handle_info(constructor_dto)
             self.m_listConstructorDto.append(dto)
 
     def set_mo_zi_building(self, list_mo_zi_building):
-        self.m_dictMoZiBuildings = {}
+        self.m_dictMoZiBuildings = dict()
         for mo_zi_building in list_mo_zi_building:
             building = MoZiBuilding()
             building.handle_info(mo_zi_building)
             self.m_dictMoZiBuildings[building.id] = building
 
     def set_task(self, list_task):
-        self.m_dictTasks = {}
+        self.m_dictTasks = dict()
         for task in list_task:
             if task["taskstate"] == "1":
                 t = Task()

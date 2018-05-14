@@ -31,6 +31,3 @@ class FeteTask(BaseTask):
                 return self.immediate()
 
         return self.next_half_hour()
-
-    def init(self):
-        pass
