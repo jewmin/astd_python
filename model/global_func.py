@@ -7,7 +7,7 @@ class GlobalFunc(object):
     @staticmethod
     def get_short_readable(value):
         if value >= 10000:
-            return "{}w".format(value / 10000)
+            return "{}万".format(value / 10000)
         else:
             return value
 

@@ -10,7 +10,9 @@ class BaseObject(object):
         for key, value in dict_info.iteritems():
             if hasattr(self, key):
                 origin = getattr(self, key)
-                if isinstance(origin, int):
+                if isinstance(origin, BaseObject):
+                    origin.handle_info(value)
+                elif isinstance(origin, int):
                     setattr(self, key, int(value))
                 elif isinstance(origin, float):
                     setattr(self, key, float(value))

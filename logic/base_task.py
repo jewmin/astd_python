@@ -11,6 +11,7 @@ class BaseTask(object):
         self.m_objProtocolMgr = None
         self.m_objServiceFactory = None
         self.m_objUser = None
+        self.m_objIServer = None
         self.m_szName = ""  # 唯一名称
         self.m_szReadable = ""  # 显示名称
         self.m_nNextRunningTimestamp = 0  # 下一次执行时间
@@ -28,16 +29,21 @@ class BaseTask(object):
     def get_next_running_time(self):
         return self.m_nNextRunningTimestamp
 
-    def set_variables(self, service_factory, protocol_mgr, user):
+    def set_variables(self, service_factory, protocol_mgr, user, i_server):
         self.m_objServiceFactory = service_factory
         self.m_objProtocolMgr = protocol_mgr
         self.m_objUser = user
+        self.m_objIServer = i_server
 
     def init(self):
         pass
 
     def run(self):
         return 0
+
+    def notify_single_task(self, task_name):
+        if self.m_objIServer is not None:
+            self.m_objIServer.notify_single_task(task_name)
 
     def get_available_gold(self):
         return GlobalFunc.get_available("gold", self.m_objUser.m_nGold + self.m_objUser.m_nRechargeGold)

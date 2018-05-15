@@ -5,13 +5,15 @@ from urlparse import urlparse
 import requests
 from manager.transfer_mgr import TransferMgr
 from model.server_result import ServerResult
+from model.enum.account_status import AccountStatus
 
 
 class ProtocolMgr(object):
-    def __init__(self, user, game_url, j_session_id, service_factory):
+    def __init__(self, user, game_url, j_session_id, service_factory, i_server):
         super(ProtocolMgr, self).__init__()
         self.logger = getLogger(self.__class__.__name__)
         self.m_objUser = user
+        self.m_objIServer = i_server
         self.m_objServiceFactory = service_factory
         self.m_objServiceFactory.set_protocol_mgr(self)
 
@@ -42,9 +44,22 @@ class ProtocolMgr(object):
                 if server_result.m_bSucceed:
                     if "playerupdateinfo" in server_result.m_objResult:
                         self.m_objUser.update_player_info(server_result.m_objResult["playerupdateinfo"])
+                        if self.m_objIServer is not None:
+                            self.m_objIServer.refresh_player()
                     if "playerbattleinfo" in server_result.m_objResult:
                         self.m_objUser.update_player_battle_info(server_result.m_objResult["playerbattleinfo"])
+                        if self.m_objIServer is not None:
+                            self.m_objIServer.refresh_player()
+                elif "验证码" in server_result.m_szError:
+                    if self.m_objIServer is not None:
+                        self.m_objIServer.start_re_login_timer()
+                        self.m_objIServer.stop(False)
+                        self.m_objIServer.notify_state(AccountStatus.StoppedGameVerify)
+                    raise Exception("需要验证码")
                 elif "连接已超时" in server_result.m_szError or "用户已在别处登陆" in server_result.m_szError:
+                    if self.m_objIServer is not None:
+                        self.m_objIServer.start_re_login_timer()
+                        self.m_objIServer.stop(False)
                     raise Exception("需要重新登录")
 
     def get(self, url):

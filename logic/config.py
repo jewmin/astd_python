@@ -5,9 +5,9 @@ config = {
     "global": {
         "reserve": {
             "gold": 300,  # 保留金币
-            "copper": 0,  # 保留银币
-            "blower": 0,  # 保留玉石
-            "jungong": 0,  # 保留军功
+            "copper": 50000000,  # 保留银币
+            "blower": 300000,  # 保留玉石
+            "jungong": 10000000,  # 保留军功
         },
     },
     "mainCity": {
@@ -56,13 +56,59 @@ config = {
     "impose": {
         "auto_impose": True,  # 自动征收
         "impose_event": ("金币", "征收", "民忠", "银币", "威望"),  # 征收事件回答优先顺序
-        "reserve": 30,  # 保留次数
-        "force": 0,  # 强征到多少金币
+        "reserve": 30,  # 征收次数>N
+        "force": 0,  # 强征金币<=N
         "finish_task": True,  # 完成日常任务
     },
     "market": {
         "auto_buy_item": True,  # 自动购买
         "withdraw_gold_item": True,  # 下架金币商品
+        "withdraw_discount_fail": {"enable": True, "gold": True, "copper": False},  # 下架还价失败商品
         "buy_special_item": True,  # 购买特供商品
-    }
+        "supplement_item": {"enable": True, "limit": 15},  # 商品数量<=N，使用进货令
+        "gift": {  # 赠送商品
+            "enable": True,
+            "list": [
+                "打折券",
+                "玉石",
+                "宝石",
+                # "批发券",
+                "无敌将军炮",
+                "五毒问心钉",
+                "玄霆角",
+                "七戮锋",
+                "落魂冥灯",
+                "蟠龙华盖",
+                "轩辕指南车",
+            ],
+        },
+    },
+    "tickets": {
+        "auto_exchange": True,  # 自动兑换点券商品
+        "hero": {
+            "enable": True,  # 兑换大将令
+            "list": [
+                "赵匡胤", "武则天", "狄仁杰", "玄奘", "李白",
+                "蚩尤", "黄帝", "后羿", "夏桀", "商汤",
+                "姜子牙", "墨子", "秦始皇", "荆轲", "鬼谷子",
+                "曹操", "诸葛亮", "项羽", "张良", "成吉思汗"
+            ],
+            "limit_tickets": 300000,  # 花费点券<=N
+        },
+        "once_on_day": {
+            "enable": True,  # 每天一次
+            "list": {
+                "军功": 0,  # sell type
+                "玉石": 0,  # sell type
+            },
+        },
+        "more_on_day": {
+            "enable": True,  # 每天多次
+            "list": {
+                "银币": 0,  # sell type
+                "玉石": 1,  # sell type
+                "无敌将军炮": 1,  # sell type
+            },
+        },
+    },
 }

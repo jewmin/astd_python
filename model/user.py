@@ -28,6 +28,7 @@ class User(object):
         self.m_nToken = 0  # 军令
         self.m_nAttToken = 0  # 攻击令
         self.m_nCityHp = 0  # 城防值
+        self.m_nTickets = 0  # 点券
 
         self.m_nImposeCd = 0  # 征收冷却时间
         self.m_bImposeCdFlag = False  # 征收冷却状态
@@ -69,6 +70,7 @@ class User(object):
         self.m_listConstructorDto = list()  # 建筑建造队列
         self.m_dictMoZiBuildings = dict()  # 墨子建筑
         self.m_dictTasks = dict()  # 日常任务
+        self.m_dictTicketExchange = dict()  # 点券兑换资源
 
     def handle_info(self, dict_info):
         if "playerid" in dict_info:

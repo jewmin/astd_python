@@ -15,8 +15,11 @@ from manager.task_mgr import TaskMgr
 from logic.common_task import CommonTask
 from logic.fete_task import FeteTask
 from logic.impose_task import ImposeTask
+from logic.ticket_task import TicketTask
+from logic.supper_market_task import SupperMarketTask
 
 g_terminate = False
+g_re_login = False
 
 
 def sig_handler():
@@ -39,8 +42,17 @@ def main():
 
     signal.signal(signal.SIGTERM, sig_handler)
     signal.signal(signal.SIGINT, sig_handler)
+    login()
 
+
+def login():
     account = Account()
+    # account.m_szUserName = "jewmin"
+    # account.m_szPassword = "1986czm"
+    # account.m_eServerType = ServerType.YaoWan
+    # account.m_nServerId = 211
+    # account.m_szRoleName = "杯具"
+
     # account.m_szUserName = "jewmin"
     # account.m_szPassword = "1986czm"
     # account.m_eServerType = ServerType.YaoWan
@@ -53,17 +65,11 @@ def main():
     # account.m_nServerId = 211
     # account.m_szRoleName = ""
 
-    account.m_szUserName = "jewmin"
+    account.m_szUserName = "jewminchan"
     account.m_szPassword = "1986czm"
     account.m_eServerType = ServerType.YaoWan
-    account.m_nServerId = 211
-    account.m_szRoleName = "杯具"
-
-    # account.m_szUserName = "jewminchan"
-    # account.m_szPassword = "1986czm"
-    # account.m_eServerType = ServerType.YaoWan
-    # account.m_nServerId = 265
-    # account.m_szRoleName = ""
+    account.m_nServerId = 265
+    account.m_szRoleName = ""
 
     cookies = requests.cookies.RequestsCookieJar()
     login_mgr = LoginMgr()
@@ -99,10 +105,15 @@ def build_services(task_mgr):
     task_mgr.add_task(CommonTask())
     task_mgr.add_task(FeteTask())
     task_mgr.add_task(ImposeTask())
+    task_mgr.add_task(TicketTask())
+    task_mgr.add_task(SupperMarketTask())
 
 
 def init_completed(task_mgr):
     task_mgr.reset_running_time()
+
+    global g_re_login
+    g_re_login = False
 
     global g_terminate
     while not g_terminate:
@@ -112,6 +123,13 @@ def init_completed(task_mgr):
             time.sleep(1)
         except Exception as ex:
             logging.getLogger().error(str(ex))
+            if ex.message == "需要重新登录":
+                g_re_login = True
+                break
+
+    if g_re_login:
+        time.sleep(1800)
+        login()
 
 
 if __name__ == "__main__":

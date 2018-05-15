@@ -7,6 +7,8 @@ from model.reward_info import RewardInfo
 from model.global_func import GlobalFunc
 from model.supper_market_dto import SupperMarketDto
 from model.supper_market_dto import SupperMarketSpecialDto
+from model.ticket import Ticket
+from logic.config import config
 
 
 class MiscMgr(BaseMgr):
@@ -219,49 +221,134 @@ class MiscMgr(BaseMgr):
     # market begin
     #######################################
     def get_player_supper_market(self):
+        supper_market_dto_set = set()
+        supper_market_special_dto_set = set()
+        fresh_time = None
+        supplement_num = 0
         url = "/root/market!getPlayerSupperMarket.action"
         result = self.get_protocol_mgr().get_xml(url, "集市")
         if result and result.m_bSucceed:
-            supper_market_dto_list = list()
+            fresh_time = int(result.m_objResult["freshtime"])
+            supplement_num = int(result.m_objResult["supplementnum"])
             if "suppermarketdto" in result.m_objResult:
                 supper_market_dto = result.m_objResult["suppermarketdto"]
                 if isinstance(supper_market_dto, list):
                     for v in supper_market_dto:
                         dto = SupperMarketDto()
                         dto.handle_info(v)
-                        supper_market_dto_list.append(dto)
+                        supper_market_dto_set.add(dto)
                 else:
                     dto = SupperMarketDto()
                     dto.handle_info(supper_market_dto)
-                    supper_market_dto_list.append(dto)
-            supper_market_special_dto_list = list()
+                    supper_market_dto_set.add(dto)
             if "special" in result.m_objResult:
                 special = result.m_objResult["special"]
                 if isinstance(special, list):
                     for v in special:
                         dto = SupperMarketSpecialDto()
                         dto.handle_info(v)
-                        supper_market_special_dto_list.append(dto)
+                        supper_market_special_dto_set.add(dto)
                 else:
                     dto = SupperMarketSpecialDto()
                     dto.handle_info(special)
-                    supper_market_special_dto_list.append(dto)
-            for v in supper_market_special_dto_list:
-                if v.state == 1:
-                    self.buy_supper_market_special_goods(v.id)
+                    supper_market_special_dto_set.add(dto)
+            if "giftdto" in result.m_objResult:
+                dto = SupperMarketDto()
+                dto.handle_info(result.m_objResult["giftdto"])
+                self.handle_supper_market_gift(dto)
 
-    def buy_supper_market_special_goods(self, commodity_id):
-        url = "/root/market!buySupperMarketSpecialGoods.action"
+        return supper_market_dto_set, supper_market_special_dto_set, fresh_time, supplement_num
+
+    def bargain_supper_market_commodity(self, commodity_id):
+        url = "/root/market!bargainSupperMarketCommodity.action"
         data = {"commodityId": commodity_id}
+        result = self.get_protocol_mgr().post_xml(url, data, "商品还价")
+        if result and result.m_bSucceed:
+            self.logger.info("一键还价" if commodity_id == -1 else "商品还价")
+
+    def off_supper_market_commodity(self, supper_market_dto):
+        url = "/root/market!offSupperMarketCommodity.action"
+        data = {"commodityId": supper_market_dto.id}
+        result = self.get_protocol_mgr().post_xml(url, data, "下架商品")
+        if result and result.m_bSucceed:
+            self.logger.info("下架商品{}".format(supper_market_dto))
+
+    def buy_supper_market_commodity(self, supper_market_dto):
+        url = "/root/market!buySupperMarketCommodity.action"
+        data = {"commodityId": supper_market_dto.id}
+        result = self.get_protocol_mgr().post_xml(url, data, "购买商品")
+        if result and result.m_bSucceed:
+            self.logger.info("购买商品[{}]".format(supper_market_dto))
+            if "giftdto" in result.m_objResult:
+                dto = SupperMarketDto()
+                dto.handle_info(result.m_objResult["giftdto"])
+                self.handle_supper_market_gift(dto)
+
+    def buy_supper_market_special_goods(self, supper_market_special_dto):
+        url = "/root/market!buySupperMarketSpecialGoods.action"
+        data = {"commodityId": supper_market_special_dto.id}
         result = self.get_protocol_mgr().post_xml(url, data, "购买每日特供")
         if result and result.m_bSucceed:
-            pass
+            self.logger.info("购买每日特供，获得{}".format(supper_market_special_dto))
+
+    def supplement_supper_market(self):
+        url = "/root/market!supplementSupperMarket.action"
+        result = self.get_protocol_mgr().get_xml(url, "使用进货令")
+        if result and result.m_bSucceed:
+            self.logger.info("使用进货令")
+
+    def abandon_supper_market_gift(self, supper_market_dto):
+        url = "/root/market!abandonSupperMarketGift.action"
+        result = self.get_protocol_mgr().get_xml(url, "放弃赠送商品")
+        if result and result.m_bSucceed:
+            self.logger.info("放弃赠送商品[{}]".format(supper_market_dto.name))
+
+    def recv_supper_market_gift(self):
+        url = "/root/market!recvSupperMarketGift.action"
+        result = self.get_protocol_mgr().get_xml(url, "领取赠送商品")
+        if result and result.m_bSucceed:
+            if "num" in result.m_objResult:
+                msg = "领取赠送商品[{}{}]".format(result.m_objResult["num"], result.m_objResult["name"])
+            else:
+                msg = "使用赠送商品[{}]".format(result.m_objResult["name"])
+            self.logger.info(msg)
+
+    def handle_supper_market_gift(self, supper_market_dto):
+        if config["market"]["gift"]["enable"]:
+            if supper_market_dto.name in config["market"]["gift"]["list"]:
+                self.recv_supper_market_gift()
+            else:
+                self.abandon_supper_market_gift(supper_market_dto)
+        else:
+            self.abandon_supper_market_gift(supper_market_dto)
 
     #######################################
     # tickets begin
     #######################################
     def tickets(self):
+        ticket_list = list()
         url = "/root/tickets.action"
-        result = self.get_protocol_mgr().get_xml(url, "点券")
+        result = self.get_protocol_mgr().get_xml(url, "点券商城")
         if result and result.m_bSucceed:
-            pass
+            user = self.get_protocol_mgr().get_user()
+            user.m_nTickets = int(result.m_objResult["tickets"])
+            for v in result.m_objResult["rewards"]["reward"]:
+                ticket = Ticket()
+                ticket.handle_info(v)
+                ticket_list.append(ticket)
+        return ticket_list
+
+    def get_tickets_reward(self, ticket, num):
+        url = "/root/tickets!getTicketsReward.action"
+        data = {"rewardId": ticket.id, "num": num}
+        result = self.get_protocol_mgr().post_xml(url, data, "兑换奖励")
+        if result and result.m_bSucceed:
+            use_tickets = GlobalFunc.get_short_readable(ticket.tickets * num)
+            get_num = GlobalFunc.get_short_readable(ticket.item.num * num)
+            self.logger.info("兑换奖励，花费{}点券，获得{}+{}".format(use_tickets, ticket.item.name, get_num))
+
+    def get_tickets_reward_by_name(self, name, num):
+        user = self.get_protocol_mgr().get_user()
+        ticket = user.m_dictTicketExchange.get(name, None)
+        if ticket is not None:
+            self.get_tickets_reward(ticket, num)

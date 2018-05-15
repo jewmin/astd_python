@@ -22,11 +22,11 @@ class TaskMgr(object):
                 self.m_listTasks.append(task)
                 self.m_dictTasks[task.m_szName] = task
 
-    def set_variables(self, service_factory, protocol_mgr, user):
+    def set_variables(self, service_factory, protocol_mgr, user, i_server):
         self.m_objServiceFactory = service_factory
         self.m_objUser = user
         for item in self.m_listTasks:
-            item.set_variables(service_factory, protocol_mgr, self.m_objUser)
+            item.set_variables(service_factory, protocol_mgr, self.m_objUser, i_server)
 
     def reset_running_time(self):
         for item in self.m_listTasks:
@@ -46,6 +46,8 @@ class TaskMgr(object):
                 except Exception as ex:
                     self.logger.error("执行任务[{}]报错：{}".format(item.m_szReadable, str(ex)))
                     item.set_next_running_time(item.next_half_hour())
+                    if ex.message == "需要重新登录":
+                        break
         self.m_szStatus = ""
         self.m_listTasks.sort()
         for item in self.m_listTasks:
