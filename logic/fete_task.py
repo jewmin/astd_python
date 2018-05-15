@@ -2,6 +2,7 @@
 # 祭祀任务
 from logic.base_task import BaseTask
 from logic.config import config
+from model.enum.activity_type import ActivityType
 
 
 class FeteTask(BaseTask):
@@ -16,6 +17,8 @@ class FeteTask(BaseTask):
             big_fete_task = self.m_objUser.m_dictTasks.get(4, None)
             if fete_gem_task is not None and fete_gem_task.finishline == 15:
                 fete_config = config["fete"]["task15"]
+            elif self.m_objUser.m_dictActivities.get(ActivityType.FeteEvent, False):
+                fete_config = config["fete"]["event"]
             elif big_fete_task is not None and big_fete_task.finishline == 50:
                 fete_config = config["fete"]["task50"]
             else:

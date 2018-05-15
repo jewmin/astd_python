@@ -101,6 +101,10 @@ class CityMgr(BaseMgr):
             user.m_dictActivities[ActivityType.ShowKfPVP] = True
         if dict_activities_info.get("ringevent", "0") == "1":
             user.m_dictActivities[ActivityType.RingEvent] = True
+        if dict_activities_info.get("feteevent", "0") == "1":
+            user.m_dictActivities[ActivityType.FeteEvent] = True
+        if dict_activities_info.get("superfanpai", "0") == "1":
+            user.m_dictActivities[ActivityType.SuperFanPai] = True
 
     def get_update_reward(self):
         url = "/root/mainCity!getUpdateReward.action"
