@@ -42,4 +42,6 @@ class ActivityType(Enum):
     RingEvent = 34  # 新年敲钟
     FeteEvent = 35  # 祭祀活动
     SuperFanPai = 36  # 超级翻牌
+    GoldGiftType = 37  # 宝石倾销
+    GiftEventBaoShi4 = 38  # 宝石翻牌
 

@@ -12,9 +12,9 @@ from logic.config import config
 
 
 class MiscMgr(BaseMgr):
-    def __init__(self, time_mgr, service_factory):
+    def __init__(self, time_mgr, service_factory, index):
         super(MiscMgr, self).__init__(time_mgr, service_factory)
-        self.logger = getLogger(self.__class__.__name__)
+        self.logger = getLogger(index)
 
     #######################################
     # server begin

@@ -4,6 +4,7 @@ from model.main_city_dto import MainCityDto
 from model.constructor_dto import ConstructorDto
 from model.mo_zi_building import MoZiBuilding
 from model.task import Task
+from model.enum.activity_type import ActivityType
 
 
 class User(object):
@@ -172,6 +173,8 @@ class User(object):
     def refresh_player_info(self, dict_player_info):
         self.m_bHasPerDayReward = dict_player_info.get("perdayreward", "0") == "1"
         self.m_bHasVersionGift = dict_player_info.get("version_gift", "0") == "1"
+        if dict_player_info.get("gifteventbaoshi4", "0") == "1":
+            self.m_dictActivities[ActivityType.GiftEventBaoShi4] = True
         if dict_player_info is not None:
             self.handle_info(dict_player_info)
 

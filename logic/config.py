@@ -120,4 +120,71 @@ config = {
             },
         },
     },
+    "active": {
+        "reserve": 100,  # 保留行动力<=N
+        "sort": ["royalty", "refine_bin_tie", "refine", "caravan"],  # 执行顺序
+        "royalty": {  # 纺织
+            "enable": True,  # 开启功能
+            "finish_task": True,  # 完成日常任务
+            "do_high": True,  # 高效状态
+            "do_tired": True,  # 疲劳状态
+            "refresh": 0,  # 刷新换购商人花费金币<=N
+            "list": [  # 换购商人列表
+                # "皇家南越商人",
+                # "皇家大理商人",
+                # "皇家关东商人",
+                "稀有黑市商人",
+            ],
+            "cost": [  # 换购列表
+                # {"type": 58, "lv": 1, "num": 400, "needweavenum": 650},  # 紫晶石 皇家南越商人
+                # {"type": 57, "lv": 1, "num": 120, "needweavenum": 600},  # 磨砺石 皇家大理商人
+                # {"type": 56, "lv": 1, "num": 30, "needweavenum": 550},  # 觉醒酒 皇家关东商人
+                {"type": 51, "lv": 5, "num": 1, "needweavenum": 4500},  # 5星专属 稀有黑市商人
+            ],
+        },
+        "refine_bin_tie": {  # 炼制
+            "enable": True,  # 开启功能
+            "finish_task": True,  # 完成日常任务
+            "do_high": True,  # 高效状态
+            "do_tired": False,  # 疲劳状态
+            "mode": 2,  # 炼制模式 1:镔铁 2:铁锤
+        },
+        "refine": {  # 精炼
+            "enable": True,  # 开启功能
+            "finish_task": True,  # 完成日常任务
+            "do_high": False,  # 高效状态
+            "do_tired": False,  # 疲劳状态
+            "refresh_refiner": {  # 升级精炼工人
+                "per_cost": 0,  # 花费金币<=N
+                "times": 1,  # 升级次数<=N
+                "list": {
+                    100: 0,  # 红紫紫 -> 紫紫紫
+                    211: 2,  # 黄红红 -> 黄红紫
+                    220: 1,  # 黄黄紫 -> 黄红紫
+                    331: 1,  # 绿绿红 -> 绿黄红
+                    332: 1,  # 绿绿黄 -> 绿黄黄
+                    310: 1,  # 绿红紫 -> 黄红紫
+                    410: 1,  # 蓝红紫 -> 蓝紫紫
+                    421: 1,  # 蓝黄红 -> 蓝红红
+                    433: 2,  # 蓝绿绿 -> 蓝绿黄
+                    441: 2,  # 蓝蓝红 -> 蓝蓝紫
+                    442: 2,  # 蓝蓝黄 -> 蓝蓝红
+                },
+            },
+        },
+        "caravan": {  # 通商
+            "enable": True,  # 开启功能
+            "finish_task": True,  # 完成日常任务
+            "event": {  # 通商事件
+                1: "",  # 西域国王
+                2: "",  # 神秘商人
+            },
+            "limit": {  # 限制
+                "gold": 0,  # 金币<=N
+                "copper": 3000000,  # 银币<=N
+                "active": 50,  # 行动力<=N
+            },
+            "is_double": False,  # 双倍领取
+        },
+    },
 }

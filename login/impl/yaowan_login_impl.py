@@ -9,9 +9,9 @@ from model.enum.login_status import LoginStatus
 
 
 class YaoWanLogin(LoginBase):
-    def __init__(self):
-        super(YaoWanLogin, self).__init__()
-        self.logger = getLogger(self.__class__.__name__)
+    def __init__(self, index):
+        super(YaoWanLogin, self).__init__(index)
+        self.logger = getLogger(index)
 
     def login(self, cookies, verify=None, extra=None):
         self.logging()

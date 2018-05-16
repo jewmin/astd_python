@@ -4,9 +4,9 @@ from logging import getLogger
 
 
 class TaskMgr(object):
-    def __init__(self):
+    def __init__(self, index):
         super(TaskMgr, self).__init__()
-        self.logger = getLogger(self.__class__.__name__)
+        self.logger = getLogger(index)
         self.m_objServiceFactory = None
         self.m_objUser = None
         self.m_listTasks = list()

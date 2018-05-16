@@ -2,6 +2,7 @@
 import base64
 import argparse
 import logging
+from logging.handlers import RotatingFileHandler
 from model.account import Account
 from model.enum.server_type import ServerType
 from framework.app import App
@@ -55,6 +56,11 @@ def init_logging():
     console.setFormatter(formatter)
     logging.getLogger().addHandler(console)
 
+    rotating = RotatingFileHandler(filename="error.log", maxBytes=1048576)
+    rotating.setLevel(logging.ERROR)
+    rotating.setFormatter(formatter)
+    logging.getLogger().addHandler(rotating)
+
 
 def main():
     init_logging()
@@ -62,10 +68,25 @@ def main():
     parser.add_argument('--user-name', default="")
     parser.add_argument('--role-name', default="")
     args = parser.parse_args()
-    app = App(get_account_config())
-    app.init(args.user_name, args.role_name.decode("gbk").encode("utf-8"))
-    app.main_loop()
-    app.un_init()
+    account_list = get_account_config()
+    user_names = args.user_name.split(",")
+    role_names = args.role_name.decode("gbk").encode("utf-8").split(",")
+    if len(user_names) != len(role_names):
+        logging.getLogger().error("参数不对，账号与角色数量不匹配")
+    else:
+        app_list = list()
+        for index, user_name in enumerate(user_names):
+            app = App(account_list, str(index))
+            app.init(user_name, role_names[index])
+            app_list.append(app)
+
+        while True:
+            cmd = input("请输入命令：退出(quit)、启动(start)、暂停(stop)、重新登录(login)")
+            if cmd == "quit":
+                break
+
+        for app in app_list:
+            app.un_init()
 
 
 if __name__ == "__main__":

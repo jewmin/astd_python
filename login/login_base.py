@@ -10,9 +10,9 @@ from model.enum.login_status import LoginStatus
 
 
 class LoginBase(object):
-    def __init__(self):
+    def __init__(self, index):
         super(LoginBase, self).__init__()
-        self.logger = getLogger(self.__class__.__name__)
+        self.logger = getLogger(index)
         self.m_szUserName = None
         self.m_szPassword = None
         self.m_szMd5Password = None

@@ -21,12 +21,13 @@ from logic.fete_task import FeteTask
 from logic.impose_task import ImposeTask
 from logic.ticket_task import TicketTask
 from logic.supper_market_task import SupperMarketTask
+from logic.active_task import ActiveTask
 
 
 class App(IServer):
-    def __init__(self, account_list):
+    def __init__(self, account_list, index):
         super(App, self).__init__()
-        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger = logging.getLogger(index)
         self.m_bServerRunning = False
         self.m_bIsReLogin = False
         self.m_threadTask = None
@@ -38,6 +39,7 @@ class App(IServer):
         self.m_objServiceFactory = None
         self.m_objProtocolMgr = None
         self.m_objTaskMgr = None
+        self.m_szIndex = index
 
     def init(self, user_name, role_name):
         for account in self.m_listAccounts:
@@ -49,17 +51,17 @@ class App(IServer):
     def un_init(self):
         self.stop(True)
 
-    def main_loop(self):
-        while True:
-            cmd = input("请输入命令：退出(quit)、启动(start)、暂停(stop)、重新登录(login)")
-            if cmd == "quit":
-                break
-            elif cmd == "start":
-                self.start()
-            elif cmd == "stop":
-                self.stop(True)
-            elif cmd == "login":
-                self.start_re_login()
+    # def main_loop(self):
+    #     while True:
+    #         cmd = input("请输入命令：退出(quit)、启动(start)、暂停(stop)、重新登录(login)")
+    #         if cmd == "quit":
+    #             break
+    #         elif cmd == "start":
+    #             self.start()
+    #         elif cmd == "stop":
+    #             self.stop(True)
+    #         elif cmd == "login":
+    #             self.start_re_login()
 
     def init_completed(self):
         self.start()
@@ -131,7 +133,7 @@ class App(IServer):
 
     def do_login(self):
         cookies = requests.cookies.RequestsCookieJar()
-        login_mgr = LoginMgr()
+        login_mgr = LoginMgr(self.m_szIndex)
         login_result = login_mgr.login(self.m_objAccount, cookies)
         if login_result is None:
             self.logger.info("登录失败，请重试")
@@ -151,9 +153,9 @@ class App(IServer):
 
     def init_session(self):
         self.m_objUser = User()
-        self.m_objServiceFactory = ServiceFactory()
-        self.m_objProtocolMgr = ProtocolMgr(self.m_objUser, self.m_objAccount.m_szGameUrl, self.m_objAccount.m_szJSessionId, self.m_objServiceFactory, self)
-        self.m_objTaskMgr = TaskMgr()
+        self.m_objServiceFactory = ServiceFactory(self.m_szIndex)
+        self.m_objProtocolMgr = ProtocolMgr(self.m_objUser, self.m_objAccount.m_szGameUrl, self.m_objAccount.m_szJSessionId, self.m_objServiceFactory, self, self.m_szIndex)
+        self.m_objTaskMgr = TaskMgr(self.m_szIndex)
         self.m_objServiceFactory.get_misc_mgr().get_server_time()
         if self.m_objServiceFactory.get_misc_mgr().get_player_info_by_user_id(self.m_objAccount.m_szRoleName):
             self.init_logging()
@@ -172,7 +174,7 @@ class App(IServer):
         file_handler.setLevel(logging.INFO)
         formatter = logging.Formatter("%(asctime)s %(filename)s [%(levelname)s] %(message)s")
         file_handler.setFormatter(formatter)
-        logging.getLogger().addHandler(file_handler)
+        logging.getLogger(self.m_szIndex).addHandler(file_handler)
 
     def build_services(self):
         self.m_objTaskMgr.add_task(CommonTask())
@@ -180,3 +182,4 @@ class App(IServer):
         self.m_objTaskMgr.add_task(ImposeTask())
         self.m_objTaskMgr.add_task(TicketTask())
         self.m_objTaskMgr.add_task(SupperMarketTask())
+        self.m_objTaskMgr.add_task(ActiveTask())

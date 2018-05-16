@@ -9,9 +9,9 @@ from model.global_func import GlobalFunc
 
 
 class CityMgr(BaseMgr):
-    def __init__(self, time_mgr, service_factory):
+    def __init__(self, time_mgr, service_factory, index):
         super(CityMgr, self).__init__(time_mgr, service_factory)
-        self.logger = getLogger(self.__class__.__name__)
+        self.logger = getLogger(index)
 
     def get_main_city(self):
         url = "/root/mainCity.action"
@@ -105,6 +105,8 @@ class CityMgr(BaseMgr):
             user.m_dictActivities[ActivityType.FeteEvent] = True
         if dict_activities_info.get("superfanpai", "0") == "1":
             user.m_dictActivities[ActivityType.SuperFanPai] = True
+        if dict_activities_info.get("goldgifttype", "0") == "2":
+            user.m_dictActivities[ActivityType.GoldGiftType] = True
 
     def get_update_reward(self):
         url = "/root/mainCity!getUpdateReward.action"

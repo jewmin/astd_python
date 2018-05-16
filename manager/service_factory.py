@@ -6,12 +6,12 @@ from manager.city_mgr import CityMgr
 
 
 class ServiceFactory(object):
-    def __init__(self):
+    def __init__(self, index):
         super(ServiceFactory, self).__init__()
         self.m_objProtocolMgr = None
         self.m_objTimeMgr = TimeMgr()
-        self.m_objMiscMgr = MiscMgr(self.m_objTimeMgr, self)
-        self.m_objCityMgr = CityMgr(self.m_objTimeMgr, self)
+        self.m_objMiscMgr = MiscMgr(self.m_objTimeMgr, self, index)
+        self.m_objCityMgr = CityMgr(self.m_objTimeMgr, self, index)
 
     def set_protocol_mgr(self, protocol_mgr):
         self.m_objProtocolMgr = protocol_mgr

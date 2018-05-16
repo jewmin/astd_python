@@ -5,9 +5,9 @@ from manager.base_mgr import BaseMgr
 
 
 class ActiveMgr(BaseMgr):
-    def __init__(self, time_mgr, service_factory):
+    def __init__(self, time_mgr, service_factory, index):
         super(ActiveMgr, self).__init__(time_mgr, service_factory)
-        self.logger = getLogger(self.__class__.__name__)
+        self.logger = getLogger(index)
 
     #######################################
     # caravan begin
@@ -87,8 +87,30 @@ class ActiveMgr(BaseMgr):
         if result and result.m_bSucceed:
             pass
 
+    #######################################
+    # make begin
+    #######################################
     def royalty_weave_info2(self):
         url = "/root/make!royaltyWeaveInfo2.action"
         result = self.get_protocol_mgr().get_xml(url, "御用精纺厂")
+        if result and result.m_bSucceed:
+            pass
+
+    def royalty_weave2(self, times):
+        url = "/root/make!royaltyWeave2.action"
+        data = {"times": times}
+        result = self.get_protocol_mgr().post_xml(url, data, "一键纺织")
+        if result and result.m_bSucceed:
+            pass
+
+    def convert_royalty_weave_new2(self):
+        url = "/root/make!convertRoyaltyWeaveNew2.action"
+        result = self.get_protocol_mgr().get_xml(url, "换购")
+        if result and result.m_bSucceed:
+            pass
+
+    def refresh_royalty_weave_new(self):
+        url = "/root/make!refreshRoyaltyWeaveNew.action"
+        result = self.get_protocol_mgr().get_xml(url, "刷新换购商人")
         if result and result.m_bSucceed:
             pass

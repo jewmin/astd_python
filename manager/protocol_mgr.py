@@ -9,9 +9,10 @@ from model.enum.account_status import AccountStatus
 
 
 class ProtocolMgr(object):
-    def __init__(self, user, game_url, j_session_id, service_factory, i_server):
+    def __init__(self, user, game_url, j_session_id, service_factory, i_server, index):
         super(ProtocolMgr, self).__init__()
-        self.logger = getLogger(self.__class__.__name__)
+        self.logger = getLogger(index)
+        self.m_szIndex = index
         self.m_objUser = user
         self.m_objIServer = i_server
         self.m_objServiceFactory = service_factory
@@ -66,7 +67,7 @@ class ProtocolMgr(object):
         real_url = "{}{}?{}".format(self.m_szGameUrl, url, self.m_objServiceFactory.get_time_mgr().get_timestamp())
         self.logger.debug("get url={}".format(real_url))
         try:
-            return ServerResult(TransferMgr.get(real_url, self.m_objJar))
+            return ServerResult(TransferMgr.get(real_url, self.m_objJar), self.m_szIndex)
         except Exception as ex:
             self.logger.error(str(ex))
 
@@ -74,6 +75,6 @@ class ProtocolMgr(object):
         real_url = "{}{}?{}".format(self.m_szGameUrl, url, self.m_objServiceFactory.get_time_mgr().get_timestamp())
         self.logger.debug("post url={} data={}".format(real_url, data))
         try:
-            return ServerResult(TransferMgr.post(real_url, data, self.m_objJar))
+            return ServerResult(TransferMgr.post(real_url, data, self.m_objJar), self.m_szIndex)
         except Exception as ex:
             self.logger.error(str(ex))

@@ -5,9 +5,9 @@ from encoder import XML2Dict
 
 
 class ServerResult(object):
-    def __init__(self, result):
+    def __init__(self, result, index):
         super(ServerResult, self).__init__()
-        self.logger = getLogger(self.__class__.__name__)
+        self.logger = getLogger(index)
         self.m_nHttpCode = 0
         self.m_bSucceed = False
         self.m_szError = ""
