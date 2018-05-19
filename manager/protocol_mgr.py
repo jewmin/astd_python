@@ -23,9 +23,6 @@ class ProtocolMgr(object):
         self.m_objJar = requests.cookies.RequestsCookieJar()
         self.m_objJar.set("JSESSIONID", j_session_id, domain=url.hostname, path="/root")
 
-    def get_user(self):
-        return self.m_objUser
-
     def get_xml(self, url, desc):
         self.logger.debug(desc)
         server_result = self.get(url)

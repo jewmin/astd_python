@@ -22,6 +22,7 @@ from logic.impose_task import ImposeTask
 from logic.ticket_task import TicketTask
 from logic.supper_market_task import SupperMarketTask
 from logic.active_task import ActiveTask
+from logic.day_treasure_game_task import DayTreasureGameTask
 
 
 class App(IServer):
@@ -153,7 +154,7 @@ class App(IServer):
 
     def init_session(self):
         self.m_objUser = User()
-        self.m_objServiceFactory = ServiceFactory(self.m_szIndex)
+        self.m_objServiceFactory = ServiceFactory(self.m_objUser, self.m_szIndex)
         self.m_objProtocolMgr = ProtocolMgr(self.m_objUser, self.m_objAccount.m_szGameUrl, self.m_objAccount.m_szJSessionId, self.m_objServiceFactory, self, self.m_szIndex)
         self.m_objTaskMgr = TaskMgr(self.m_szIndex)
         self.m_objServiceFactory.get_misc_mgr().get_server_time()
@@ -176,6 +177,11 @@ class App(IServer):
         file_handler.setFormatter(formatter)
         logging.getLogger(self.m_szIndex).addHandler(file_handler)
 
+        file_handler_gold = TimedRotatingFileHandler("{}/gold.log".format(path), when="D", interval=1)
+        file_handler_gold.setLevel(logging.INFO)
+        file_handler_gold.setFormatter(formatter)
+        logging.getLogger(self.m_szIndex).getChild("gold").addHandler(file_handler_gold)
+
     def build_services(self):
         self.m_objTaskMgr.add_task(CommonTask())
         self.m_objTaskMgr.add_task(FeteTask())
@@ -183,3 +189,4 @@ class App(IServer):
         self.m_objTaskMgr.add_task(TicketTask())
         self.m_objTaskMgr.add_task(SupperMarketTask())
         self.m_objTaskMgr.add_task(ActiveTask())
+        self.m_objTaskMgr.add_task(DayTreasureGameTask())

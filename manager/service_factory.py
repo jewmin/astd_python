@@ -3,15 +3,17 @@
 from manager.time_mgr import TimeMgr
 from manager.misc_mgr import MiscMgr
 from manager.city_mgr import CityMgr
+from manager.active_mgr import ActiveMgr
 
 
 class ServiceFactory(object):
-    def __init__(self, index):
+    def __init__(self, user, index):
         super(ServiceFactory, self).__init__()
         self.m_objProtocolMgr = None
         self.m_objTimeMgr = TimeMgr()
-        self.m_objMiscMgr = MiscMgr(self.m_objTimeMgr, self, index)
-        self.m_objCityMgr = CityMgr(self.m_objTimeMgr, self, index)
+        self.m_objMiscMgr = MiscMgr(self.m_objTimeMgr, self, user, index)
+        self.m_objCityMgr = CityMgr(self.m_objTimeMgr, self, user, index)
+        self.m_objActiveMgr = ActiveMgr(self.m_objTimeMgr, self, user, index)
 
     def set_protocol_mgr(self, protocol_mgr):
         self.m_objProtocolMgr = protocol_mgr
@@ -27,3 +29,6 @@ class ServiceFactory(object):
 
     def get_city_mgr(self):
         return self.m_objCityMgr
+
+    def get_active_mgr(self):
+        return self.m_objActiveMgr

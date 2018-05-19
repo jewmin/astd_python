@@ -12,20 +12,31 @@ class RewardInfo(object):
 
     def __str__(self):
         string = ""
+        first = True
         for item in self.m_listRewards:
-            string += "{} ".format(item)
+            if first:
+                first = False
+                string += "{}".format(item)
+            else:
+                string += " {}".format(item)
         return string
+
+    def get_reward(self, index):
+        if index < len(self.m_listRewards):
+            return self.m_listRewards[index]
 
     def handle_info(self, list_info):
         if list_info is not None:
             if isinstance(list_info, list):
                 for v in list_info:
                     reward = Reward()
-                    reward.handle_info(v)
+                    reward.handle_info(v["reward"])
+                    reward.init()
                     self.m_listRewards.append(reward)
             else:
                 reward = Reward()
-                reward.handle_info(list_info)
+                reward.handle_info(list_info["reward"])
+                reward.init()
                 self.m_listRewards.append(reward)
 
 
@@ -38,7 +49,9 @@ class Reward(BaseObject):
         self.lv = 0
         self.num = 0
 
-    def __str__(self):
+    def init(self):
         if self.itemname == "" and self.type < len(config["reward"]["name"]):
             self.itemname = config["reward"]["name"][self.type]
+
+    def __str__(self):
         return "{}(lv.{})+{}".format(self.itemname, self.lv, GlobalFunc.get_short_readable(self.num))

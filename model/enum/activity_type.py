@@ -7,7 +7,7 @@ from enum import Enum, unique
 class ActivityType(Enum):
     HasArchEvent = 0
     WeekendGift = 1  # 登录礼包
-    ShenHuo = 2
+    ShenHuo = 2  # 百炼精铁
     BaiShen = 3
     Yang = 4
     OfflineEvent = 5
@@ -16,15 +16,15 @@ class ActivityType(Enum):
     YueBingEvent = 8
     BoatEvent = 9
     BuffEvent = 10
-    CuiLianEvent = 11
+    CuiLianEvent = 11  #
     PayHongBaoEvent = 12
     BGEvent = 13  # 大宴群雄
     QingMingEvent = 14  # 群雄煮酒
     DuanWuEvent = 15  # 百家宴
     MoonGeneralEvent = 16  # 赏月送礼
     TrainingEvent = 17  # 大练兵
-    SnowTradingEvent = 18
-    BombNianEvent = 19
+    SnowTradingEvent = 18  # 雪地通商
+    BombNianEvent = 19  # 抓年兽
     BorrowingArrowsEvent = 20  # 草船借箭
     ParadeEvent = 21  # 阅兵庆典
     TowerStage = 22  # 宝塔活动
@@ -42,6 +42,8 @@ class ActivityType(Enum):
     RingEvent = 34  # 新年敲钟
     FeteEvent = 35  # 祭祀活动
     SuperFanPai = 36  # 超级翻牌
-    GoldGiftType = 37  # 宝石倾销
+    DumpEvent = 37  # 宝石倾销
     GiftEventBaoShi4 = 38  # 宝石翻牌
+    YuanDanQiFu = 39  # 酒神觉醒
+    KfWDEventReward = 40  # 武斗庆典
 

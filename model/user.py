@@ -5,6 +5,7 @@ from model.constructor_dto import ConstructorDto
 from model.mo_zi_building import MoZiBuilding
 from model.task import Task
 from model.enum.activity_type import ActivityType
+from model.global_func import GlobalFunc
 
 
 class User(object):
@@ -41,6 +42,7 @@ class User(object):
         self.m_nInspireState = 0  # 鼓舞状态
         self.m_nRightCd = 0  # 征义兵冷却时间
         self.m_nRightNum = 0  # 可征义兵次数
+        self.m_nCityHpRecoverCd = 0  # 城防恢复冷却时间
 
         self.m_nMaxBowlder = 0  # 原石上限
         self.m_nMaxToken = 0  # 军令上限
@@ -49,11 +51,12 @@ class User(object):
         self.m_nMaxFood = 0  # 粮草上限
         self.m_nMaxCopper = 0  # 银币上限
         self.m_nMaxForces = 0  # 兵力上限
+        self.m_nMaxActive = 0  # 行动力上限
 
         self.m_nJailBaoShi = 0  # 监狱劳作获得宝石
         self.m_nBattleScore = 0  # 战绩
         self.m_nCurActive = 0  # 当前行动力
-        self.m_nArrestState = 0  # 劳作状态
+        self.m_nArrestState = 0  # 劳作状态 0:正常 1:劳作 10:逃跑cd 100:被抓
         self.m_bCanTech = False  # 技术研究
         self.m_bHasPerDayReward = False  # 今日手气
         self.m_bHasVersionGift = False  # 版本更新奖励
@@ -72,6 +75,13 @@ class User(object):
         self.m_dictMoZiBuildings = dict()  # 墨子建筑
         self.m_dictTasks = dict()  # 日常任务
         self.m_dictTicketExchange = dict()  # 点券兑换资源
+
+    def __str__(self):
+        return "{}({}级，{})，{}年{}，{}金币，{}银币，{}点券，{}行动力，{}军令，{}攻击令，{}城防值，状态：{}".format(
+            self.m_szUserName, self.m_nLevel, self.m_szNation,
+            self.m_nYear, self.m_szSeason, GlobalFunc.get_short_readable(self.m_nGold),
+            GlobalFunc.get_short_readable(self.m_nCopper), self.m_nTickets, self.m_nCurActive,
+            self.m_nToken, self.m_nAttToken, self.m_nCityHp, self.m_nArrestState)
 
     def handle_info(self, dict_info):
         if "playerid" in dict_info:
@@ -145,6 +155,8 @@ class User(object):
             self.m_nMaxCopper = int(dict_info["maxcoin"])
         if "maxforce" in dict_info:
             self.m_nMaxForces = int(dict_info["maxforce"])
+        if "maxactive" in dict_info:
+            self.m_nMaxActive = int(dict_info["maxactive"])
 
         if "jailbaoshi" in dict_info:
             self.m_nJailBaoShi += int(dict_info["jailbaoshi"])
@@ -175,6 +187,10 @@ class User(object):
         self.m_bHasVersionGift = dict_player_info.get("version_gift", "0") == "1"
         if dict_player_info.get("gifteventbaoshi4", "0") == "1":
             self.m_dictActivities[ActivityType.GiftEventBaoShi4] = True
+        if dict_player_info.get("dumpevent", "0") == "1":
+            self.m_dictActivities[ActivityType.DumpEvent] = True
+        if dict_player_info.get("kfwdeventreward", "0") == "1":
+            self.m_dictActivities[ActivityType.KfWDEventReward] = True
         if dict_player_info is not None:
             self.handle_info(dict_player_info)
 

@@ -44,7 +44,7 @@ class SupperMarketTask(BaseTask):
                     with_draw_supper_market_dto_set.add(v)
                 elif price_type == "gold":
                     if price <= self.get_available_gold():
-                        misc_mgr.buy_supper_market_commodity(v)
+                        misc_mgr.buy_supper_market_commodity(v, True)
                         with_draw_supper_market_dto_set.add(v)
             supper_market_dto_set -= with_draw_supper_market_dto_set
 
@@ -63,7 +63,7 @@ class SupperMarketTask(BaseTask):
                             misc_mgr.buy_supper_market_special_goods(v)
                         elif price_type == "gold":
                             if price <= self.get_available_gold():
-                                misc_mgr.buy_supper_market_special_goods(v)
+                                misc_mgr.buy_supper_market_special_goods(v, True)
 
             if fresh_time is not None:
                 return fresh_time

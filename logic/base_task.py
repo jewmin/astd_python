@@ -51,9 +51,20 @@ class BaseTask(object):
     def get_available_copper(self):
         return GlobalFunc.get_available("copper", self.m_objUser.m_nCopper)
 
+    def is_finish_task(self, task_type):
+        task = self.m_objUser.m_dictTasks.get(task_type, None)
+        if task is None or task.finishnum >= task.finishline:
+            return True
+        else:
+            return False
+
     @staticmethod
     def immediate():
         return 2000
+
+    @staticmethod
+    def one_minute():
+        return 60000
 
     @staticmethod
     def an_hour_later():

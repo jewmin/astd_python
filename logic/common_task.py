@@ -49,3 +49,7 @@ class CommonTask(BaseTask):
         # 日常任务
         if config["task"]["auto_task"]:
             misc_mgr.get_new_per_day_task()
+
+        # 采集宝石
+        if config["outCity"]["auto_end_bao_shi_pick"]:
+            city_mgr.get_pick_space(config["outCity"]["end_pick_proportion"])

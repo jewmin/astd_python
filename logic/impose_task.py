@@ -20,15 +20,13 @@ class ImposeTask(BaseTask):
                 city_mgr.impose(False)
                 return self.immediate()
             elif force_impose_cost <= config["impose"]["force"] and force_impose_cost <= self.get_available_gold():
-                city_mgr.impose(True)
+                city_mgr.impose(True, force_impose_cost)
                 return self.immediate()
             elif config["impose"]["finish_task"]:
-                impose_task = self.m_objUser.m_dictTasks.get(1, None)
-                force_impose_task = self.m_objUser.m_dictTasks.get(2, None)
-                if force_impose_task is not None and force_impose_task.finishnum < force_impose_task.finishline and force_impose_cost <= self.get_available_gold():
-                    city_mgr.impose(True)
+                if not self.is_finish_task(2) and force_impose_cost <= self.get_available_gold():
+                    city_mgr.impose(True, force_impose_cost)
                     return self.immediate()
-                elif impose_task is not None and impose_task.finishnum < impose_task.finishline and impose_num > 0:
+                elif not self.is_finish_task(1) and impose_num > 0:
                     city_mgr.impose(False)
                     return self.immediate()
 
