@@ -23,6 +23,8 @@ from logic.ticket_task import TicketTask
 from logic.supper_market_task import SupperMarketTask
 from logic.active_task import ActiveTask
 from logic.day_treasure_game_task import DayTreasureGameTask
+from logic.war_chariot_task import WarChariotTask
+from logic.special_equip_task import SpecialEquipTask
 
 
 class App(IServer):
@@ -190,3 +192,5 @@ class App(IServer):
         self.m_objTaskMgr.add_task(SupperMarketTask())
         self.m_objTaskMgr.add_task(ActiveTask())
         self.m_objTaskMgr.add_task(DayTreasureGameTask())
+        self.m_objTaskMgr.add_task(WarChariotTask())
+        self.m_objTaskMgr.add_task(SpecialEquipTask())

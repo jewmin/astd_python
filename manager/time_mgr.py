@@ -19,3 +19,8 @@ class TimeMgr(object):
     # year, month, day, hour, minute, second, microsecond
     def get_datetime(self):
         return datetime.fromtimestamp(self.get_timestamp() / 1000, pytz.timezone("UTC"))
+
+    @staticmethod
+    def get_datetime_string(microseconds):
+        dt = datetime.fromtimestamp(microseconds / 1000, pytz.timezone("UTC"))
+        return "{}:{}:{}".format(dt.hour, dt.minute, dt.second)

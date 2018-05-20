@@ -4,6 +4,7 @@ from manager.time_mgr import TimeMgr
 from manager.misc_mgr import MiscMgr
 from manager.city_mgr import CityMgr
 from manager.active_mgr import ActiveMgr
+from manager.equip_mgr import EquipMgr
 
 
 class ServiceFactory(object):
@@ -14,6 +15,7 @@ class ServiceFactory(object):
         self.m_objMiscMgr = MiscMgr(self.m_objTimeMgr, self, user, index)
         self.m_objCityMgr = CityMgr(self.m_objTimeMgr, self, user, index)
         self.m_objActiveMgr = ActiveMgr(self.m_objTimeMgr, self, user, index)
+        self.m_objEquipMgr = EquipMgr(self.m_objTimeMgr, self, user, index)
 
     def set_protocol_mgr(self, protocol_mgr):
         self.m_objProtocolMgr = protocol_mgr
@@ -32,3 +34,6 @@ class ServiceFactory(object):
 
     def get_active_mgr(self):
         return self.m_objActiveMgr
+
+    def get_equip_mgr(self):
+        return self.m_objEquipMgr

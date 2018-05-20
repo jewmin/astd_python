@@ -23,6 +23,10 @@ class DayTreasureGameTask(BaseTask):
                     misc_mgr.transfer()
                     return self.immediate()
 
+                if dict_info["探宝完毕"]:
+                    misc_mgr.away_new_t_game()
+                    return self.immediate()
+
                 if float(self.m_objUser.m_nCurActive) / float(self.m_objUser.m_nMaxActive) <= config["dayTreasureGame"]["active_proportion"]:
                     if dict_info["当前骰子"] > 0:
                         misc_mgr.use_new_t_dice()

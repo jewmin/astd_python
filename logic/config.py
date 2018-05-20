@@ -14,10 +14,12 @@ config = {
         "auto_get_login_reward": True,  # 自动领取登录奖励(今日手气、礼包、登录送礼、恭贺、俸禄)
         "auto_build_general_tower": True,  # 自动筑造将军塔
         "auto_right_army": True,  # 自动征义兵
+        "auto_apply_token": True,  # 自动领取军令
     },
     "outCity": {
         "auto_end_bao_shi_pick": True,  # 自动采集宝石
         "end_pick_proportion": 0.5,  # 采集比例>=N
+        "auto_tech_research": True,  # 自动技术研究
     },
     "fete": {
         "auto_fete": True,  # 自动祭祀
@@ -201,5 +203,41 @@ config = {
     "dayTreasureGame": {  # 王朝寻宝
         "enable": True,  # 自动寻宝
         "active_proportion": 0.75,  # 行动力比例<=N
+    },
+    "world": {  # 世界
+        "apply_att_token": {  # 领取攻击令
+            "enable": True,  # 开启
+            "proportion": 0.125,  # 攻击令比例<=N
+        },
+        "tu_city_reward": True,  # 领取屠城嘉奖
+    },
+    "equip": {  # 强化
+        "war_chariot": {  # 战车
+            "enable": True,  # 开启
+            "only_use_hammer": True,  # 只用铁锤强化
+            "hammer_level": 4,  # 使用铁锤暴击<=N
+            "auto_exchange_weapon": True,  # 自动兑换兵器
+            "auto_exchange_bowlder": True,  # 自动兑换玉石
+            "equipment_num": 20000,  # 兵器<=N
+        },
+        "special_equip": {  # 装备铸造
+            "enable": True,  # 开启
+            "firstcost": 0,  # 铸造花费金币<=N
+            "secondcost": 0,  # 精火铸造花费金币<=N
+        },
+        "polish": {  # 炼化
+            "polish": {  # 炼化玉佩
+                "enable": True,  # 开启
+                "min_num": 5,  # 至少炼化机会>=N
+                "min_attr": [0, 5],  # 最少基础属性>=N
+                "times_and_attrs": [5, 15],  # 炼化N次后属性至少>=M
+            },
+            "attribute": [
+                "全攻系数", "全防系数", "普攻系数", "战法系数", "策略系数",
+                "普通攻击", "战法攻击", "策略攻击",
+                # "普通防御", "战法防御", "策略防御",
+                # "兵力", "格挡", "闪避", "暴击"
+            ],
+        },
     },
 }

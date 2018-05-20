@@ -17,6 +17,7 @@ class User(object):
         self.m_nYear = 0  # 年份
         self.m_szSeason = ""  # 季节
         self.m_szNation = ""  # 国家
+        self.m_nNation = 0  # 国家
         self.m_bInNewArea = False  # 新区
 
         self.m_nCopper = 0  # 银币
@@ -42,7 +43,6 @@ class User(object):
         self.m_nInspireState = 0  # 鼓舞状态
         self.m_nRightCd = 0  # 征义兵冷却时间
         self.m_nRightNum = 0  # 可征义兵次数
-        self.m_nCityHpRecoverCd = 0  # 城防恢复冷却时间
 
         self.m_nMaxBowlder = 0  # 原石上限
         self.m_nMaxToken = 0  # 军令上限
@@ -80,7 +80,7 @@ class User(object):
         return "{}({}级，{})，{}年{}，{}金币，{}银币，{}点券，{}行动力，{}军令，{}攻击令，{}城防值，状态：{}".format(
             self.m_szUserName, self.m_nLevel, self.m_szNation,
             self.m_nYear, self.m_szSeason, GlobalFunc.get_short_readable(self.m_nGold),
-            GlobalFunc.get_short_readable(self.m_nCopper), self.m_nTickets, self.m_nCurActive,
+            GlobalFunc.get_short_readable(self.m_nCopper), GlobalFunc.get_short_readable(self.m_nTickets), self.m_nCurActive,
             self.m_nToken, self.m_nAttToken, self.m_nCityHp, self.m_nArrestState)
 
     def handle_info(self, dict_info):
@@ -215,6 +215,7 @@ class User(object):
 
     def set_nation(self, nation):
         nation_tuple = ("中立", "魏国", "蜀国", "吴国")
+        self.m_nNation = nation
         self.m_szNation = nation_tuple[nation]
 
     def set_main_city_dto(self, list_main_city_dto):

@@ -175,6 +175,7 @@ class ActiveMgr(BaseMgr):
             dict_info["剩余高效次数"] = int(result.m_objResult["remainhigh"])
             dict_info["剩余极限次数"] = int(result.m_objResult["remainlimit"])
             dict_info["极限次数"] = int(result.m_objResult["limit"])
+            dict_info["消耗余料"] = int(result.m_objResult["onceplus"])
             dict_info["当前余料"] = int(result.m_objResult["refinenum"])
             dict_info["余料上限"] = int(result.m_objResult["maxrefinenum"])
             dict_info["升级单个工人消耗金币"] = int(result.m_objResult["percost"])

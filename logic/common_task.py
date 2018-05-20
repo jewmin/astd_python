@@ -17,11 +17,13 @@ class CommonTask(BaseTask):
     def init(self):
         misc_mgr = self.m_objServiceFactory.get_misc_mgr()
         city_mgr = self.m_objServiceFactory.get_city_mgr()
+        equip_mgr = self.m_objServiceFactory.get_equip_mgr()
         misc_mgr.get_server_time()
         misc_mgr.get_player_info_by_user_id("")
         misc_mgr.get_extra_info()
         misc_mgr.get_player_extra_info2()
         city_mgr.get_main_city()
+        equip_mgr.get_upgrade_info()
 
         # 登录奖励
         if config["mainCity"]["auto_get_login_reward"]:
@@ -53,3 +55,11 @@ class CommonTask(BaseTask):
         # 采集宝石
         if config["outCity"]["auto_end_bao_shi_pick"]:
             city_mgr.get_pick_space(config["outCity"]["end_pick_proportion"])
+
+        # 自动领取军令
+        if config["mainCity"]["auto_apply_token"]:
+            misc_mgr.secretary()
+
+        # 自动技术研究
+        if config["outCity"]["auto_tech_research"]:
+            city_mgr.jail(self.get_available_gold())

@@ -5,6 +5,7 @@ from model.enum.activity_type import ActivityType
 from model.reward_info import RewardInfo
 from model.general_tower import GeneralTower
 from model.global_func import GlobalFunc
+from manager.time_mgr import TimeMgr
 
 
 class CityMgr(BaseMgr):
@@ -273,3 +274,19 @@ class CityMgr(BaseMgr):
                 msg += "，{}倍暴击".format(result.m_objResult["baoji"])
             msg += "，获得{}宝石".format(result.m_objResult["baoshi"])
             self.info(msg)
+
+    def jail(self, available_gold):
+        url = "/root/jail.action"
+        result = self.get_protocol_mgr().get_xml(url, "监狱")
+        if result and result.m_bSucceed:
+            if "remaintime" not in result.m_objResult:
+                per_gold = int(result.m_objResult["pergold"])
+                if per_gold <= available_gold:
+                    self.tech_research()
+
+    def tech_research(self):
+        url = "/root/jail!techResearch.action"
+        result = self.get_protocol_mgr().get_xml(url, "技术研究")
+        if result and result.m_bSucceed:
+            remain_time = int(result.m_objResult["remaintime"])
+            self.info("监狱技术研究，剩余时间：{}".format(TimeMgr.get_datetime_string(remain_time)))

@@ -2,23 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c90e65b6-e2a7-4650-b14f-1b091bdf34a2" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/logic/day_treasure_game_task.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/jim_chen.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logic/polish_task.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logic/special_equip_task.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logic/war_chariot_task.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/manager/equip_mgr.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/manager/world_mgr.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/special_treasure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/run.bat" beforeDir="false" afterPath="$PROJECT_DIR$/bin/run.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/framework/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/framework/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logic/active_task.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/active_task.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logic/base_task.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/base_task.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logic/common_task.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/common_task.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logic/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logic/impose_task.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/impose_task.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logic/supper_market_task.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/supper_market_task.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logic/day_treasure_game_task.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/day_treasure_game_task.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manager/active_mgr.py" beforeDir="false" afterPath="$PROJECT_DIR$/manager/active_mgr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manager/base_mgr.py" beforeDir="false" afterPath="$PROJECT_DIR$/manager/base_mgr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manager/city_mgr.py" beforeDir="false" afterPath="$PROJECT_DIR$/manager/city_mgr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manager/misc_mgr.py" beforeDir="false" afterPath="$PROJECT_DIR$/manager/misc_mgr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manager/protocol_mgr.py" beforeDir="false" afterPath="$PROJECT_DIR$/manager/protocol_mgr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manager/service_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/manager/service_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/enum/activity_type.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/enum/activity_type.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/reward_info.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/reward_info.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager/time_mgr.py" beforeDir="false" afterPath="$PROJECT_DIR$/manager/time_mgr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/user.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,12 +33,12 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/astdpython$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1526601607225" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bin" />
-    <SUITE FILE_PATH="coverage/astdpython$main.coverage" NAME="main Coverage Results" MODIFIED="1526512770840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bin" />
-    <SUITE FILE_PATH="coverage/astdpython$main_265.coverage" NAME="main 265 Coverage Results" MODIFIED="1526704925438" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bin" />
+    <SUITE FILE_PATH="coverage/astdpython$main.coverage" NAME="main Coverage Results" MODIFIED="1526777954386" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bin" />
+    <SUITE FILE_PATH="coverage/astdpython$main_265.coverage" NAME="main 265 Coverage Results" MODIFIED="1526793555026" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bin" />
     <SUITE FILE_PATH="coverage/astdpython$main__2_.coverage" NAME="main (2) Coverage Results" MODIFIED="1526602553924" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bin" />
-    <SUITE FILE_PATH="coverage/astdpython$main_211_beiju.coverage" NAME="main 211 beiju Coverage Results" MODIFIED="1526735756155" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bin" />
+    <SUITE FILE_PATH="coverage/astdpython$main_211_beiju.coverage" NAME="main 211 beiju Coverage Results" MODIFIED="1526791158521" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bin" />
     <SUITE FILE_PATH="coverage/astdpython$login_test.coverage" NAME="login_test Coverage Results" MODIFIED="1526360473418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
-    <SUITE FILE_PATH="coverage/astdpython$main_211_yingxiongbeiju.coverage" NAME="main 211 yingxiongbeiju Coverage Results" MODIFIED="1526735805575" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bin" />
+    <SUITE FILE_PATH="coverage/astdpython$main_211_yingxiongbeiju.coverage" NAME="main 211 yingxiongbeiju Coverage Results" MODIFIED="1526793528987" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bin" />
     <SUITE FILE_PATH="coverage/astdpython$main__3_.coverage" NAME="main (3) Coverage Results" MODIFIED="1526602652523" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bin" />
   </component>
   <component name="FavoritesManager">
@@ -43,47 +46,44 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="active_mgr.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/manager/active_mgr.py">
+      <file leaf-file-name="equip_mgr.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/manager/equip_mgr.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1633">
-              <caret line="89" selection-start-line="89" selection-end-line="89" />
+            <state relative-caret-position="2438">
+              <caret line="106" column="12" selection-start-line="106" selection-start-column="12" selection-end-line="106" selection-end-column="12" />
               <folding>
-                <element signature="e#32#68#0" expanded="true" />
+                <element signature="e#31#67#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="active_task.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/logic/active_task.py">
+      <file leaf-file-name="supper_market_dto.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/supper_market_dto.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="407">
-              <caret line="168" column="35" selection-start-line="168" selection-start-column="35" selection-end-line="168" selection-end-column="35" />
+            <state relative-caret-position="23">
+              <caret line="1" column="6" lean-forward="true" selection-start-line="1" selection-start-column="6" selection-end-line="8" selection-end-column="47" />
               <folding>
-                <element signature="e#32#68#0" expanded="true" />
+                <element signature="e#31#71#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="task_mgr.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/manager/task_mgr.py">
+      <file leaf-file-name="task.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/task.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="43" selection-start-line="43" selection-end-line="43" />
+            <state relative-caret-position="207">
+              <caret line="9" column="22" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="day_treasure_game_task.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/logic/day_treasure_game_task.py">
+      <file leaf-file-name="base_object.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/base_object.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
-              <folding>
-                <element signature="e#33#69#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="207">
+              <caret line="9" selection-start-line="9" selection-end-line="9" />
             </state>
           </provider>
         </entry>
@@ -91,59 +91,58 @@
       <file leaf-file-name="common_task.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/logic/common_task.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="23" column="32" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="reward_info.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/reward_info.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="21" selection-start-line="21" selection-end-line="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="misc_mgr.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/manager/misc_mgr.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="581">
-              <caret line="404" selection-start-line="404" selection-end-line="404" />
+            <state relative-caret-position="475">
+              <caret line="25" column="36" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="36" />
               <folding>
-                <element signature="e#33#69#0" expanded="true" />
+                <element signature="e#31#67#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/user.py">
+      <file leaf-file-name="service_factory.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/manager/service_factory.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="292">
-              <caret line="190" selection-start-line="190" selection-end-line="190" />
+            <state relative-caret-position="-8">
+              <caret line="11" column="42" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
               <folding>
-                <element signature="e#31#74#0" expanded="true" />
+                <element signature="e#31#67#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_type.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/enum/activity_type.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="45" column="33" selection-start-line="45" selection-start-column="33" selection-end-line="45" selection-end-column="33" />
-            </state>
-          </provider>
+      <file leaf-file-name="ticket.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/ticket.py">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/logic/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="200" column="32" selection-start-line="200" selection-start-column="32" selection-end-line="200" selection-end-column="32" />
+            <state relative-caret-position="406">
+              <caret line="232" column="32" selection-start-line="232" selection-start-column="17" selection-end-line="232" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="polish_task.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/logic/polish_task.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="268">
+              <caret line="15" column="35" lean-forward="true" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
+              <folding>
+                <element signature="e#27#63#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="special_equip_task.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/logic/special_equip_task.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="299">
+              <caret line="14" column="42" lean-forward="true" selection-start-line="14" selection-start-column="42" selection-end-line="16" selection-end-column="63" />
             </state>
           </provider>
         </entry>
@@ -159,16 +158,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>convert_royalty_weave_new2</find>
-      <find>do_refine_bin_tie_factory</find>
-      <find>royalty_weave2</find>
-      <find>refine</find>
-      <find>config</find>
-      <find>get_tickets_reward_by_name</find>
-      <find>misc_mgr.get_tickets_reward_by_name(&quot;银币&quot;, 10)</find>
-      <find>reward_info.handle_info(</find>
-      <find>rewardinfo</find>
-      <find>RewardInfo</find>
       <find>first</find>
       <find>get_king_reward</find>
       <find>get_western_trade_reward</find>
@@ -180,7 +169,6 @@
       <find>impose(</find>
       <find>buy_supper_market_commodity</find>
       <find>refresh_one_refiner</find>
-      <find>余料库存</find>
       <find>use_gold = False</find>
       <find>self.logger</find>
       <find>use_gold</find>
@@ -189,6 +177,17 @@
       <find>/root/server!getPlayerExtraInfo2</find>
       <find>self.logger.</find>
       <find>事件名称</find>
+      <find>m_nCityHpRecoverCd</find>
+      <find>battlescore</find>
+      <find>set_nation</find>
+      <find>余料库存</find>
+      <find>get_refine_info</find>
+      <find>available_gold</find>
+      <find>avail</find>
+      <find>TimeMgr.get_datetime_string(</find>
+      <find>get_tickets_reward_by_name</find>
+      <find>0.0</find>
+      <find>canconsecrate</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -204,14 +203,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/manager/transfer_mgr.py" />
-        <option value="$PROJECT_DIR$/manager/time_mgr.py" />
-        <option value="$PROJECT_DIR$/model/main_city.py" />
-        <option value="$PROJECT_DIR$/model/server_result.py" />
-        <option value="$PROJECT_DIR$/model/main_city_building.py" />
-        <option value="$PROJECT_DIR$/model/constructor_dto.py" />
-        <option value="$PROJECT_DIR$/model/mozi_building.py" />
-        <option value="$PROJECT_DIR$/logic/base_exe.py" />
         <option value="$PROJECT_DIR$/test/config.py" />
         <option value="$PROJECT_DIR$/model/reward.py" />
         <option value="$PROJECT_DIR$/model/general_tower.py" />
@@ -237,24 +228,32 @@
         <option value="$PROJECT_DIR$/logic/fete_task.py" />
         <option value="$PROJECT_DIR$/bin/main.py" />
         <option value="$PROJECT_DIR$/manager/login_mgr.py" />
-        <option value="$PROJECT_DIR$/manager/service_factory.py" />
         <option value="$PROJECT_DIR$/manager/protocol_mgr.py" />
         <option value="$PROJECT_DIR$/logic/base_task.py" />
         <option value="$PROJECT_DIR$/model/reward_info.py" />
         <option value="$PROJECT_DIR$/login/login_base.py" />
         <option value="$PROJECT_DIR$/logic/supper_market_task.py" />
         <option value="$PROJECT_DIR$/logic/impose_task.py" />
-        <option value="$PROJECT_DIR$/manager/city_mgr.py" />
         <option value="$PROJECT_DIR$/manager/base_mgr.py" />
-        <option value="$PROJECT_DIR$/framework/app.py" />
-        <option value="$PROJECT_DIR$/logic/active_task.py" />
-        <option value="$PROJECT_DIR$/manager/active_mgr.py" />
-        <option value="$PROJECT_DIR$/logic/common_task.py" />
-        <option value="$PROJECT_DIR$/logic/config.py" />
-        <option value="$PROJECT_DIR$/manager/misc_mgr.py" />
-        <option value="$PROJECT_DIR$/logic/day_treasure_game_task.py" />
-        <option value="$PROJECT_DIR$/model/user.py" />
         <option value="$PROJECT_DIR$/model/enum/activity_type.py" />
+        <option value="$PROJECT_DIR$/model/area.py" />
+        <option value="$PROJECT_DIR$/manager/active_mgr.py" />
+        <option value="$PROJECT_DIR$/logic/active_task.py" />
+        <option value="$PROJECT_DIR$/manager/city_mgr.py" />
+        <option value="$PROJECT_DIR$/manager/time_mgr.py" />
+        <option value="$PROJECT_DIR$/manager/world_mgr.py" />
+        <option value="$PROJECT_DIR$/manager/service_factory.py" />
+        <option value="$PROJECT_DIR$/logic/war_chariot_task.py" />
+        <option value="$PROJECT_DIR$/logic/day_treasure_game_task.py" />
+        <option value="$PROJECT_DIR$/manager/misc_mgr.py" />
+        <option value="$PROJECT_DIR$/logic/special_equip_task.py" />
+        <option value="$PROJECT_DIR$/framework/app.py" />
+        <option value="$PROJECT_DIR$/model/user.py" />
+        <option value="$PROJECT_DIR$/model/special_treasure.py" />
+        <option value="$PROJECT_DIR$/logic/config.py" />
+        <option value="$PROJECT_DIR$/logic/common_task.py" />
+        <option value="$PROJECT_DIR$/logic/polish_task.py" />
+        <option value="$PROJECT_DIR$/manager/equip_mgr.py" />
       </list>
     </option>
   </component>
@@ -322,7 +321,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="fileTemplates" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -346,7 +345,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main 211 yingxiongbeiju">
+  <component name="RunManager" selected="Python.main 265">
     <configuration name="login_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="astdpython" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -478,10 +477,10 @@
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32894737" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32894737" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49773756" visible="true" weight="0.27665246" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49773756" visible="true" weight="0.27985075" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.12962963" />
       <window_info anchor="right" id="SciView" order="4" />
       <window_info id="Structure" order="1" sideWeight="0.5022625" side_tool="true" weight="0.2570694" />
       <window_info id="Favorites" order="2" sideWeight="0.5022625" side_tool="true" weight="0.2570694" />
@@ -515,127 +514,127 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/misc_mgr.py</url>
-          <line>42</line>
+          <line>43</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>108</line>
+          <line>109</line>
           <option name="timeStamp" value="67" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/misc_mgr.py</url>
-          <line>46</line>
+          <line>47</line>
           <option name="timeStamp" value="71" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/misc_mgr.py</url>
-          <line>51</line>
+          <line>52</line>
           <option name="timeStamp" value="72" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/misc_mgr.py</url>
-          <line>55</line>
+          <line>56</line>
           <option name="timeStamp" value="73" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/misc_mgr.py</url>
-          <line>62</line>
+          <line>63</line>
           <option name="timeStamp" value="74" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/misc_mgr.py</url>
-          <line>66</line>
+          <line>67</line>
           <option name="timeStamp" value="75" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>31</line>
+          <line>32</line>
           <option name="timeStamp" value="105" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>37</line>
+          <line>38</line>
           <option name="timeStamp" value="107" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>39</line>
+          <line>40</line>
           <option name="timeStamp" value="108" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>41</line>
+          <line>42</line>
           <option name="timeStamp" value="109" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>45</line>
+          <line>46</line>
           <option name="timeStamp" value="110" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>47</line>
+          <line>48</line>
           <option name="timeStamp" value="111" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>49</line>
+          <line>50</line>
           <option name="timeStamp" value="112" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>51</line>
+          <line>52</line>
           <option name="timeStamp" value="114" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>55</line>
+          <line>56</line>
           <option name="timeStamp" value="116" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>77</line>
+          <line>78</line>
           <option name="timeStamp" value="122" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>79</line>
+          <line>80</line>
           <option name="timeStamp" value="123" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>83</line>
+          <line>84</line>
           <option name="timeStamp" value="125" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>85</line>
+          <line>86</line>
           <option name="timeStamp" value="126" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>87</line>
+          <line>88</line>
           <option name="timeStamp" value="127" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>89</line>
+          <line>90</line>
           <option name="timeStamp" value="128" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>91</line>
+          <line>92</line>
           <option name="timeStamp" value="129" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>93</line>
+          <line>94</line>
           <option name="timeStamp" value="131" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>97</line>
+          <line>98</line>
           <option name="timeStamp" value="132" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -650,32 +649,32 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/misc_mgr.py</url>
-          <line>110</line>
+          <line>111</line>
           <option name="timeStamp" value="140" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>138</line>
+          <line>139</line>
           <option name="timeStamp" value="150" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>129</line>
+          <line>130</line>
           <option name="timeStamp" value="164" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>131</line>
+          <line>132</line>
           <option name="timeStamp" value="165" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>133</line>
+          <line>134</line>
           <option name="timeStamp" value="166" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>135</line>
+          <line>136</line>
           <option name="timeStamp" value="167" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -685,12 +684,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/misc_mgr.py</url>
-          <line>104</line>
+          <line>105</line>
           <option name="timeStamp" value="209" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/misc_mgr.py</url>
-          <line>106</line>
+          <line>107</line>
           <option name="timeStamp" value="210" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -700,7 +699,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/misc_mgr.py</url>
-          <line>249</line>
+          <line>250</line>
           <option name="timeStamp" value="269" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -710,7 +709,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/misc_mgr.py</url>
-          <line>316</line>
+          <line>317</line>
           <option name="timeStamp" value="281" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -725,27 +724,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/framework/app.py</url>
-          <line>91</line>
+          <line>93</line>
           <option name="timeStamp" value="292" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/framework/app.py</url>
-          <line>97</line>
+          <line>99</line>
           <option name="timeStamp" value="294" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/framework/app.py</url>
-          <line>52</line>
+          <line>54</line>
           <option name="timeStamp" value="306" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/active_mgr.py</url>
-          <line>80</line>
-          <option name="timeStamp" value="321" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/manager/active_mgr.py</url>
-          <line>258</line>
+          <line>259</line>
           <option name="timeStamp" value="337" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -760,17 +754,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/logic/active_task.py</url>
-          <line>96</line>
+          <line>99</line>
           <option name="timeStamp" value="376" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/logic/active_task.py</url>
-          <line>99</line>
+          <line>102</line>
           <option name="timeStamp" value="377" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/logic/active_task.py</url>
-          <line>109</line>
+          <line>112</line>
           <option name="timeStamp" value="379" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -780,22 +774,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/logic/active_task.py</url>
-          <line>65</line>
+          <line>68</line>
           <option name="timeStamp" value="382" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/logic/active_task.py</url>
-          <line>82</line>
+          <line>85</line>
           <option name="timeStamp" value="383" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/logic/active_task.py</url>
-          <line>86</line>
+          <line>89</line>
           <option name="timeStamp" value="384" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/logic/active_task.py</url>
-          <line>90</line>
+          <line>93</line>
           <option name="timeStamp" value="385" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -805,17 +799,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/logic/active_task.py</url>
-          <line>68</line>
+          <line>71</line>
           <option name="timeStamp" value="389" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/logic/active_task.py</url>
-          <line>119</line>
+          <line>122</line>
           <option name="timeStamp" value="394" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/logic/active_task.py</url>
-          <line>137</line>
+          <line>140</line>
           <option name="timeStamp" value="397" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -824,34 +818,14 @@
           <option name="timeStamp" value="401" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/logic/active_task.py</url>
-          <line>164</line>
-          <option name="timeStamp" value="408" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/manager/base_mgr.py</url>
-          <line>30</line>
-          <option name="timeStamp" value="412" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/manager/active_mgr.py</url>
-          <line>44</line>
-          <option name="timeStamp" value="413" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/city_mgr.py</url>
-          <line>272</line>
+          <line>273</line>
           <option name="timeStamp" value="416" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manager/active_mgr.py</url>
           <line>74</line>
           <option name="timeStamp" value="426" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/manager/active_mgr.py</url>
-          <line>89</line>
-          <option name="timeStamp" value="430" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/model/user.py</url>
@@ -864,9 +838,84 @@
           <option name="timeStamp" value="445" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/manager/misc_mgr.py</url>
-          <line>391</line>
-          <option name="timeStamp" value="446" />
+          <url>file://$PROJECT_DIR$/manager/active_mgr.py</url>
+          <line>88</line>
+          <option name="timeStamp" value="447" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/logic/war_chariot_task.py</url>
+          <line>47</line>
+          <option name="timeStamp" value="456" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/logic/war_chariot_task.py</url>
+          <line>30</line>
+          <option name="timeStamp" value="458" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/logic/war_chariot_task.py</url>
+          <line>20</line>
+          <option name="timeStamp" value="462" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/manager/equip_mgr.py</url>
+          <line>48</line>
+          <option name="timeStamp" value="463" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/manager/equip_mgr.py</url>
+          <line>79</line>
+          <option name="timeStamp" value="467" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/manager/equip_mgr.py</url>
+          <line>74</line>
+          <option name="timeStamp" value="468" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/logic/special_equip_task.py</url>
+          <line>13</line>
+          <option name="timeStamp" value="469" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/manager/equip_mgr.py</url>
+          <line>55</line>
+          <option name="timeStamp" value="470" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/model/base_object.py</url>
+          <line>17</line>
+          <option name="timeStamp" value="471" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/manager/equip_mgr.py</url>
+          <line>96</line>
+          <option name="timeStamp" value="472" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/manager/equip_mgr.py</url>
+          <line>86</line>
+          <option name="timeStamp" value="473" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/manager/equip_mgr.py</url>
+          <line>112</line>
+          <option name="timeStamp" value="475" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/logic/polish_task.py</url>
+          <line>13</line>
+          <option name="timeStamp" value="477" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/logic/polish_task.py</url>
+          <line>8</line>
+          <option name="timeStamp" value="480" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/manager/equip_mgr.py</url>
+          <line>106</line>
+          <option name="timeStamp" value="481" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -879,7 +928,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="447" />
+      <option name="time" value="482" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -922,90 +971,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/2/__builtin__.pyi">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="908" column="23" selection-start-line="908" selection-start-column="23" selection-end-line="908" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/global_func.py" />
-    <entry file="file://$PROJECT_DIR$/model/supper_market_dto.py" />
-    <entry file="file://$PROJECT_DIR$/login/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logic/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/framework/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/framework/i_server.py" />
-    <entry file="file://$PROJECT_DIR$/model/enum/login_status.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="14" column="39" lean-forward="true" selection-start-line="7" selection-start-column="4" selection-end-line="14" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/login_result.py" />
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons/builtins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="1564" column="8" selection-start-line="1564" selection-start-column="8" selection-end-line="1564" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Python27/Lib/site-packages/enum/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7900">
-          <caret line="811" selection-start-line="811" selection-end-line="811" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2018.1/system/python_stubs/-762174762/__builtin__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="593">
-          <caret line="1867" column="8" selection-start-line="1867" selection-start-column="8" selection-end-line="1867" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/2and3/argparse.pyi">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="71" column="32" lean-forward="true" selection-start-line="71" selection-start-column="32" selection-end-line="71" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Python27/Lib/argparse.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7337">
-          <caret line="1699" column="8" selection-start-line="1699" selection-start-column="8" selection-end-line="1699" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/account.ini" />
-    <entry file="file://$PROJECT_DIR$/model/enum/server_type.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="12" column="17" lean-forward="true" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/enum/account_status.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="21" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/account.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" column="24" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/login_test.py" />
     <entry file="file://$PROJECT_DIR$/test/main.py" />
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydevd_bundle/pydevd_vars.py">
@@ -1029,13 +994,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/server_result.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="6" column="18" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/login/impl/yaowan_login_impl.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="115">
@@ -1047,23 +1005,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="115">
           <caret line="6" column="14" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/task.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" column="22" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manager/service_factory.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
-          <folding>
-            <element signature="e#31#67#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1081,38 +1022,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/base_object.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logic/base_task.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="58" selection-start-line="58" selection-end-line="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logic/fete_task.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Python27/Lib/logging/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="1031" column="10" lean-forward="true" selection-start-line="1031" selection-start-column="10" selection-end-line="1031" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logic/supper_market_task.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1345">
-          <caret line="65" column="80" selection-start-line="65" selection-start-column="80" selection-end-line="65" selection-end-column="80" />
         </state>
       </provider>
     </entry>
@@ -1128,16 +1041,6 @@
         <state relative-caret-position="-69" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manager/city_mgr.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="269" column="14" selection-start-line="269" selection-start-column="14" selection-end-line="269" selection-end-column="14" />
-          <folding>
-            <element signature="e#31#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/login/login_base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
@@ -1145,29 +1048,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manager/base_mgr.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="26" column="20" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="20" />
-          <folding>
-            <element signature="e#31#60#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/framework/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="132" selection-start-line="132" selection-end-line="132" />
-          <folding>
-            <element signature="e#31#59#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/manager/task_mgr.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
+        <state relative-caret-position="989">
           <caret line="43" selection-start-line="43" selection-end-line="43" />
         </state>
       </provider>
@@ -1179,73 +1062,268 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/logic/common_task.py">
+    <entry file="file://$PROJECT_DIR$/model/enum/activity_type.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="23" column="32" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
+        <state relative-caret-position="1035">
+          <caret line="45" column="33" selection-start-line="45" selection-start-column="33" selection-end-line="45" selection-end-column="33" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/logic/config.py">
+    <entry file="file://$USER_HOME$/.PyCharm2018.1/system/python_stubs/-762174762/__builtin__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="200" column="32" selection-start-line="200" selection-start-column="32" selection-end-line="200" selection-end-column="32" />
+        <state relative-caret-position="301">
+          <caret line="2516" column="8" selection-start-line="2516" selection-start-column="8" selection-end-line="2516" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/area.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="12" column="26" lean-forward="true" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manager/base_mgr.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="47" selection-start-line="47" selection-end-line="47" />
+          <folding>
+            <element signature="e#31#60#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/logic/active_task.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="168" column="35" selection-start-line="168" selection-start-column="35" selection-end-line="168" selection-end-column="35" />
+        <state relative-caret-position="667">
+          <caret line="65" selection-start-line="65" selection-end-line="65" />
           <folding>
             <element signature="e#32#68#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/enum/activity_type.py">
+    <entry file="file://$PROJECT_DIR$/logic/fete_task.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="45" column="33" selection-start-line="45" selection-start-column="33" selection-end-line="45" selection-end-column="33" />
+        <state relative-caret-position="370">
+          <caret line="28" column="102" selection-start-line="28" selection-start-column="84" selection-end-line="28" selection-end-column="102" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/user.py">
+    <entry file="file://$PROJECT_DIR$/manager/city_mgr.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="190" selection-start-line="190" selection-end-line="190" />
+        <state relative-caret-position="370">
+          <caret line="291" column="60" selection-start-line="291" selection-start-column="60" selection-end-line="291" selection-end-column="60" />
           <folding>
-            <element signature="e#31#74#0" expanded="true" />
+            <element signature="e#31#67#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/logic/day_treasure_game_task.py">
+    <entry file="file://$PROJECT_DIR$/manager/time_mgr.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
-          <folding>
-            <element signature="e#33#69#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="301">
+          <caret line="22" column="17" lean-forward="true" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/manager/active_mgr.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1633">
-          <caret line="89" selection-start-line="89" selection-end-line="89" />
+        <state relative-caret-position="476">
+          <caret line="178" column="27" selection-start-line="178" selection-start-column="23" selection-end-line="178" selection-end-column="27" />
           <folding>
             <element signature="e#32#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manager/world_mgr.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="31" column="47" selection-start-line="31" selection-start-column="36" selection-end-line="31" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logic/base_task.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="8" column="23" lean-forward="true" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logic/supper_market_task.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="41" column="69" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logic/day_treasure_game_task.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="15" column="38" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
+          <folding>
+            <element signature="e#33#69#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/manager/misc_mgr.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="581">
-          <caret line="404" selection-start-line="404" selection-end-line="404" />
+        <state relative-caret-position="430">
+          <caret line="379" selection-start-line="379" selection-end-line="379" />
           <folding>
             <element signature="e#33#69#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logic/war_chariot_task.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <element signature="e#33#69#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="26" column="53" selection-start-line="26" selection-start-column="53" selection-end-line="26" selection-end-column="53" />
+          <folding>
+            <element signature="e#31#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/account.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" column="24" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/constructor_dto.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/fete.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/general_tower.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/login_result.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/main_city_dto.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/mo_zi_building.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/server_result.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="82" column="105" selection-start-line="82" selection-start-column="105" selection-end-line="82" selection-end-column="105" />
+          <folding>
+            <element signature="e#31#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/ticket.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/task.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" column="22" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/base_object.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logic/special_equip_task.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="14" column="42" lean-forward="true" selection-start-line="14" selection-start-column="42" selection-end-line="16" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/special_treasure.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manager/service_factory.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8">
+          <caret line="11" column="42" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
+          <folding>
+            <element signature="e#31#67#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logic/common_task.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="25" column="36" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="36" />
+          <folding>
+            <element signature="e#31#67#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logic/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="232" column="32" selection-start-line="232" selection-start-column="17" selection-end-line="232" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/supper_market_dto.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="1" column="6" lean-forward="true" selection-start-line="1" selection-start-column="6" selection-end-line="8" selection-end-column="47" />
+          <folding>
+            <element signature="e#31#71#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logic/polish_task.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="15" column="35" lean-forward="true" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
+          <folding>
+            <element signature="e#27#63#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manager/equip_mgr.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2438">
+          <caret line="106" column="12" selection-start-line="106" selection-start-column="12" selection-end-line="106" selection-end-column="12" />
+          <folding>
+            <element signature="e#31#67#0" expanded="true" />
           </folding>
         </state>
       </provider>

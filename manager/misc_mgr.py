@@ -8,6 +8,7 @@ from model.supper_market_dto import SupperMarketDto
 from model.supper_market_dto import SupperMarketSpecialDto
 from model.ticket import Ticket
 from logic.config import config
+from manager.time_mgr import TimeMgr
 
 
 class MiscMgr(BaseMgr):
@@ -371,8 +372,10 @@ class MiscMgr(BaseMgr):
             dict_info["当前地图"] = int(result.m_objResult["curmapid"])
             dict_info["下一地图"] = int(result.m_objResult.get("nextmapid", "0"))
             dict_info["换地图"] = result.m_objResult.get("changemap", "0") == "1"
+            dict_info["探宝完毕"] = result.m_objResult.get("needfinish", "0") == "1"
             if "eventtype" in result.m_objResult:
                 self.handle_treasure_event(dict_info, result.m_objResult)
+            self.info("当前骰子：{}".format(dict_info["当前骰子"]))
             return dict_info
 
     def use_new_t_dice(self):
@@ -444,3 +447,31 @@ class MiscMgr(BaseMgr):
                 self.handle_treasure_event(dict_info, point_reward)
                 msg += "发现{}".format(dict_info["事件名称"])
         return msg
+
+    def away_new_t_game(self):
+        url = "/root/dayTreasureGame!awayNewTGame.action"
+        result = self.get_protocol_mgr().get_xml(url, "探宝完毕")
+        if result and result.m_bSucceed:
+            self.info("探宝完毕")
+
+    #######################################
+    # secretary begin
+    #######################################
+    def secretary(self):
+        url = "/root/secretary.action"
+        result = self.get_protocol_mgr().get_xml(url, "秘书")
+        if result and result.m_bSucceed:
+            max_token_num = int(result.m_objResult.get("maxtokennum", "0"))
+            token_num = int(result.m_objResult.get("tokennum", "0"))
+            cd = int(result.m_objResult.get("cd", "0"))
+            if token_num < max_token_num and cd == 0:
+                self.apply_token()
+
+    def apply_token(self):
+        url = "/root/secretary!applyToken.action"
+        result = self.get_protocol_mgr().get_xml(url, "领取每日军令")
+        if result and result.m_bSucceed:
+            max_token_num = int(result.m_objResult["maxtokennum"])
+            token_num = int(result.m_objResult["tokennum"])
+            cd = int(result.m_objResult["cd"])
+            self.info("领取每日军令，还有{}个，领取CD：{}".format(max_token_num - token_num, TimeMgr.get_datetime_string(cd)))

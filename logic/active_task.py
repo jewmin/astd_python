@@ -62,6 +62,9 @@ class ActiveTask(BaseTask):
                     if not info["可精炼工人"]:
                         return self.one_minute()
 
+                    if info["消耗余料"] > info["当前余料"]:
+                        return self.next_half_hour()
+
                     if info["消耗行动力"] > self.m_objUser.m_nCurActive:
                         return self.next_half_hour()
 
@@ -162,10 +165,10 @@ class ActiveTask(BaseTask):
                     is_double = -1
                 active_mgr.get_king_reward(is_double, info["位置"], info["双倍奖励消耗金币"])
         elif info["事件"] == "2":
-            for index, status in enumerate(info["可领取状态"], 1):
+            for index, status in enumerate(info["可领取状态"]):
                 cost = info["消耗金币"][index]
                 if status == "1" and cost <= active_config["use_cost"] and cost <= self.get_available_gold():
-                    active_mgr.get_trader_reward(index, cost)
+                    active_mgr.get_trader_reward(index + 1, cost)
             active_mgr.get_trader_reward(-1, 0)
 
         elif info["事件"] == "3":
