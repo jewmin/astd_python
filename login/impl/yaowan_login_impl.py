@@ -4,14 +4,14 @@ from logging import getLogger
 import re
 from login.login_base import LoginBase
 from manager.transfer_mgr import TransferMgr
-from login.login_result import LoginResult
+from model.login_result import LoginResult
 from model.enum.login_status import LoginStatus
 
 
 class YaoWanLogin(LoginBase):
-    def __init__(self):
-        super(YaoWanLogin, self).__init__()
-        self.logger = getLogger(self.__class__.__name__)
+    def __init__(self, index):
+        super(YaoWanLogin, self).__init__(index)
+        self.logger = getLogger(index)
 
     def login(self, cookies, verify=None, extra=None):
         self.logging()
@@ -21,7 +21,7 @@ class YaoWanLogin(LoginBase):
         result = TransferMgr.post_pure(url, data, cookies)
         if result is None:
             login_result.m_eLoginStatus = LoginStatus.FailInLogin
-        elif result.content.find("alert") >= 0:
+        elif result.content.startswith("<script>"):
             login_result.m_eLoginStatus = LoginStatus.FailInLogin
         else:
             self.finding_server_url()
@@ -39,9 +39,9 @@ class YaoWanLogin(LoginBase):
         if len(content) == 0:
             return self.get_and_save_url(url, cookies, file_name)
         else:
-            content = self.find_server_url_from_string(content)
-            if len(content) > 0:
-                return content
+            game_url = self.find_server_url_from_string(content)
+            if len(game_url) > 0:
+                return game_url
             else:
                 return self.get_and_save_url(url, cookies, file_name)
 
@@ -51,10 +51,10 @@ class YaoWanLogin(LoginBase):
             return ""
         else:
             content = result.content
-            content = self.find_server_url_from_string(content)
-            if len(content) > 0:
+            game_url = self.find_server_url_from_string(content)
+            if len(game_url) > 0:
                 self.save_cache_file(file_name, content)
-                return content
+                return game_url
             else:
                 return ""
 
@@ -71,12 +71,12 @@ class YaoWanLogin(LoginBase):
             name = "龍"
         else:
             name = "双线{}区".format(self.m_objAccount.m_nServerId)
-        re.compile("<a.*href=\"([^\"']*?)\".*>{}.*</a>".format(name))
-        search = re.search(content)
+        compiler = re.compile("<a.*href=\"(.*?)\".*>({}.*)</a>".format(name))
+        search = re.search(compiler, content)
         if search is None:
             return ""
         match = search.groups()
-        if match is None or match.count() < 2:
+        if match is None or len(match) < 2:
             return ""
         else:
-            return match[1]
+            return match[0]

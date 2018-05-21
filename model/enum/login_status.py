@@ -2,6 +2,7 @@
 # 登录状态
 from enum import Enum, unique
 
+
 @unique
 class LoginStatus(Enum):
     Success = 0  # 成功
