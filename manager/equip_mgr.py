@@ -62,7 +62,7 @@ class EquipMgr(BaseMgr):
             dict_info["精火铸造消耗金币"] = int(result.m_objResult["secondcost"])
             dict_info["总进度"] = int(result.m_objResult["maxprogress"])
             dict_info["当前进度"] = int(result.m_objResult["progress"])
-            self.info("铸造进度：{}/{}，免费铸造次数：{}", dict_info["当前进度"], dict_info["总进度"], dict_info["免费铸造次数"])
+            self.info("铸造进度：{}/{}，免费铸造次数：{}".format(dict_info["当前进度"], dict_info["总进度"], dict_info["免费铸造次数"]))
             return dict_info
 
     def special_equip_cast(self, cast_type, msg):
