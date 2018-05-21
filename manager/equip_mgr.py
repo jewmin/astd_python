@@ -114,4 +114,4 @@ class EquipMgr(BaseMgr):
         data = {"gold": 0, "meltGold": 0, "magic": self.m_nMagic, "type": 1, "storeId": baowu["storeid"]}
         result = self.get_protocol_mgr().post_xml(url, data, "熔化")
         if result and result.m_bSucceed:
-            self.info("熔化[{}(统+{} 勇+{} 智+{})]".format(baowu["name"], baowu["attribute_lea"], baowu["attribute_str"], baowu["attribute_int"]))
+            self.info("熔化[{}(统+{} 勇+{} 智+{})]，获得{}玉石".format(baowu["name"], baowu["attribute_lea"], baowu["attribute_str"], baowu["attribute_int"], result.m_objResult["gainbowlder"]))

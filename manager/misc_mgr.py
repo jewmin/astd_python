@@ -464,14 +464,14 @@ class MiscMgr(BaseMgr):
             max_token_num = int(result.m_objResult.get("maxtokennum", "0"))
             token_num = int(result.m_objResult.get("tokennum", "0"))
             cd = int(result.m_objResult.get("cd", "0"))
-            if token_num < max_token_num and cd == 0:
+            if max_token_num - token_num > 0 and cd == 0:
                 self.apply_token()
 
     def apply_token(self):
         url = "/root/secretary!applyToken.action"
         result = self.get_protocol_mgr().get_xml(url, "领取每日军令")
         if result and result.m_bSucceed:
-            max_token_num = int(result.m_objResult["maxtokennum"])
-            token_num = int(result.m_objResult["tokennum"])
-            cd = int(result.m_objResult["cd"])
+            max_token_num = int(result.m_objResult.get("maxtokennum", "0"))
+            token_num = int(result.m_objResult.get("tokennum", "0"))
+            cd = int(result.m_objResult.get("cd", "0"))
             self.info("领取每日军令，还有{}个，领取CD：{}".format(max_token_num - token_num, TimeMgr.get_datetime_string(cd)))
