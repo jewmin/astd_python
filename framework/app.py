@@ -26,6 +26,7 @@ from logic.day_treasure_game_task import DayTreasureGameTask
 from logic.war_chariot_task import WarChariotTask
 from logic.special_equip_task import SpecialEquipTask
 from logic.polish_task import PolishTask
+from logic.ping_task import PingTask
 
 
 class App(IServer):
@@ -195,4 +196,5 @@ class App(IServer):
         self.m_objTaskMgr.add_task(DayTreasureGameTask())
         self.m_objTaskMgr.add_task(WarChariotTask())
         self.m_objTaskMgr.add_task(SpecialEquipTask())
-        self.m_objTaskMgr.add_task(PolishTask())
+        # self.m_objTaskMgr.add_task(PolishTask())
+        self.m_objTaskMgr.add_task(PingTask())

@@ -20,7 +20,7 @@ class CommonTask(BaseTask):
         equip_mgr = self.m_objServiceFactory.get_equip_mgr()
         misc_mgr.get_server_time()
         misc_mgr.get_player_info_by_user_id("")
-        misc_mgr.get_extra_info()
+        # misc_mgr.get_extra_info()
         misc_mgr.get_player_extra_info2()
         city_mgr.get_main_city()
         equip_mgr.get_upgrade_info()

@@ -35,23 +35,31 @@ class PolishTask(BaseTask):
                 dict_info["日月光华"].append(baowu)
                 dict_info["家传玉佩"].remove(baowu)
 
+        specialtreasure_config = config["equip"]["polish"]["specialtreasure"]
+        if specialtreasure_config["enable"]:
+            pass
+
         if polish_config["enable"]:
-            min_attr_polishtimes = polish_config["min_attr"][0]
-            min_attr_attribute_base = polish_config["min_attr"][1]
-            attr_polishtimes = polish_config["times_and_attrs"][0]
-            attr_attribute_base = polish_config["times_and_attrs"][1]
+            need_attrs = polish_config["need_attrs"]
             for i in range(len(dict_info["家传玉佩"]) - 1, -1, -1):
                 baowu = dict_info["家传玉佩"][i]
-                polishtimes = int(baowu["polishtimes"])
+                polishtimes = baowu["polishtimes"]
                 attribute_base = int(baowu["attribute_base"])
-                if polishtimes == min_attr_polishtimes and attribute_base < min_attr_attribute_base:
-                    equip_mgr.melt(baowu)
-                    dict_info["家传玉佩"].remove(baowu)
-                elif polishtimes == attr_polishtimes and attribute_base < attr_attribute_base:
-                    equip_mgr.melt(baowu)
-                    dict_info["家传玉佩"].remove(baowu)
-
-            if dict_info["炼化机会"] >= polish_config["min_num"]:
-                pass
+                gold = int(baowu["gold"])
+                while True:
+                    if attribute_base < need_attrs[polishtimes]:
+                        equip_mgr.melt(baowu)
+                        dict_info["家传玉佩"].remove(baowu)
+                        break
+                    elif dict_info["炼化机会"] <= 0:
+                        break
+                    elif gold == 0:
+                        polishtimes, attribute_base, gold = equip_mgr.polish(baowu)
+                        dict_info["炼化机会"] -= 1
+                    elif polish_config["use_gold"] and gold <= self.get_available_gold():
+                        olishtimes, attribute_base, gold = equip_mgr.polish(baowu)
+                        dict_info["炼化机会"] -= 1
+                    else:
+                        break
 
         return self.next_half_hour()
