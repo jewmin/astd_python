@@ -61,6 +61,11 @@ def init_logging():
     rotating.setFormatter(formatter)
     logging.getLogger().addHandler(rotating)
 
+    warning_rotating = RotatingFileHandler(filename="warning.log", maxBytes=1048576)
+    warning_rotating.setLevel(logging.WARNING)
+    warning_rotating.setFormatter(formatter)
+    logging.getLogger().addHandler(warning_rotating)
+
 
 def main():
     init_logging()

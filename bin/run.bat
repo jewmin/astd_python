@@ -1,4 +1,4 @@
 SET MAINPATH=%cd%
 SET SCRIPTPATH=%MAINPATH%/..
 SET PYTHONPATH=%SCRIPTPATH%;%PYTHONPATH%
-python main.py --user-name=jewmin,jewmin,jewminchan --role-name=æ¯å…·,è‹±é›„æ¯å…·,
+python %MAINPATH%/main.py --user-name=jewmin,jewmin,jewminchan --role-name=±­¾ß,Ó¢ĞÛ±­¾ß,
