@@ -3,9 +3,12 @@
 from datetime import datetime
 import pytz
 from model.global_func import GlobalFunc
+import abc
 
 
 class BaseTask(object):
+    __metaclass__ = abc.ABCMeta
+
     def __init__(self):
         super(BaseTask, self).__init__()
         self.m_objProtocolMgr = None
@@ -38,6 +41,7 @@ class BaseTask(object):
     def init(self):
         pass
 
+    @abc.abstractmethod
     def run(self):
         return 0
 

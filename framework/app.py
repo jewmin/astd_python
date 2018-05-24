@@ -196,5 +196,5 @@ class App(IServer):
         self.m_objTaskMgr.add_task(DayTreasureGameTask())
         self.m_objTaskMgr.add_task(WarChariotTask())
         self.m_objTaskMgr.add_task(SpecialEquipTask())
-        # self.m_objTaskMgr.add_task(PolishTask())
+        self.m_objTaskMgr.add_task(PolishTask())
         self.m_objTaskMgr.add_task(PingTask())

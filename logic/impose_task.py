@@ -14,7 +14,7 @@ class ImposeTask(BaseTask):
         if config["impose"]["auto_impose"]:
             city_mgr = self.m_objServiceFactory.get_city_mgr()
             impose_num, force_impose_cost = city_mgr.per_impose()
-            if self.m_objUser.m_bImposeCdFlag:
+            if self.m_objUser.m_bImposeCdFlag and self.m_objUser.m_nImposeCd > 0:
                 return self.m_objUser.m_nImposeCd
             if impose_num > config["impose"]["reserve"]:
                 city_mgr.impose(False)

@@ -46,7 +46,7 @@ class EquipMgr(BaseMgr):
             self.info(msg)
             return True
         else:
-            self.info(result.m_szError)
+            self.info("强化战车报错：{}".format(result.m_szError))
             return False
 
     #######################################
@@ -103,15 +103,73 @@ class EquipMgr(BaseMgr):
             dict_info["家传玉佩"] = result.m_objResult["baowu"]
             return dict_info
 
-    def polish(self):
-        pass
+    def polish(self, baowu, use_gold=False):
+        url = "/root/polish!polish.action"
+        data = {"storeId": baowu["storeid"]}
+        result = self.get_protocol_mgr().post_xml(url, data, "玉佩炼化")
+        if result and result.m_bSucceed:
+            old_attribute_base = int(baowu["attribute_base"])
+            baowu["polishtimes"] = result.m_objResult["baowu"]["polishtimes"]
+            baowu["attribute_base"] = result.m_objResult["baowu"]["attribute_base"]
+            baowu["gold"] = result.m_objResult["baowu"]["gold"]
+            diff_attribute_base = int(baowu["attribute_base"]) - old_attribute_base
+            msg = "炼化玉佩，"
+            if diff_attribute_base > 0:
+                msg += "属性+{}".format(diff_attribute_base)
+            else:
+                msg += "属性无变化"
+            self.info(msg, use_gold)
+            return True
+        else:
+            self.info("炼化玉佩报错：{}".format(result.m_szError))
+            return False
+
+    def consecrate_special_treasure(self, special_treasure):
+        url = "/root/polish!consecrateSpecialTreasure.action"
+        data = {"storeId": special_treasure["storeid"]}
+        result = self.get_protocol_mgr().post_xml(url, data, "专属玉佩开光")
+        if result and result.m_bSucceed:
+            msg = "专属玉佩开光"
+            if "additionalattribute" in result.m_objResult:
+                msg += "，激活属性"
+                special_treasure["additionalattribute"] = {"attribute": list()}
+                for attribute in result.m_objResult["additionalattribute"]:
+                    special_treasure["additionalattribute"]["attribute"].append(":".join(attribute["attribute"], attribute["name"], attribute["lv"], attribute["value"]))
+                    msg += "，{}".format(attribute["name"])
+            self.info(msg)
+
+    def evolve_special_treasure(self, special_treasure):
+        url = "/root/polish!evolveSpecialTreasure.action"
+        data = {"storeId": special_treasure["storeid"]}
+        result = self.get_protocol_mgr().post_xml(url, data, "专属玉佩进化")
+        if result and result.m_bSucceed:
+            self.info("专属玉佩进化")
+
+    def upgrade_baowu(self, special_treasure, baowu, is_special_treasure=False):
+        url = "/root/polish!upgradeBaowu.action"
+        data = {"storeId": special_treasure["storeid"], "storeId2": baowu["storeid"]}
+        desc = "家传玉佩"
+        if is_special_treasure:
+            data["type"] = 2
+            desc = "专属玉佩"
+        result = self.get_protocol_mgr().post_xml(url, data, "玉佩升级")
+        if result and result.m_bSucceed:
+            self.info("{}升级成功".format(desc))
+            return True
+        else:
+            self.info("{}升级报错：{}".format(desc, result.m_szError))
+            return False
 
     #######################################
     # stoneMelt begin
     #######################################
-    def melt(self, baowu):
+    def melt(self, baowu, is_special_treasure=False):
         url = "/root/stoneMelt!melt.action"
-        data = {"gold": 0, "meltGold": 0, "magic": self.m_nMagic, "type": 1, "storeId": baowu["storeid"]}
+        data = {"gold": 0, "meltGold": 0, "magic": self.m_nMagic, "storeId": baowu["storeid"]}
+        if is_special_treasure:
+            data["type"] = 2
+        else:
+            data["type"] = 1
         result = self.get_protocol_mgr().post_xml(url, data, "熔化")
         if result and result.m_bSucceed:
-            self.info("熔化[{}(统+{} 勇+{} 智+{})]，获得{}玉石".format(baowu["name"], baowu["attribute_lea"], baowu["attribute_str"], baowu["attribute_int"], result.m_objResult["gainbowlder"]))
+            self.info("熔化[{}(统+{} 勇+{} 智+{})]，获得{}玉石".format(baowu["name"], baowu["attribute_lea"], baowu["attribute_str"], baowu["attribute_int"], result.m_objResult.get("gainbowlder", "0")))
