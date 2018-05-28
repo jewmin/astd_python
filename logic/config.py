@@ -224,6 +224,10 @@ config = {
             "enable": True,  # 开启
             "firstcost": 0,  # 铸造花费金币<=N
             "secondcost": 0,  # 精火铸造花费金币<=N
+            "smelt": {  # 熔化条件
+                "quality": 5,  # 品质<=N
+                "level": 3,  # 等级<=N
+            },
         },
         "polish": {  # 炼化
             "polish": {  # 炼化玉佩
@@ -255,7 +259,19 @@ config = {
                     # "兵力", "格挡", "闪避", "暴击"
                 ],
             },
-
+        },
+        "monkey": {  # 套装
+            "enable": True,  # 开启
+            "use_tickets": 300000,  # 花费点券<=N
+            "reverse_tickets": 1000000000,  # 保留点券
+        },
+        "crystal": {  # 水晶石进阶
+            "enable": True,  # 开启
+            "level": 106,  # 水晶石等级>=N
+        },
+        "goods": {  # 仓库
+            "enable": True,  # 开启
+            "draw": ["日月光华", "家传玉佩"],  # 取出物品列表
         },
     },
 }

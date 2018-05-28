@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # 任务管理
+import traceback
 from logging import getLogger
 
 
@@ -48,10 +49,12 @@ class TaskMgr(object):
                     item.set_next_running_time(item.next_half_hour())
                     if ex.message == "需要重新登录":
                         break
-        self.m_szStatus = ""
-        self.m_listTasks.sort()
-        for item in self.m_listTasks:
-            self.m_szStatus += str(item)
+                    else:
+                        self.logger.error(traceback.format_exc())
+        # self.m_szStatus = ""
+        # self.m_listTasks.sort()
+        # for item in self.m_listTasks:
+        #     self.m_szStatus += str(item)
 
     def run_single_task(self, task_name):
         task = self.find_task(task_name)

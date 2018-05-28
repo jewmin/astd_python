@@ -77,11 +77,11 @@ class User(object):
         self.m_dictTicketExchange = dict()  # 点券兑换资源
 
     def __str__(self):
-        return "{}({}级，{})，{}年{}，{}金币，{}银币，{}点券，{}行动力，{}军令，{}攻击令，{}城防值，状态：{}".format(
-            self.m_szUserName, self.m_nLevel, self.m_szNation,
+        return "{}(id={}, {}级，{})，{}年{}，{}金币，{}银币，{}点券，{}行动力，{}军令，{}攻击令，{}城防值，状态：{}".format(
+            self.m_szUserName, self.m_nId, self.m_nLevel, self.m_szNation,
             self.m_nYear, self.m_szSeason, GlobalFunc.get_short_readable(self.m_nGold),
-            GlobalFunc.get_short_readable(self.m_nCopper), GlobalFunc.get_short_readable(self.m_nTickets), self.m_nCurActive,
-            self.m_nToken, self.m_nAttToken, self.m_nCityHp, self.m_nArrestState)
+            GlobalFunc.get_short_readable(self.m_nCopper), GlobalFunc.get_short_readable(self.m_nTickets),
+            self.m_nCurActive, self.m_nToken, self.m_nAttToken, self.m_nCityHp, self.m_nArrestState)
 
     def handle_info(self, dict_info):
         if "playerid" in dict_info:

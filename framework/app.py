@@ -27,6 +27,7 @@ from logic.war_chariot_task import WarChariotTask
 from logic.special_equip_task import SpecialEquipTask
 from logic.polish_task import PolishTask
 from logic.ping_task import PingTask
+from logic.equip_task import EquipTask
 
 
 class App(IServer):
@@ -55,18 +56,6 @@ class App(IServer):
 
     def un_init(self):
         self.stop(True)
-
-    # def main_loop(self):
-    #     while True:
-    #         cmd = input("请输入命令：退出(quit)、启动(start)、暂停(stop)、重新登录(login)")
-    #         if cmd == "quit":
-    #             break
-    #         elif cmd == "start":
-    #             self.start()
-    #         elif cmd == "stop":
-    #             self.stop(True)
-    #         elif cmd == "login":
-    #             self.start_re_login()
 
     def init_completed(self):
         self.start()
@@ -198,3 +187,4 @@ class App(IServer):
         self.m_objTaskMgr.add_task(SpecialEquipTask())
         self.m_objTaskMgr.add_task(PolishTask())
         self.m_objTaskMgr.add_task(PingTask())
+        self.m_objTaskMgr.add_task(EquipTask())

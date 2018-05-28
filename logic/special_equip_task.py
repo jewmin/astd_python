@@ -29,4 +29,12 @@ class SpecialEquipTask(BaseTask):
                     equip_mgr.special_equip_cast(2, "花费{}金币精火铸造".format(dict_info["精火铸造消耗金币"]))
                     return self.immediate()
 
+            dict_info = equip_mgr.get_all_special_equip()
+            if dict_info is not None:
+                for equipdto in dict_info["专属"]:
+                    if int(equipdto["quality"]) <= special_equip_config["smelt"]["quality"]:
+                        equip_mgr.smelt_special_equip(equipdto)
+                    elif int(equipdto["equiplevel"]) <= special_equip_config["smelt"]["level"]:
+                        equip_mgr.smelt_special_equip(equipdto)
+
         return self.next_half_hour()

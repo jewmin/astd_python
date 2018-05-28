@@ -68,23 +68,21 @@ class PolishTask(BaseTask):
                 equip_mgr.consecrate_special_treasure(specialtreasure)
                 continue
 
-            can_upgrade = True
             if "additionalattribute" in specialtreasure:
                 if isinstance(specialtreasure["additionalattribute"]["attribute"], list):
                     for attribute in specialtreasure["additionalattribute"]["attribute"]:
                         attrs = attribute.split(":")
                         if attrs[1] not in attribute_config:
-                            can_upgrade = False
-                            break
+                            return True
                 else:
                     attrs = specialtreasure["additionalattribute"]["attribute"].split(":")
                     if attrs[1] not in attribute_config:
-                        can_upgrade = False
-            if can_upgrade:
-                upgrade_baowu = list_baowu.pop()
-                if upgrade_baowu is not None:
-                    if not equip_mgr.upgrade_baowu(specialtreasure, upgrade_baowu, True):
                         return True
+
+            upgrade_baowu = list_baowu.pop()
+            if upgrade_baowu is not None:
+                if not equip_mgr.upgrade_baowu(specialtreasure, upgrade_baowu, True):
+                    return True
 
         return False
 

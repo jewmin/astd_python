@@ -2,12 +2,15 @@
 # 装备管理
 from manager.base_mgr import BaseMgr
 from model.reward_info import RewardInfo
+from model.global_func import GlobalFunc
 
 
 class EquipMgr(BaseMgr):
     def __init__(self, time_mgr, service_factory, user, index):
         super(EquipMgr, self).__init__(time_mgr, service_factory, user, index)
         self.m_nMagic = 100
+        self.m_nMoliStone = 0
+        self.m_nTicketNumber = 0
 
     #######################################
     # warChariot begin
@@ -46,7 +49,7 @@ class EquipMgr(BaseMgr):
             self.info(msg)
             return True
         else:
-            self.info("强化战车报错：{}".format(result.m_szError))
+            self.warning("强化战车报错：{}".format(result.m_szError))
             return False
 
     #######################################
@@ -83,12 +86,98 @@ class EquipMgr(BaseMgr):
                 msg += "{} ".format(reward_info)
             self.info(msg)
 
-    def get_upgrade_info(self):
+    def get_crystal(self):
+        url = "/root/equip!getCrystal.action"
+        result = self.get_protocol_mgr().get_xml(url, "水晶石")
+        if result and result.m_bSucceed:
+            dict_info = dict()
+            dict_info["水晶石"] = result.m_objResult["baoshidto"]
+            return dict_info
+
+    def upgrade_crystal(self, baoshidto):
+        url = "/root/equip!upgradeCrystal.action"
+        data = {"storeId": baoshidto["storeid"]}
+        result = self.get_protocol_mgr().post_xml(url, data, "水晶石进阶")
+        if result and result.m_bSucceed:
+            self.info("水晶石lv.{}[{}({})]进阶成功".format(baoshidto["baoshilevel"], baoshidto["goodsname"], baoshidto["generalname"]))
+            return True
+        else:
+            self.warning("水晶石进阶报错：{}".format(result.m_szError))
+            return False
+
+    def get_upgrade_info(self, show=False):
         url = "/root/equip!getUpgradeInfo.action"
-        result = self.get_protocol_mgr().get_xml(url, "装备强化")
+        result = self.get_protocol_mgr().get_xml(url, "套装")
         if result and result.m_bSucceed:
             self.m_nMagic = int(result.m_objResult["magic"])
-            self.info("强化魔力值：{}".format(self.m_nMagic))
+            self.m_nMoliStone = int(result.m_objResult["molistone"])
+            self.m_nTicketNumber = int(result.m_objResult["ticketnumber"])
+            dict_info = dict()
+            dict_info["套装"] = result.m_objResult["playerequipdto"]
+            self.info("魔力值：{}，磨砺石：{}，点券：{}".format(self.m_nMagic, self.m_nMoliStone, GlobalFunc.get_short_readable(self.m_nTicketNumber)))
+            if show:
+                for equipdto in dict_info["套装"]:
+                    power = equipdto["powerstr"].split(";")
+                    self.info("套装[id={} name={} general={} 强攻({}/{}) 强防({}/{})]".format(
+                        equipdto["composite"], equipdto["equipname"], equipdto["generalname"],
+                        power[0], equipdto["attfull"], power[1], equipdto["deffull"]))
+            return dict_info
+
+    def upgrade_monkey_tao(self, equipdto, num=0):
+        url = "/root/equip!upgradeMonkeyTao.action"
+        data = {"composite": equipdto["composite"], "num": num}
+        result = self.get_protocol_mgr().post_xml(url, data, "套装强化")
+        if result and result.m_bSucceed:
+            self.m_nTicketNumber = int(result.m_objResult["changeinfo"]["remaintickets"])
+            equipdto["tickets"] = result.m_objResult["changeinfo"]["tickets"]
+            equipdto["ticketsstatus"] = result.m_objResult["changeinfo"]["ticketsstatus"]
+            equipdto["canupgrade"] = result.m_objResult["changeinfo"]["canupgrade"]
+            if "xuli" in result.m_objResult["changeinfo"]:
+                equipdto["xuli"] = result.m_objResult["changeinfo"]["xuli"]
+            msg = "套装强化，{}倍暴击".format(result.m_objResult["baoji"])
+            if isinstance(result.m_objResult["addinfo"], list):
+                for addinfo in result.m_objResult["addinfo"]:
+                    msg += "，{}+{}".format(addinfo["name"], addinfo["val"])
+            else:
+                msg += "，{}+{}".format(result.m_objResult["addinfo"]["name"], result.m_objResult["addinfo"]["val"])
+            self.info(msg)
+
+    def use_xuli(self, equipdto):
+        url = "/root/equip!useXuli.action"
+        data = {"composite": equipdto["composite"]}
+        result = self.get_protocol_mgr().post_xml(url, data, "套装蓄力")
+        if result and result.m_bSucceed:
+            msg = "套装蓄力"
+            if "addinfo" in result.m_objResult["xuliinfo"]:
+                addinfo = result.m_objResult["xuliinfo"]["addinfo"]
+                msg += "，{}+{}".format(addinfo["name"], addinfo["val"])
+            if "gethighnum" in result.m_objResult["xuliinfo"]:
+                msg += "，高效次数+{}".format(result.m_objResult["xuliinfo"]["gethighnum"])
+            self.info(msg)
+
+    def moli(self):
+        url = "/root/equip!moli.action"
+        data = {"composite": 0, "num": 0}
+        result = self.get_protocol_mgr().post_xml(url, data, "套装磨砺")
+        if result and result.m_bSucceed:
+            pass
+
+    def get_all_special_equip(self):
+        url = "/root/equip!getAllSpecialEquip.action"
+        result = self.get_protocol_mgr().get_xml(url, "专属仓库")
+        if result and result.m_bSucceed:
+            dict_info = dict()
+            dict_info["专属"] = result.m_objResult["equipdto"]
+            return dict_info
+
+    def smelt_special_equip(self, equipdto, is_all=1):
+        url = "/root/equip!smeltSpecialEquip.action"
+        data = {"specialId": equipdto["storeid"], "all": is_all}
+        result = self.get_protocol_mgr().post_xml(url, data, "熔炼专属")
+        if result and result.m_bSucceed:
+            reward_info = RewardInfo()
+            reward_info.handle_info(result.m_objResult["rewardinfo"])
+            self.info("熔炼专属[{}]lv.{}，获得{}".format(equipdto["equipname"], equipdto["equiplevel"], reward_info))
 
     #######################################
     # polish begin
@@ -121,7 +210,7 @@ class EquipMgr(BaseMgr):
             self.info(msg, use_gold)
             return True
         else:
-            self.info("炼化玉佩报错：{}".format(result.m_szError))
+            self.warning("炼化玉佩报错：{}".format(result.m_szError))
             return False
 
     def consecrate_special_treasure(self, special_treasure):
@@ -154,10 +243,13 @@ class EquipMgr(BaseMgr):
             desc = "专属玉佩"
         result = self.get_protocol_mgr().post_xml(url, data, "玉佩升级")
         if result and result.m_bSucceed:
-            self.info("{}升级成功".format(desc))
+            if result.m_objResult.get("upgraderesult", "0") == "1":
+                self.info("{}升级成功，统+{} 勇+{} 智+{}".format(desc, result.m_objResult["succlea"], result.m_objResult["succstr"], result.m_objResult["succint"]))
+            else:
+                self.info("{}升级失败".format(desc))
             return True
         else:
-            self.info("{}升级报错：{}".format(desc, result.m_szError))
+            self.warning("{}升级报错：{}".format(desc, result.m_szError))
             return False
 
     #######################################
@@ -173,3 +265,46 @@ class EquipMgr(BaseMgr):
         result = self.get_protocol_mgr().post_xml(url, data, "熔化")
         if result and result.m_bSucceed:
             self.info("熔化[{}(统+{} 勇+{} 智+{})]，获得{}玉石".format(baowu["name"], baowu["attribute_lea"], baowu["attribute_str"], baowu["attribute_int"], result.m_objResult.get("gainbowlder", "0")))
+
+    #######################################
+    # goods begin
+    #######################################
+    def open_store_house(self):
+        url = "/root/goods!openStorehouse.action"
+        result = self.get_protocol_mgr().get_xml(url, "仓库")
+        if result and result.m_bSucceed:
+            dict_info = dict()
+            dict_info["使用"] = int(result.m_objResult["usesize"])
+            dict_info["总量"] = int(result.m_objResult["storesize"])
+            dict_info["物品"] = result.m_objResult["storehousedto"]
+            return dict_info
+
+    def sell_goods(self, storehousedto):
+        url = "/root/goods!sellGoods.action"
+        if "storeid" in storehousedto:
+            goods_id = storehousedto["storeid"]
+        elif "goodsid" in storehousedto:
+            goods_id = storehousedto["goodsid"]
+        else:
+            goods_id = storehousedto["id"]
+        data = {"goodsId": goods_id, "count": 1}
+        result = self.get_protocol_mgr().post_xml(url, data, "卖出物品")
+        if result and result.m_bSucceed:
+            self.info("卖出物品，获得{}银币".format(result.m_objResult["cost"]))
+
+    def draw(self, storehousedto):
+        url = "/root/goods!draw.action"
+        if "storeid" in storehousedto:
+            goods_id = storehousedto["storeid"]
+        elif "goodsid" in storehousedto:
+            goods_id = storehousedto["goodsid"]
+        else:
+            goods_id = storehousedto["id"]
+        data = {"baoshiLv": 0, "count": 1, "goodsId": goods_id}
+        result = self.get_protocol_mgr().post_xml(url, data, "取出物品")
+        if result and result.m_bSucceed:
+            if "equipname" in storehousedto:
+                name = storehousedto["equipname"]
+            else:
+                name = storehousedto["name"]
+            self.info("从临时仓库拿取物品[{}]".format(name))
