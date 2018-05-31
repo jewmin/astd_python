@@ -29,5 +29,8 @@ class ImposeTask(BaseTask):
                 elif not self.is_finish_task(1) and impose_num > 0:
                     city_mgr.impose(False)
                     return self.immediate()
+                elif not self.is_finish_task(1) and force_impose_cost <= self.get_available_gold():
+                    city_mgr.impose(True, force_impose_cost)
+                    return self.immediate()
 
         return self.next_half_hour()

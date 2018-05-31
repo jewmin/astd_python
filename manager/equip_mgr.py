@@ -41,7 +41,7 @@ class EquipMgr(BaseMgr):
             dict_info = dict()
             dict_info["总进度"] = int(result.m_objResult["total"])
             dict_info["当前进度"] = int(result.m_objResult["upgradeeffectnum"])
-            dict_info["使用铁锤"] = result.m_objResult["chuizi"] == "1"
+            dict_info["使用铁锤"] = result.m_objResult.get("chuizi", "0") == "1"
             dict_info["进度"] = int(result.m_objResult["isbaoji"])
             dict_info["余料"] = int(result.m_objResult["surplus"])
             hammer_tips = "使用铁锤，" if dict_info["使用铁锤"] else ""
@@ -155,13 +155,6 @@ class EquipMgr(BaseMgr):
                 msg += "，高效次数+{}".format(result.m_objResult["xuliinfo"]["gethighnum"])
             self.info(msg)
 
-    def moli(self):
-        url = "/root/equip!moli.action"
-        data = {"composite": 0, "num": 0}
-        result = self.get_protocol_mgr().post_xml(url, data, "套装磨砺")
-        if result and result.m_bSucceed:
-            pass
-
     def get_all_special_equip(self):
         url = "/root/equip!getAllSpecialEquip.action"
         result = self.get_protocol_mgr().get_xml(url, "专属仓库")
@@ -178,6 +171,51 @@ class EquipMgr(BaseMgr):
             reward_info = RewardInfo()
             reward_info.handle_info(result.m_objResult["rewardinfo"])
             self.info("熔炼专属[{}]lv.{}，获得{}".format(equipdto["equipname"], equipdto["equiplevel"], reward_info))
+
+    def get_equip(self):
+        url = "/root/equip!getEquip.action"
+        result = self.get_protocol_mgr().get_xml(url, "武将装备")
+        if result and result.m_bSucceed:
+            dict_info = dict()
+            dict_info["诸葛套装"] = result.m_objResult["general"]
+            return dict_info
+
+    def get_xi_zhuge_info(self, general):
+        url = "/root/equip!getXiZhugeInfo.action"
+        data = {"generalId": general["generalid"]}
+        result = self.get_protocol_mgr().post_xml(url, data, "淬炼详情")
+        if result and result.m_bSucceed:
+            dict_info = dict()
+            dict_info["免费淬炼次数"] = int(result.m_objResult.get("freenum", "0"))
+            dict_info["最大属性"] = int(result.m_objResult["maxattr"])
+            dict_info["当前属性"] = result.m_objResult["curattr"]
+            if isinstance(result.m_objResult["newattr"], dict):
+                dict_info["新属性"] = result.m_objResult["newattr"]
+            return dict_info
+
+    def xi_zhu_ge(self, general):
+        url = "/root/equip!xiZhuge.action"
+        data = {"storeId": general["zhugeid"]}
+        result = self.get_protocol_mgr().post_xml(url, data, "淬炼")
+        if result and result.m_bSucceed:
+            attrs = result.m_objResult["newattr"].split(",")
+            dict_info = dict()
+            dict_info["新属性"] = {"int": attrs[0], "lea": attrs[1], "str": attrs[2]}
+            return dict_info
+
+    def xi_zhu_ge_confirm(self, general, accept):
+        url = "/root/equip!xiZhugeConfirm.action"
+        data = {"storeId": general["zhugeid"], "type": 1 if accept else 2}
+        result = self.get_protocol_mgr().post_xml(url, data, "淬炼确认")
+        if result and result.m_bSucceed:
+            self.info("淬炼成功，替换属性" if accept else "淬炼失败，保持原样")
+
+    def moli(self):
+        url = "/root/equip!moli.action"
+        data = {"composite": 0, "num": 0}
+        result = self.get_protocol_mgr().post_xml(url, data, "套装磨砺")
+        if result and result.m_bSucceed:
+            pass
 
     #######################################
     # polish begin
@@ -244,7 +282,7 @@ class EquipMgr(BaseMgr):
         result = self.get_protocol_mgr().post_xml(url, data, "玉佩升级")
         if result and result.m_bSucceed:
             if result.m_objResult.get("upgraderesult", "0") == "1":
-                self.info("{}升级成功，统+{} 勇+{} 智+{}".format(desc, result.m_objResult["succlea"], result.m_objResult["succstr"], result.m_objResult["succint"]))
+                self.info("{}升级成功，统+{} 勇+{} 智+{}".format(desc, result.m_objResult.get("succlea", "0"), result.m_objResult.get("succstr", "0"), result.m_objResult.get("succint", "0")))
             else:
                 self.info("{}升级失败".format(desc))
             return True
@@ -278,19 +316,6 @@ class EquipMgr(BaseMgr):
             dict_info["总量"] = int(result.m_objResult["storesize"])
             dict_info["物品"] = result.m_objResult["storehousedto"]
             return dict_info
-
-    def sell_goods(self, storehousedto):
-        url = "/root/goods!sellGoods.action"
-        if "storeid" in storehousedto:
-            goods_id = storehousedto["storeid"]
-        elif "goodsid" in storehousedto:
-            goods_id = storehousedto["goodsid"]
-        else:
-            goods_id = storehousedto["id"]
-        data = {"goodsId": goods_id, "count": 1}
-        result = self.get_protocol_mgr().post_xml(url, data, "卖出物品")
-        if result and result.m_bSucceed:
-            self.info("卖出物品，获得{}银币".format(result.m_objResult["cost"]))
 
     def draw(self, storehousedto):
         url = "/root/goods!draw.action"

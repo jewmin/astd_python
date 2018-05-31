@@ -55,6 +55,9 @@ class BaseTask(object):
     def get_available_copper(self):
         return GlobalFunc.get_available("copper", self.m_objUser.m_nCopper)
 
+    def get_available_tickets(self):
+        return GlobalFunc.get_available("tickets", self.m_objUser.m_nTickets)
+
     def is_finish_task(self, task_type):
         task = self.m_objUser.m_dictTasks.get(task_type, None)
         if task is None or task.finishnum >= task.finishline:

@@ -38,7 +38,7 @@ class ActivityType(Enum):
     HasJailEvent = 30
     ShowKfYZ = 31
     ShowKfWD = 32  # 武斗会
-    ShowKfPVP = 33
+    ShowKfPVP = 33  # 英雄帖
     RingEvent = 34  # 新年敲钟
     FeteEvent = 35  # 祭祀活动
     SuperFanPai = 36  # 超级翻牌

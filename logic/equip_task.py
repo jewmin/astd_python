@@ -32,6 +32,37 @@ class EquipTask(BaseTask):
                 if upgrade:
                     return self.immediate()
 
+        zhuge_config = config["equip"]["zhuge"]
+        if zhuge_config["enable"]:
+            dict_info = equip_mgr.get_equip()
+            if dict_info is not None:
+                upgrade = False
+                for general in dict_info["诸葛套装"]:
+                    if general.get("zhugeid", "0") == "0":
+                        continue
+
+                    detail = equip_mgr.get_xi_zhuge_info(general)
+                    if detail is None:
+                        continue
+
+                    if "新属性" in detail:
+                        equip_mgr.xi_zhu_ge_confirm(general, self.check_attr(detail["当前属性"], detail["新属性"]))
+                        upgrade = True
+                        continue
+
+                    if detail["免费淬炼次数"] <= 0:
+                        continue
+
+                    for attr in detail["当前属性"].itervalues():
+                        if int(attr) < detail["最大属性"]:
+                            result = equip_mgr.xi_zhu_ge(general)
+                            if result is not None:
+                                equip_mgr.xi_zhu_ge_confirm(general, self.check_attr(detail["当前属性"], result["新属性"]))
+                            upgrade = True
+
+                if upgrade:
+                    return self.immediate()
+
         goods_config = config["equip"]["goods"]
         if goods_config["enable"]:
             dict_info = equip_mgr.open_store_house()
@@ -63,3 +94,13 @@ class EquipTask(BaseTask):
                     return self.immediate()
 
         return self.next_half_hour()
+
+    @staticmethod
+    def check_attr(old_attrs, new_attrs):
+        old_attr = 0
+        new_attr = 0
+        for value in old_attrs.itervalues():
+            old_attr += int(value)
+        for value in new_attrs.itervalues():
+            new_attr += int(value)
+        return new_attr > old_attr
