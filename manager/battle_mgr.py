@@ -2,7 +2,6 @@
 # 征战管理
 from manager.base_mgr import BaseMgr
 from model.reward_info import RewardInfo
-from model.global_func import GlobalFunc
 
 
 class BattleMgr(BaseMgr):
