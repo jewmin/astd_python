@@ -29,6 +29,7 @@ from logic.polish_task import PolishTask
 from logic.ping_task import PingTask
 from logic.equip_task import EquipTask
 from logic.general_task import GeneralTask
+from logic.battle_task import BattleTask
 
 
 class App(IServer):
@@ -190,3 +191,4 @@ class App(IServer):
         self.m_objTaskMgr.add_task(PingTask())
         self.m_objTaskMgr.add_task(EquipTask())
         self.m_objTaskMgr.add_task(GeneralTask())
+        self.m_objTaskMgr.add_task(BattleTask())

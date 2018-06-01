@@ -33,6 +33,12 @@ class RewardInfo(object):
                     reward.handle_info(v["reward"])
                     reward.init()
                     self.m_listRewards.append(reward)
+            elif isinstance(list_info["reward"], list):
+                for v in list_info["reward"]:
+                    reward = Reward()
+                    reward.handle_info(v)
+                    reward.init()
+                    self.m_listRewards.append(reward)
             else:
                 reward = Reward()
                 reward.handle_info(list_info["reward"])

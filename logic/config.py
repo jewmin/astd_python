@@ -328,4 +328,8 @@ config = {
             },
         },
     },
+    "battle": {  # 征战
+        "enable": True,  # 开启
+        "armyid": 14919,  # 征战NPC
+    },
 }

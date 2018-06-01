@@ -319,13 +319,7 @@ class EquipMgr(BaseMgr):
 
     def draw(self, storehousedto):
         url = "/root/goods!draw.action"
-        if "storeid" in storehousedto:
-            goods_id = storehousedto["storeid"]
-        elif "goodsid" in storehousedto:
-            goods_id = storehousedto["goodsid"]
-        else:
-            goods_id = storehousedto["id"]
-        data = {"baoshiLv": 0, "count": 1, "goodsId": goods_id}
+        data = {"baoshiLv": 0, "count": 1, "goodsId": storehousedto["id"]}
         result = self.get_protocol_mgr().post_xml(url, data, "取出物品")
         if result and result.m_bSucceed:
             if "equipname" in storehousedto:

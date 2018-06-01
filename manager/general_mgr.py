@@ -111,21 +111,21 @@ class GeneralMgr(BaseMgr):
         data = {"generalId": general["generalid"]}
         result = self.get_protocol_mgr().post_xml(url, data, "转生成大将")
         if result and result.m_bSucceed:
-            pass
+            self.info("武将[{}]转生成大将".format(general["name"]))
 
     def big_general_change(self, general):
         url = "/root/general!bigGeneralChange.action"
         data = {"generalId": general["generalid"]}
         result = self.get_protocol_mgr().post_xml(url, data, "晋升大将")
         if result and result.m_bSucceed:
-            pass
+            self.info("大将[{}]晋升为大将军".format(general["name"]))
 
     def new_train_big_general(self, general):
         url = "/root/general!newTrainBigGeneral.action"
         data = {"generalId": general["generalid"]}
         result = self.get_protocol_mgr().post_xml(url, data, "突破大将")
         if result and result.m_bSucceed:
-            pass
+            self.info("对大将[{}]进行突破".format(general["name"]))
 
     def use_exp_book(self, general):
         url = "/root/general!useExpBook.action"
