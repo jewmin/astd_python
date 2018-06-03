@@ -21,6 +21,7 @@ config = {
         "auto_end_bao_shi_pick": True,  # 自动采集宝石
         "end_pick_proportion": 0.5,  # 采集比例>=N
         "auto_tech_research": True,  # 自动技术研究
+        "jail_baoshi": True,  # 监狱劳作优化宝石
     },
     "fete": {
         "auto_fete": True,  # 自动祭祀
@@ -198,6 +199,7 @@ config = {
                 "gold": 0,  # 金币<=N
                 "copper": 3000000,  # 银币<=N
                 "active": 60,  # 行动力<=N
+                "max_reserve": 200,  # 当通商完成还有很多行动力时，保留行动力<=N
             },
         },
     },
@@ -210,7 +212,29 @@ config = {
             "enable": True,  # 开启
             "proportion": 0.125,  # 攻击令比例<=N
         },
-        "tu_city_reward": True,  # 领取屠城嘉奖
+        "tu_city": {  # 屠城
+            "enable": True,  # 开启
+        },
+        "score": {  # 战绩
+            "enable": True,  # 开启
+        },
+        "fengdi": {  # 封地
+            "enable": True,  # 开启
+        },
+        "nation_task": {  # 攻坚战
+            "enable": True,  # 开启
+        },
+        "city_event": {  # 悬赏
+            "enable": True,  # 开启
+            "star": 5,  # 最大星级<=N
+        },
+        "use_token": {  # 使用个人令
+            "enable": True,  # 开启
+            "list": ["1", "4", "8"],  # 使用类型
+        },
+    },
+    "dinner": {  # 宴会
+        "enable": True,  # 开启
     },
     "equip": {  # 强化
         "war_chariot": {  # 战车

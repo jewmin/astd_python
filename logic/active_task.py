@@ -149,6 +149,26 @@ class ActiveTask(BaseTask):
                                 self.handle_event(info)
                                 return self.immediate()
 
+                    if self.m_objUser.m_nCurActive > active_config["limit"]["max_reserve"]:
+                        for trader in info["商人们"]:
+                            trader_active = int(trader["active"])
+                            if trader_active > self.m_objUser.m_nCurActive:
+                                continue
+                            cost = trader["cost"].split(":")
+                            real_cost = int(cost[1])
+                            if cost[0] == "gold":
+                                if real_cost <= active_config["limit"]["gold"] and real_cost <= self.get_available_gold():
+                                    info = active_mgr.western_trade(trader["id"], {"金币": real_cost, "行动力": trader_active})
+                                    self.handle_event(info)
+                                    return self.immediate()
+                            elif cost[0] == "copper":
+                                if real_cost <= active_config["limit"]["copper"]:
+                                    if real_cost > self.get_available_copper():
+                                        misc_mgr.get_tickets_reward_by_name("银币", 10)
+                                    info = active_mgr.western_trade(trader, {"银币": GlobalFunc.get_short_readable(real_cost), "行动力": trader_active})
+                                    self.handle_event(info)
+                                    return self.immediate()
+
         return self.next_half_hour()
 
     def handle_event(self, info):

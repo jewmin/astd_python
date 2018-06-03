@@ -7,6 +7,8 @@ from manager.active_mgr import ActiveMgr
 from manager.equip_mgr import EquipMgr
 from manager.general_mgr import GeneralMgr
 from manager.battle_mgr import BattleMgr
+from manager.activity_mgr import ActivityMgr
+from manager.world_mgr import WorldMgr
 
 
 class ServiceFactory(object):
@@ -20,6 +22,8 @@ class ServiceFactory(object):
         self.m_objEquipMgr = EquipMgr(self.m_objTimeMgr, self, user, index)
         self.m_objGeneralMgr = GeneralMgr(self.m_objTimeMgr, self, user, index)
         self.m_objBattleMgr = BattleMgr(self.m_objTimeMgr, self, user, index)
+        self.m_objActivityMgr = ActivityMgr(self.m_objTimeMgr, self, user, index)
+        self.m_objWorldMgr = WorldMgr(self.m_objTimeMgr, self, user, index)
 
     def set_protocol_mgr(self, protocol_mgr):
         self.m_objProtocolMgr = protocol_mgr
@@ -47,3 +51,9 @@ class ServiceFactory(object):
 
     def get_battle_mgr(self):
         return self.m_objBattleMgr
+
+    def get_activity_mgr(self):
+        return self.m_objActivityMgr
+
+    def get_world_mgr(self):
+        return self.m_objWorldMgr

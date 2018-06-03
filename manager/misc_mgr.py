@@ -475,3 +475,32 @@ class MiscMgr(BaseMgr):
             token_num = int(result.m_objResult.get("tokennum", "0"))
             cd = int(result.m_objResult.get("cd", "0"))
             self.info("领取每日军令，还有{}个，领取CD：{}".format(max_token_num - token_num, TimeMgr.get_datetime_string(cd)))
+
+    #######################################
+    # secretary begin
+    #######################################
+    def get_all_dinner(self):
+        url = "/root/dinner!getAllDinner.action"
+        result = self.get_protocol_mgr().get_xml(url, "宴会")
+        if result and result.m_bSucceed:
+            info = dict()
+            info["宴会期间"] = result.m_objResult.get("indinnertime", "0") == "1"
+            info["已加入队伍"] = result.m_objResult["teamstate"] == "1"
+            info["剩余宴会次数"] = int(result.m_objResult["normaldinner"]["num"])
+            if "team" in result.m_objResult:
+                team = result.m_objResult["team"]
+                if isinstance(team, list):
+                    for t in team:
+                        if int(t["num"]) < int(t["maxnum"]):
+                            info["宴会队伍"] = t
+                            break
+                elif int(team["num"]) < int(team["maxnum"]):
+                    info["宴会队伍"] = team
+            return info
+
+    def join_dinner(self, team):
+        url = "/root/dinner!joinDinner.action"
+        data = {"teamId": team["teamid"]}
+        result = self.get_protocol_mgr().post_xml(url, data, "加入宴会队伍")
+        if result and result.m_bSucceed:
+            self.info("加入[{}]宴会队伍".format(team["creator"]))

@@ -233,7 +233,7 @@ class CityMgr(BaseMgr):
                 if v > 0:
                     msg += "{}+{}，".format(k, v)
                 elif v < 0:
-                    msg += "{}-{}，".format(k, v)
+                    msg += "{}{}，".format(k, v)
             self.info(msg, dict_reward["金币"] > 0)
 
     def impose(self, force, cost=0):
@@ -275,7 +275,7 @@ class CityMgr(BaseMgr):
             msg += "，获得{}宝石".format(result.m_objResult["baoshi"])
             self.info(msg)
 
-    def jail(self, available_gold):
+    def jail(self, available_gold, get_baoshi):
         url = "/root/jail.action"
         result = self.get_protocol_mgr().get_xml(url, "监狱")
         if result and result.m_bSucceed:
@@ -283,6 +283,12 @@ class CityMgr(BaseMgr):
                 per_gold = int(result.m_objResult["pergold"])
                 if per_gold <= available_gold:
                     self.tech_research()
+            for jail_work in result.m_objResult["jailwork"]:
+                if jail_work["canget"] != "0":
+                    jail_id = int(jail_work["id"]) - 1
+                    self.recv_jail_work(1, jail_id)
+                    if get_baoshi:
+                        self.recv_jail_work(0, jail_id)
 
     def tech_research(self):
         url = "/root/jail!techResearch.action"
@@ -290,3 +296,23 @@ class CityMgr(BaseMgr):
         if result and result.m_bSucceed:
             remain_time = int(result.m_objResult["remaintime"])
             self.info("监狱技术研究，剩余时间：{}".format(TimeMgr.get_datetime_string(remain_time)))
+
+    def recv_jail_work(self, jail_type, jail_id):
+        url = "/root/jail!recvJailWork.action"
+        data = {"type": jail_type, "weizhi": jail_id}
+        result = self.get_protocol_mgr().post_xml(url, data, "监狱劳作")
+        if result and result.m_bSucceed:
+            msg = "监狱劳作"
+            if "baoshi" in result.m_objResult:
+                msg += "，获得{}宝石".format(result.m_objResult["baoshi"])
+            elif "bintie" in result.m_objResult:
+                msg += "，获得{}镔铁".format(result.m_objResult["bintie"])
+            self.info(msg)
+
+    def escape(self):
+        url = "/root/jail!escape.action"
+        result = self.get_protocol_mgr().get_xml(url, "从监狱逃跑")
+        if result and result.m_bSucceed:
+            cd = int(result.m_objResult["cd"])
+            self.info("从监狱逃跑，冷却时间：{}秒".format(cd))
+            return cd * 1000

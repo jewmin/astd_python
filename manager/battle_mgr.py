@@ -40,3 +40,17 @@ class BattleMgr(BaseMgr):
             reward_info = RewardInfo()
             reward_info.handle_info(result.m_objResult["rewardinfo"])
             self.info("领取征战事件奖励，获得{}".format(reward_info))
+
+    def join_team(self, team_id):
+        url = "/root/multiBattle!joinTeam.action"
+        data = {"teamId": team_id}
+        result = self.get_protocol_mgr().post_xml(url, data, "加入征战军团")
+        if result and result.m_bSucceed:
+            pass
+
+    def get_team_info(self, armies_id):
+        url = "/root/multiBattle!getTeamInfo.action"
+        data = {"armiesId": armies_id}
+        result = self.get_protocol_mgr().post_xml(url, data, "征战军团")
+        if result and result.m_bSucceed:
+            pass

@@ -41,6 +41,10 @@ class PolishTask(BaseTask):
             while len(dict_info["0属性的专属玉佩"]) > specialtreasure_config["reverse"]:
                 equip_mgr.melt(dict_info["0属性的专属玉佩"].pop(), True)
 
+            for specialtreasure in dict_info["装备的家传玉佩"]:
+                if not self.upgrade_specialtreasure(specialtreasure, dict_info["日月光华"], specialtreasure_config["attribute"]):
+                    break
+
             for specialtreasure in dict_info["专属玉佩"]:
                 if not self.upgrade_specialtreasure(specialtreasure, dict_info["日月光华"], specialtreasure_config["attribute"]):
                     break
@@ -66,6 +70,10 @@ class PolishTask(BaseTask):
         while len(list_baowu) > 0:
             if specialtreasure.get("canconsecrate", "0") == "1":
                 equip_mgr.consecrate_special_treasure(specialtreasure)
+                continue
+
+            if specialtreasure.get("canevolve", "0") == "1":
+                equip_mgr.evolve_special_treasure(specialtreasure)
                 continue
 
             if "additionalattribute" in specialtreasure:

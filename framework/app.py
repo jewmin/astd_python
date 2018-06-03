@@ -30,6 +30,9 @@ from logic.ping_task import PingTask
 from logic.equip_task import EquipTask
 from logic.general_task import GeneralTask
 from logic.battle_task import BattleTask
+from logic.world_task import WorldTask
+from logic.dinner_task import DinnerTask
+from logic.activity import *
 
 
 class App(IServer):
@@ -156,6 +159,7 @@ class App(IServer):
         if self.m_objServiceFactory.get_misc_mgr().get_player_info_by_user_id(self.m_objAccount.m_szRoleName):
             self.init_logging()
             self.build_services()
+            self.build_activity()
             self.m_objTaskMgr.set_variables(self.m_objServiceFactory, self.m_objProtocolMgr, self.m_objUser, self)
             self.m_objTaskMgr.init()
             self.init_completed()
@@ -192,3 +196,8 @@ class App(IServer):
         self.m_objTaskMgr.add_task(EquipTask())
         self.m_objTaskMgr.add_task(GeneralTask())
         self.m_objTaskMgr.add_task(BattleTask())
+        self.m_objTaskMgr.add_task(WorldTask())
+        self.m_objTaskMgr.add_task(DinnerTask())
+
+    def build_activity(self):
+        self.m_objTaskMgr.add_task(kfrank.KFRank())

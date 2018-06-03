@@ -45,3 +45,16 @@ class BaseMgr(object):
                 return 1
             elif effect2.find(v) >= 0:
                 return 2
+
+    @staticmethod
+    def get_formation_by_name(formation):
+        formation_tuple = ("不变阵", "鱼鳞阵", "长蛇阵", "锋矢阵", "偃月阵", "锥形阵", "八卦阵", "七星阵", "雁行阵")
+        for id, value in enumerate(formation_tuple):
+            if formation == value:
+                return id
+        return 0
+
+    @staticmethod
+    def get_formation_by_id(formation_id):
+        formation_tuple = ("不变阵", "鱼鳞阵", "长蛇阵", "锋矢阵", "偃月阵", "锥形阵", "八卦阵", "七星阵", "雁行阵")
+        return formation_tuple[formation_id]

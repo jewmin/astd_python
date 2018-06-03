@@ -134,6 +134,28 @@ class GeneralMgr(BaseMgr):
         if result and result.m_bSucceed:
             self.info("使用经验书突飞大将[{}]".format(general["name"]))
 
+    def formation(self):
+        url = "/root/general!formation.action"
+        result = self.get_protocol_mgr().get_xml(url, "阵型")
+        if result and result.m_bSucceed:
+            formation_id = int(result.m_objResult["formation"]["formationid"])
+            if formation_id > 0:
+                formation_id /= 20
+                return self.get_formation_by_id(formation_id)
+        return self.get_formation_by_id(0)
+
+    def save_default_formation(self, formation):
+        formation_id = self.get_formation_by_name(formation)
+        if formation_id > 0:
+            formation_id *= 20
+            url = "/root/general!saveDefaultFormation.action"
+            data = {"formationId": formation_id}
+            result = self.get_protocol_mgr().post_xml(url, data, "设置默认阵型")
+            if result and result.m_bSucceed:
+                self.info("设置默认阵型为{}".format(formation))
+            else:
+                self.info(result.m_szError)
+
     #######################################
     # tech begin
     #######################################

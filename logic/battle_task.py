@@ -18,6 +18,7 @@ class BattleTask(BaseTask):
                 while info["免费强攻令"] > 0:
                     battle_mgr.battle_army(config["battle"]["armyid"], True)
                     info["免费强攻令"] -= 1
+                return self.immediate()
 
             state = info["征战事件"].get("state", "0")
             if state == "1":
@@ -25,7 +26,9 @@ class BattleTask(BaseTask):
                 while process[0] < process[1]:
                     battle_mgr.do_battle_event()
                     process[0] += 1
+                return self.immediate()
             elif state == "2":
                 battle_mgr.recv_battle_event_reward()
+                return self.immediate()
 
         return self.next_half_hour()

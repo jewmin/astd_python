@@ -21,6 +21,8 @@ class ActivityMgr(BaseMgr):
             info["任务"] = result.m_objResult["message"]["taskinfo"]
             info["对战状态"] = result.m_objResult["message"]["status"]
             info["状态"] = result.m_objResult["message"]["globalstate"]
+            info["准备状态"] = result.m_objResult["message"].get("canready", "0") == "1"
+            info["下次战斗冷却时间"] = int(result.m_objResult["message"].get("nextbattlecd", "0"))
             for player_info in result.m_objResult["message"]["selfrank"]["playerinfo"]:
                 if player_info.get("self", "0") == "1":
                     info["排名"] = int(player_info["rank"])
@@ -52,21 +54,27 @@ class ActivityMgr(BaseMgr):
         if result and result.m_bSucceed:
             task_info = result.m_objResult["message"]["taskinfo"]
             self.info("刷新对战任务，新任务[{} - {}({}宝箱)]".format(task_info["name"], task_info["intro"], task_info["reward"]))
+            return task_info
 
     def open_box(self):
         url = "/root/kfrank!openBox.action"
         result = self.get_protocol_mgr().get_xml(url, "打开对战宝箱")
         if result and result.m_bSucceed:
-            pass
+            msg = "打开对战宝箱，获得"
+            if "tickets" in result.m_objResult["message"]:
+                msg += "{}点券 ".format(result.m_objResult["message"]["tickets"]["num"])
+            if "rewardgeneral" in result.m_objResult["message"]:
+                msg += "{}大将令[{}] ".format(result.m_objResult["message"]["rewardgeneral"]["num"], result.m_objResult["message"]["rewardgeneral"]["name"])
+            self.info(msg)
 
     def recv_task_reward(self):
         url = "/root/kfrank!recvTaskReward.action"
         result = self.get_protocol_mgr().get_xml(url, "领取对战任务奖励")
         if result and result.m_bSucceed:
-            pass
+            self.info("领取对战任务奖励，获得{}宝箱".format(result.m_objResult["message"]["boxnum"]))
 
     def recv_last_reward(self):
         url = "/root/kfrank!recvLastReward.action"
         result = self.get_protocol_mgr().get_xml(url, "领取对战上届排名奖励")
         if result and result.m_bSucceed:
-            pass
+            self.info("领取对战上届排名奖励，获得{}宝箱".format(result.m_objResult["message"]["boxreward"]))

@@ -46,4 +46,3 @@ class ActivityType(Enum):
     GiftEventBaoShi4 = 38  # 宝石翻牌
     YuanDanQiFu = 39  # 酒神觉醒
     KfWDEventReward = 40  # 武斗庆典
-
