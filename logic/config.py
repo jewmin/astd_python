@@ -232,6 +232,11 @@ config = {
             "enable": True,  # 开启
             "list": ["1", "4", "8"],  # 使用类型
         },
+        "treasure": {  # 国家宝箱
+            "enable": True,  # 开启
+            "reserve": 100,  # 保留宝箱<=N
+            "proportion": 0.125,  # 开启宝箱条件，攻击令比例<=N
+        },
     },
     "dinner": {  # 宴会
         "enable": True,  # 开启

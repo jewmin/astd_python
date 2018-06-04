@@ -486,7 +486,10 @@ class MiscMgr(BaseMgr):
             info = dict()
             info["宴会期间"] = result.m_objResult.get("indinnertime", "0") == "1"
             info["已加入队伍"] = result.m_objResult["teamstate"] == "1"
-            info["剩余宴会次数"] = int(result.m_objResult["normaldinner"]["num"])
+            if "normaldinner" in result.m_objResult:
+                info["剩余宴会次数"] = int(result.m_objResult["normaldinner"]["num"])
+            else:
+                info["剩余宴会次数"] = 0
             if "team" in result.m_objResult:
                 team = result.m_objResult["team"]
                 if isinstance(team, list):
@@ -504,3 +507,5 @@ class MiscMgr(BaseMgr):
         result = self.get_protocol_mgr().post_xml(url, data, "加入宴会队伍")
         if result and result.m_bSucceed:
             self.info("加入[{}]宴会队伍".format(team["creator"]))
+        else:
+            self.warning(result.m_szError)

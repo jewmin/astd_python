@@ -259,6 +259,18 @@ class WorldMgr(BaseMgr):
             reward_info.handle_info(result.m_objResult["rewardinfo"])
             self.info("领取悬赏奖励，获得{}".format(reward_info))
 
+    def get_new_area_treasure_info(self):
+        url = "/root/world!getNewAreaTreasureInfo.action"
+        result = self.get_protocol_mgr().get_xml(url, "国家宝箱")
+        if result and result.m_bSucceed:
+            pass
+
+    def draw_5_new_area_treasure(self):
+        url = "/root/world!draw5NewAreaTreasure.action"
+        result = self.get_protocol_mgr().get_xml(url, "连开5个国家宝箱")
+        if result and result.m_bSucceed:
+            pass
+
     def get_all_city(self, area_id, scope_id):
         url = "/root/area!getAllCity.action"
         data = {"areaId": area_id, "scopeId": scope_id}

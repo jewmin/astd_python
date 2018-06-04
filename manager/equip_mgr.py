@@ -282,6 +282,8 @@ class EquipMgr(BaseMgr):
         if is_special_treasure:
             data["type"] = 2
             desc = "专属玉佩"
+        if "generalname" in special_treasure:
+            desc += "[{}]".format(special_treasure["generalname"])
         result = self.get_protocol_mgr().post_xml(url, data, "玉佩升级")
         if result and result.m_bSucceed:
             if result.m_objResult.get("upgraderesult", "0") == "1":

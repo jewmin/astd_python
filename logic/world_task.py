@@ -18,6 +18,11 @@ class WorldTask(BaseTask):
         if apply_att_token_config["enable"] and float(self.m_objUser.m_nAttToken) / float(self.m_objUser.m_nMaxAttToken) <= apply_att_token_config["proportion"]:
             world_mgr.get_transfer_info()
 
+        # 国家宝箱
+        treasure_config = config["world"]["treasure"]
+        if treasure_config["enable"] and float(self.m_objUser.m_nAttToken) / float(self.m_objUser.m_nMaxAttToken) <= treasure_config["proportion"]:
+            world_mgr.get_new_area_treasure_info()
+
         # 屠城嘉奖
         tu_city_config = config["world"]["tu_city"]
         if tu_city_config["enable"]:
@@ -46,6 +51,18 @@ class WorldTask(BaseTask):
             if world_mgr.m_nNationTaskStatus == 3:
                 world_mgr.get_nation_task_new_reward()
 
+        # 悬赏
+        city_event_config = config["world"]["city_event"]
+        if city_event_config["enable"]:
+            world_mgr.get_new_city_event_info()
+            # 悬赏星数奖励
+            for pos, star_reward in enumerate(world_mgr.m_dictTarget["悬赏星数奖励"], 1):
+                if star_reward["state"] == "1":
+                    world_mgr.recv_new_city_event_star_reward(pos)
+            # 悬赏任务奖励
+            if world_mgr.m_dictTarget["悬赏已完成"] and world_mgr.m_dictTarget["悬赏剩余时间"] == 0:
+                world_mgr.deliver_new_city_event()
+
         # 逃跑
         if self.m_objUser.m_nArrestState == 100:
             cd = self.m_objServiceFactory.get_city_mgr().escape()
@@ -61,12 +78,6 @@ class WorldTask(BaseTask):
             # 封地奖励
             if world_mgr.m_dictFengDi["完成"]:
                 world_mgr.recv_fengdi_reward()
-            # 封地生产
-            if world_mgr.m_dictFengDi["剩余封地生产次数"] > 0 and len(world_mgr.m_setFengDi) > 0:
-                for area in world_mgr.m_setFengDi:
-                    if area["areaid"] == world_mgr.m_nSelfAreaId:
-                        world_mgr.generate_big_g(area)
-                        break
 
         # 城防恢复
         if world_mgr.m_nCityHpRecoverCd > 0:
@@ -84,26 +95,33 @@ class WorldTask(BaseTask):
             world_mgr.look_area_city(world_mgr.m_dictAreas[world_mgr.m_nSpyAreaId])
 
         # 悬赏
-        city_event_config = config["world"]["city_event"]
-        if city_event_config["enable"]:
-            # 悬赏星数奖励
-            world_mgr.get_new_city_event_info()
-            for pos, star_reward in enumerate(world_mgr.m_dictTarget["悬赏星数奖励"], 1):
-                if star_reward["state"] == "1":
-                    world_mgr.recv_new_city_event_star_reward(pos)
+        # city_event_config = config["world"]["city_event"]
+        # if city_event_config["enable"]:
+        #     world_mgr.get_new_city_event_info()
+        #     # 悬赏星数奖励
+        #     for pos, star_reward in enumerate(world_mgr.m_dictTarget["悬赏星数奖励"], 1):
+        #         if star_reward["state"] == "1":
+        #             world_mgr.recv_new_city_event_star_reward(pos)
+        #
+        #     # 悬赏目标
+        #     if world_mgr.m_dictTarget["悬赏目标"] != 0:
+        #         return self.attack_city_event_player(world_mgr.m_dictTarget["悬赏目标城池"], world_mgr.m_dictTarget["悬赏目标城区"], world_mgr.m_dictTarget["悬赏目标"])
+        #     elif world_mgr.m_dictTarget["悬赏已完成"]:
+        #         if world_mgr.m_dictTarget["悬赏剩余时间"] == 0:
+        #             world_mgr.deliver_new_city_event()
+        #     elif world_mgr.m_dictTarget["悬赏剩余次数"] > 0 and len(world_mgr.m_dictTarget["悬赏任务列表"]) > 0:
+        #         for task in world_mgr.m_dictTarget["悬赏任务列表"]:
+        #             if task["星级"] <= city_event_config["star"]:
+        #                 world_mgr.accept_new_city_event(task)
+        #                 break
+        #         return self.immediate()
 
-            # 悬赏目标
-            if world_mgr.m_dictTarget["悬赏目标"] != 0:
-                return self.attack_city_event_player(world_mgr.m_dictTarget["悬赏目标城池"], world_mgr.m_dictTarget["悬赏目标城区"], world_mgr.m_dictTarget["悬赏目标"])
-            elif world_mgr.m_dictTarget["悬赏已完成"]:
-                if world_mgr.m_dictTarget["悬赏剩余时间"] == 0:
-                    world_mgr.deliver_new_city_event()
-            elif world_mgr.m_dictTarget["悬赏剩余次数"] > 0 and len(world_mgr.m_dictTarget["悬赏任务列表"]) > 0:
-                for task in world_mgr.m_dictTarget["悬赏任务列表"]:
-                    if task["星级"] <= city_event_config["star"]:
-                        world_mgr.accept_new_city_event(task)
-                        break
-                return self.immediate()
+        # # 封地生产
+        # if world_mgr.m_dictFengDi["剩余封地生产次数"] > 0 and len(world_mgr.m_setFengDi) > 0:
+        #     for area in world_mgr.m_setFengDi:
+        #         if area["areaid"] == world_mgr.m_nSelfAreaId:
+        #             world_mgr.generate_big_g(area)
+        #             break
 
         return self.next_half_hour()
 
