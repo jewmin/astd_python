@@ -264,7 +264,7 @@ class EquipMgr(BaseMgr):
                 msg += "，激活属性"
                 special_treasure["additionalattribute"] = {"attribute": list()}
                 for attribute in result.m_objResult["additionalattribute"]:
-                    special_treasure["additionalattribute"]["attribute"].append(":".join(attribute["attribute"], attribute["name"], attribute["lv"], attribute["value"]))
+                    special_treasure["additionalattribute"]["attribute"].append(":".join([attribute["attribute"], attribute["name"], attribute["lv"], attribute["value"]]))
                     msg += "，{}".format(attribute["name"])
             self.info(msg)
 

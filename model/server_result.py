@@ -16,6 +16,9 @@ class ServerResult(object):
         if result is not None and result != "":
             if result.startswith("code:"):
                 self.m_nHttpCode = int(result.replace("code:", ""))
+            elif result.startswith("E"):
+                self.m_nHttpCode = 200
+                self.m_szError = result
             else:
                 self.m_nHttpCode = 200
                 try:
