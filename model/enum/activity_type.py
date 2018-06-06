@@ -16,7 +16,7 @@ class ActivityType(Enum):
     YueBingEvent = 8
     BoatEvent = 9
     BuffEvent = 10
-    CuiLianEvent = 11  #
+    CuiLianEvent = 11  # 淬炼大放送
     PayHongBaoEvent = 12
     BGEvent = 13  # 大宴群雄
     QingMingEvent = 14  # 群雄煮酒

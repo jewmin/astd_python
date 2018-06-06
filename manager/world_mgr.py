@@ -2,13 +2,20 @@
 # 世界管理
 from manager.base_mgr import BaseMgr
 from model.reward_info import RewardInfo
+from model.area_a_star import AreaAStar
 
 
 class WorldMgr(BaseMgr):
     def __init__(self, time_mgr, service_factory, user, index):
         super(WorldMgr, self).__init__(time_mgr, service_factory, user, index)
-        self.m_dictAreas = dict()  # 城池
-        self.m_setFengDi = set()  # 封地集合
+        self.m_dictId2Areas = dict()  # id映射城池
+        self.m_dictName2Areas = dict()  # 名称映射城池
+        self.m_dictXY2Areas = [[None, None, None, None, None, None], [None, None, None, None, None, None], [None, None, None, None, None, None], [None, None, None, None, None, None], [None, None, None, None, None, None], [None, None, None, None, None, None]]
+        self.m_MovableMap = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]  # 地图
+        self.m_nWidth = len(self.m_MovableMap[0])
+        self.m_nHeight = len(self.m_MovableMap)
+        self.m_AStar = AreaAStar(self.m_MovableMap)
+        self.m_dictFengDiAreas = dict()  # 封地城池
         self.m_dictFengDi = dict()  # 封地
         self.m_dictDaoJu = dict()  # 道具
         self.m_listTokens = list()  # 个人令 -1:未解锁,0:已使用,1:建造令,2:破坏令,3:,4:鼓舞令,5:诽谤令,6:,7:窃取令,8:战绩令,9:横扫令
@@ -24,8 +31,8 @@ class WorldMgr(BaseMgr):
         self.m_bGetLast = False  # 领没领上轮排名奖励
         self.m_nSelfAreaId = 0  # 本人所在城池
         self.m_nSpyAreaId = 0  # 间谍所在城池
-        self.m_nNationTaskAreaId = 0  # 攻坚战集结城池
-        self.m_nNationTaskStatus = 0  # 攻坚战状态 3:完成
+        self.m_szNationTaskAreaName = ""  # 攻坚战集结城池
+        self.m_nNationTaskStatus = 0  # 攻坚战状态 1:集结 3:完成
 
     def set_feng_di(self, feng_di_info):
         self.m_dictFengDi.clear()
@@ -33,6 +40,7 @@ class WorldMgr(BaseMgr):
         self.m_dictFengDi["免费借兵次数"] = int(feng_di_info["freejiebinnum"])
         self.m_dictFengDi["金币借兵消耗"] = int(feng_di_info["jiebincost"])
         self.m_dictFengDi["完成"] = feng_di_info.get("finish", "0") == "1"
+        self.m_dictFengDi["生产时间"] = int(feng_di_info.get("nextcd", "0"))
 
     def set_dao_ju(self, dao_ju_info):
         self.m_dictDaoJu.clear()
@@ -50,16 +58,19 @@ class WorldMgr(BaseMgr):
         if result and result.m_bSucceed:
             self.set_feng_di(result.m_objResult["fengdi"])
             self.set_dao_ju(result.m_objResult["daoju"])
-            self.m_nTreasureNum = int(result.m_objResult["treasurenum"])
             self.m_nCityHpRecoverCd = int(result.m_objResult["cityhprecovercd"])
             self.m_nFreeClearMoveTime = int(float(result.m_objResult["freeclearmovetime"]))
             self.m_nTransferCd = int(result.m_objResult["tranfercd"])
             self.m_dictTarget["悬赏目标"] = int(result.m_objResult.get("targetid", "0"))
             self.m_dictTarget["悬赏目标城池"] = int(result.m_objResult.get("targetareaid", "0"))
             self.m_dictTarget["悬赏目标城区"] = int(result.m_objResult.get("targetscopeid", "0"))
-            self.m_setFengDi.clear()
-            self.m_dictAreas.clear()
+            ach_free = result.m_objResult.get("achfree", "0") == "1"
+            self.m_dictFengDiAreas.clear()
+            self.m_dictId2Areas.clear()
+            self.m_dictName2Areas.clear()
             for area in result.m_objResult["newarea"]:
+                coordinate = map(int, area["coordinate"].split(","))
+                y, x = coordinate[0] - 1, coordinate[1] - 1
                 if "areaid" in area:
                     area["areaid"] = int(area["areaid"])
                     area["nation"] = int(area["nation"])
@@ -68,20 +79,36 @@ class WorldMgr(BaseMgr):
                         self.m_nSelfAreaId = area["areaid"]
                     if area.get("ziyuan", "0") == "100":
                         self.m_nSpyAreaId = area["areaid"]
-                    if area.get("fengdiflag", "0") == "1" and area["nation"] == self.m_objUser.m_nNation:
-                        self.m_setFengDi.add(area)
-                    self.m_dictAreas[area["areaid"]] = area
+                    if area.get("fengdiflag", "") != "" and area["nation"] == self.m_objUser.m_nNation:
+                        self.m_dictFengDiAreas[area["areaid"]] = area
+                    # 设置地图障碍
+                    if "tucitycd" in area and area["tucitynation"] != self.m_objUser.m_nNation:  # 屠城
+                        self.m_MovableMap[y][x] = 0
+                    elif ach_free:  # 穿越
+                        self.m_MovableMap[y][x] = 1
+                    elif area["nation"] != self.m_objUser.m_nNation:  # 敌国
+                        self.m_MovableMap[y][x] = 0
+                    else:
+                        self.m_MovableMap[y][x] = 1
+                    self.m_dictId2Areas[area["areaid"]] = area
+                    self.m_dictName2Areas[area["areaname"]] = area
+                    self.m_dictXY2Areas[y][x] = area
+                else:
+                    self.m_MovableMap[y][x] = 0
+            self.m_AStar.set_map(self.m_MovableMap)
 
-    def look_area_city(self, area):
-        url = "/root/world!lookAreaCity.action"
-        data = {"areaId": area["areaid"]}
-        result = self.get_protocol_mgr().post_xml(url, data, "城池")
-        if result and result.m_bSucceed:
-            spy_num = int(result.m_objResult["area"].get("spynum", "0"))
-            if spy_num > 0:
-                self.info("搜索间谍，找到{}个间谍".format(spy_num))
-                for i in xrange(area["scopecount"]):
-                    pass
+    def get_neighbors_area(self, area_id, include_me=False, exclude=None):
+        neighbors_area_list = []
+        area = self.m_dictId2Areas[area_id]
+        if include_me:
+            neighbors_area_list.append(area)
+        coordinate = map(int, area["coordinate"].split(","))
+        y, x = coordinate[0] - 1, coordinate[1] - 1
+        for ny, nx in [(y, x - 1), (y, x + 1), (y - 1, x), (y + 1, x)]:
+            if 0 <= nx < self.m_nWidth and 0 <= ny < self.m_nHeight and self.m_dictXY2Areas[ny][nx] is not None:
+                if exclude is None or self.m_dictXY2Areas[ny][nx]["areaname"] not in exclude:
+                    neighbors_area_list.append(self.m_dictXY2Areas[ny][nx])
+        return neighbors_area_list
 
     def get_transfer_info(self):
         url = "/root/world!getTranferInfo.action"
@@ -96,6 +123,19 @@ class WorldMgr(BaseMgr):
         if result and result.m_bSucceed:
             self.info("领取{}攻击令".format(result.m_objResult["token"]))
 
+    def transfer_in_new_area(self, area):
+        url = "/root/world!transferInNewArea.action"
+        data = {"areaId": area["areaid"]}
+        result = self.get_protocol_mgr().post_xml(url, data, "移动")
+        if result and result.m_bSucceed:
+            self.info("移动到城池[{}]".format(area["areaname"]))
+
+    def cd_move_recover_confirm(self):
+        url = "/root/world!cdMoveRecoverConfirm.action"
+        result = self.get_protocol_mgr().get_xml(url, "清除移动冷却时间")
+        if result and result.m_bSucceed:
+            self.info("清除移动冷却时间")
+
     def get_tu_city_info(self):
         url = "/root/world!getTuCityInfo.action"
         result = self.get_protocol_mgr().get_xml(url, "屠城嘉奖")
@@ -103,8 +143,11 @@ class WorldMgr(BaseMgr):
             maxrecvednum = int(result.m_objResult.get("maxrecvednum", "0"))
             recvednum = int(result.m_objResult.get("recvednum", "0"))
             if recvednum < maxrecvednum and "info" in result.m_objResult:
-                for info in result.m_objResult["info"]:
-                    self.get_tu_city_reward(info["playerid"], info["areaid"])
+                if isinstance(result.m_objResult["info"], list):
+                    for info in result.m_objResult["info"]:
+                        self.get_tu_city_reward(info["playerid"], info["areaid"])
+                else:
+                    self.get_tu_city_reward(result.m_objResult["info"]["playerid"], result.m_objResult["info"]["areaid"])
 
     def get_tu_city_reward(self, player_id, area_id):
         url = "/root/world!getTuCityReward.action"
@@ -199,18 +242,44 @@ class WorldMgr(BaseMgr):
             self.info("领取封地奖励，获得{}".format(reward_info))
             self.set_feng_di(result.m_objResult["fengdi"])
 
-    def generate_big_g(self, area):
+    def generate_big_g(self, area, big):
         url = "/root/world!generateBigG.action"
         data = {"areaId": area["areaid"]}
         result = self.get_protocol_mgr().post_xml(url, data, "封地资源列表")
         if result and result.m_bSucceed:
-            pass
+            for produce in result.m_objResult["produceinfo"]:
+                if produce["resid"] == "4" and produce["bigname"] in big:
+                    self.start_produce(area, produce)
+                    break
+                elif produce["resid"] == "5":
+                    self.start_produce(area, produce)
+                    break
+
+    def start_produce(self, area, produce):
+        url = "/root/world!startProduce.action"
+        data = {"areaId": area["areaid"], "resId": produce["resid"]}
+        result = self.get_protocol_mgr().post_xml(url, data, "封地生产资源")
+        if result and result.m_bSucceed:
+            msg = "封地生产资源["
+            if produce["resid"] == "1":
+                msg += "宝石"
+            elif produce["resid"] == "2":
+                msg += "镔铁"
+            elif produce["resid"] == "3":
+                msg += "兵器"
+            elif produce["resid"] == "4":
+                msg += "大将令({})".format(produce["bigname"])
+            elif produce["resid"] == "5":
+                msg += "觉醒酒"
+            msg += "]"
+            self.info(msg)
 
     def get_nation_task_new_info(self):
         url = "/root/nation!getNationTaskNewInfo.action"
         result = self.get_protocol_mgr().get_xml(url, "攻坚战")
         if result and result.m_bSucceed:
             self.m_nNationTaskStatus = int(result.m_objResult["status"])
+            self.m_szNationTaskAreaName = result.m_objResult.get("masscity", "")
 
     def get_nation_task_new_reward(self):
         url = "/root/nation!getNationTaskNewReward.action"
@@ -263,36 +332,62 @@ class WorldMgr(BaseMgr):
         url = "/root/world!getNewAreaTreasureInfo.action"
         result = self.get_protocol_mgr().get_xml(url, "国家宝箱")
         if result and result.m_bSucceed:
-            pass
+            self.m_nTreasureNum = int(result.m_objResult["treasurenum"])
 
     def draw_5_new_area_treasure(self):
         url = "/root/world!draw5NewAreaTreasure.action"
         result = self.get_protocol_mgr().get_xml(url, "连开5个国家宝箱")
         if result and result.m_bSucceed:
-            pass
+            msg = "连开5个国家宝箱，获得"
+            for reward in result.m_objResult["reward"]:
+                if reward["rewardtype"] == "1":
+                    msg += "银币+{} ".format(reward["rewardvalue"])
+                elif reward["rewardtype"] == "2":
+                    msg += "攻击令+{} ".format(reward["rewardvalue"])
+                elif reward["rewardtype"] == "3":
+                    msg += "军令+{} ".format(reward["rewardvalue"])
+                # elif reward["rewardtype"] == "4":
+                #     msg += "玉石+{} ".format(reward["rewardvalue"])
+                # elif reward["rewardtype"] == "5":
+                #     msg += "点券+{} ".format(reward["rewardvalue"])
+                elif reward["rewardtype"] == "6":
+                    msg += "宝石+{} ".format(reward["rewardvalue"])
+                if reward.get("baowu", "0") != "0":
+                    msg += "专属家传玉佩+{} ".format(reward["baowu"])
+                if reward.get("tickets", "0") != "0":
+                    msg += "点券+{} ".format(reward["tickets"])
+            self.info(msg)
 
     def get_all_city(self, area_id, scope_id):
         url = "/root/area!getAllCity.action"
         data = {"areaId": area_id, "scopeId": scope_id}
         result = self.get_protocol_mgr().post_xml(url, data, "查看城区")
         if result and result.m_bSucceed:
-            city_list = result.m_objResult["city"]
-            return city_list
+            if "city" not in result.m_objResult:
+                return []
+            elif isinstance(result.m_objResult["city"], list):
+                return result.m_objResult["city"]
+            else:
+                return [result.m_objResult["city"]]
         else:
-            return list()
+            return None
 
     def attack_other_area_city(self, area_id, scope_id, city_id):
         url = "/root/world!attackOtherAreaCity.action"
         data = {"areaId": area_id, "scopeId": scope_id, "cityId": city_id}
         result = self.get_protocol_mgr().post_xml(url, data, "攻击敌人")
         if result and result.m_bSucceed:
+            if result.m_objResult.get("worldevent", "0") == "1":
+                self.m_nSpyAreaId = self.m_nSelfAreaId
+            winside = "1"
             if "battlereport" in result.m_objResult:
+                winside = result.m_objResult["battlereport"]["winside"]
                 de = {"名称": result.m_objResult["defender"]["playername"], "等级": result.m_objResult["defender"]["playerlevel"]}
                 report = {
                     "战绩": result.m_objResult["battlereport"]["attscore"],
                     "消息": result.m_objResult["battlereport"]["message"],
                     "城防": [result.m_objResult["battlereport"]["attcityhpchange"], result.m_objResult["battlereport"]["defcityhpchange"]],
-                    "胜负": "胜利" if result.m_objResult["battlereport"]["winside"] == "1" else "失败",
+                    "胜负": "胜利" if winside == "1" else "失败",
                 }
             else:
                 de = {"名称": "禁卫军", "等级": self.m_objUser.m_nLevel}
@@ -307,7 +402,10 @@ class WorldMgr(BaseMgr):
                     "胜负": "胜利",
                 }
             self.info("您攻打{}, {}, {}获得战绩{}, 您/敌({}级)城防减少{}/{}".format(de["名称"], report["胜负"], report["消息"], report["战绩"], de["等级"], report["城防"][0], report["城防"][1]))
-            return True
+            if winside == "1":
+                return True, ""
+            else:
+                return False, "打不过敌人"
         else:
             self.warning("攻击敌人失败：{}".format(result.m_szError))
-            return False
+            return False, result.m_szError

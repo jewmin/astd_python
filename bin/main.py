@@ -102,9 +102,9 @@ def handle_cmd(key, value, app_list):
 def main():
     init_logging()
     parser = argparse.ArgumentParser(description='傲视天地小助手')
-    parser.add_argument('--user-name', default="")
-    parser.add_argument('--role-name', default="")
-    parser.add_argument('--enable-debug', default=False)
+    parser.add_argument('--user-name', default="", dest="user_name")
+    parser.add_argument('--role-name', default="", dest="role_name")
+    parser.add_argument('--enable-debug', default=False, dest="enable_debug")
     args = parser.parse_args()
     account_list = get_account_config()
     user_names = args.user_name.split(",")

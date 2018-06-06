@@ -16,6 +16,7 @@ config = {
         "auto_build_general_tower": True,  # 自动筑造将军塔
         "auto_right_army": True,  # 自动征义兵
         "auto_apply_token": True,  # 自动领取军令
+        "build_list": ["纺织局", "铁匠铺", "招商局", "军机处", "商店", "钱庄", "账房", "账房二", "铸币厂", "兵营", "校场", "校场二", "校场三", "银库一", "银库二", "民居一", "民居二", "民居三", "民居四", "民居五", "民居六", "民居七", "民居八", "民居九", "民居十", "货仓", "城墙"],  # 建造列表，只建造列表中的建筑
     },
     "outCity": {
         "auto_end_bao_shi_pick": True,  # 自动采集宝石
@@ -214,12 +215,16 @@ config = {
         },
         "tu_city": {  # 屠城
             "enable": True,  # 开启
+            "people_num": 10,  # 城池人数<=N
+            "proportion": 0.125,  # 攻击令比例<=N，随机屠城
         },
         "score": {  # 战绩
             "enable": True,  # 开启
         },
         "fengdi": {  # 封地
             "enable": True,  # 开启
+            "big": ["李白", "成吉思汗", "项羽"],  # 优化大将令，不在列表内则觉醒酒
+            "cd": 600000,  # 封地冷却时间>=N
         },
         "nation_task": {  # 攻坚战
             "enable": True,  # 开启
@@ -227,6 +232,7 @@ config = {
         "city_event": {  # 悬赏
             "enable": True,  # 开启
             "star": 5,  # 最大星级<=N
+            "reserve": 0,  # 保留悬赏次数<=N
         },
         "use_token": {  # 使用个人令
             "enable": True,  # 开启
@@ -236,6 +242,15 @@ config = {
             "enable": True,  # 开启
             "reserve": 100,  # 保留宝箱<=N
             "proportion": 0.125,  # 开启宝箱条件，攻击令比例<=N
+        },
+        "attack": {  # 攻击
+            "enable": True,  # 开启
+            "exculde": ["许都", "成都", "武昌"],  # 排除三国主城
+            "ignore_arrest": True,  # 忽略被抓的不打
+            "main_city": [0, 112, 113, 134],  # 三国对应都城
+            "near_main_city": [[], [114, 119, 107, 128, 133, 135], [128, 133, 135, 111, 118], [114, 119, 107, 111, 118]],  # 三国对应都城附近
+            "reserve_transfer_cd_clear_num": 10,  # 保留移动cd清除次数
+            "lost_times": 5,  # 停止对此人攻击，当失败次数>=N
         },
     },
     "dinner": {  # 宴会

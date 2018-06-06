@@ -27,6 +27,13 @@ class CityMgr(BaseMgr):
             self.m_objUser.set_constructor_dto(result.m_objResult.get("constructordto", []))
             self.m_objUser.set_mo_zi_building(result.m_objResult.get("mozibuilding", []))
 
+    def upgrade_level(self, main_city_dto):
+        url = "/root/mainCity!upgradeLevel.action"
+        data = {"player_BuildingId": main_city_dto.id}
+        result = self.get_protocol_mgr().post_xml(url, data, "升级建筑")
+        if result and result.m_bSucceed:
+            self.info("花费{}银币，升级建筑[{}]".format(main_city_dto.nextcopper, main_city_dto.buildname))
+
     @staticmethod
     def set_activities(user, dict_activities_info):
         if dict_activities_info.get("hasarchevent", "0") == "1":

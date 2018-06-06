@@ -32,6 +32,7 @@ from logic.general_task import GeneralTask
 from logic.battle_task import BattleTask
 from logic.world_task import WorldTask
 from logic.dinner_task import DinnerTask
+from logic.city_task import CityTask
 from logic.activity import *
 
 
@@ -198,6 +199,7 @@ class App(IServer):
         self.m_objTaskMgr.add_task(BattleTask())
         self.m_objTaskMgr.add_task(WorldTask())
         self.m_objTaskMgr.add_task(DinnerTask())
+        self.m_objTaskMgr.add_task(CityTask())
 
     def build_activity(self):
         self.m_objTaskMgr.add_task(kfrank.KFRank())

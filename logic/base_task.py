@@ -78,6 +78,10 @@ class BaseTask(object):
         return 120000
 
     @staticmethod
+    def ten_minute():
+        return 600000
+
+    @staticmethod
     def an_hour_later():
         return 3600000
 
