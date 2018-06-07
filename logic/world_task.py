@@ -132,6 +132,11 @@ class WorldTask(BaseTask):
                             break
 
             # 决斗
+            area_list = self.m_WorldMgr.get_neighbors_area(self.m_WorldMgr.m_nSelfAreaId)
+            for area in area_list:
+                if area["areaname"] in attack_config["exculde"] and area["areaid"] != attack_config["main_city"][self.m_objUser.m_nNation]:
+                    self.duel(area, attack_config["diff_level"])
+                    break
 
             # 搜索敌人
             if attack_config["enable"] and attack_config["main_city"][self.m_objUser.m_nNation] != self.m_WorldMgr.m_nSelfAreaId:
@@ -270,7 +275,7 @@ class WorldTask(BaseTask):
                         self.attack_other_area_city(area_id, i, city["cityid"])
                 break
 
-    # cityid areaid scopeid playerid citytype citylevel myspy protectcd arreststate nation inpk
+    # cityid areaid scopeid playerid playername citytype citylevel myspy protectcd arreststate nation inpk
     def attack_player(self, area_id):
         area_list = self.m_WorldMgr.get_neighbors_area(area_id, True, config["world"]["attack"]["exculde"])
         can_attack_area_list = []
@@ -308,6 +313,41 @@ class WorldTask(BaseTask):
                         arrest_npc.append(city)
             can_attack_area_list.append({"城池": area["areaid"], "屠城": can_tu_city, "玩家列表": can_attack_player, "NPC列表": can_attack_npc, "已被抓的玩家列表": arrest_player, "已被抓的NPC列表": arrest_npc})
         return can_attack_area_list
+
+    def duel(self, area, diff_level):
+        while self.m_WorldMgr.m_dictDaoJu["诱敌锦囊"] > 0 and self.m_WorldMgr.m_dictDaoJu["决斗战旗"] > 0:
+            scope_id = 1
+            while True:
+                city_list = self.m_WorldMgr.get_all_city(area["areaid"], scope_id)
+                if city_list is None:
+                    break
+                for city in city_list:
+                    level = int(city["citylevel"])
+                    if 0 <= self.m_objUser.m_nLevel - level <= diff_level:
+                        result, info, error_code = self.m_WorldMgr.use_world_daoju(city)
+                        if result:
+                            self.m_WorldMgr.m_dictDaoJu["诱敌锦囊"] -= 1
+                            city["areaid"] = info["城池"]
+                            city["scopeid"] = info["区域"]
+                            city["cityid"] = info["玩家"]
+                            result, info, error_code = self.m_WorldMgr.use_world_daoju(city, True)
+                            if result:
+                                self.do_duel(city["areaid"], city["scopeid"], city["cityid"])
+                            else:
+                                return
+                        elif "当前城池正在补充城防" in error_code or "该玩家今日诱敌次数已满" in error_code:
+                            continue
+                        else:
+                            return
+                scope_id += 1
+
+    def do_duel(self, area_id, scope_id, city_id):
+        while True:
+            pk_info = self.m_WorldMgr.get_pk_info()
+            if pk_info is not None and pk_info["阶段"] == 1:
+                self.attack_other_area_city(area_id, scope_id, city_id)
+            else:
+                break
 
     def attack_other_area_city(self, area_id, scope_id, city_id):
         self.m_CityMgr.draught(0.3)

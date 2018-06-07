@@ -412,3 +412,32 @@ class WorldMgr(BaseMgr):
         else:
             self.warning("攻击敌人[areaid={}, scopeid={}, cityid={}]失败：{}".format(area_id, scope_id, city_id, result.m_szError))
             return False, result.m_szError, False, False
+
+    def use_world_daoju(self, city, deul=False):
+        if deul:
+            deul_type = 1
+            desc = "使用决斗战旗"
+        else:
+            deul_type = 2
+            desc = "使用诱敌锦囊"
+        url = "/root/world!useWorldDaoju.action"
+        data = {"areaId": city["areaid"], "scopeId": city["scopeid"], "cityId": city["cityid"], "type": deul_type}
+        result = self.get_protocol_mgr().post_xml(url, data, desc)
+        if result and result.m_bSucceed:
+            self.info("对玩家[{}]{}".format(city["playername"], desc))
+            toareaid = result.m_objResult.get("toareaid", "0")
+            toscopeid = result.m_objResult.get("toscopeid", "0")
+            toplayerid = result.m_objResult.get("toplayerid", "0")
+            return True, {"城池": toareaid, "区域": toscopeid, "玩家": toplayerid}, ""
+        else:
+            self.info("对玩家[{}]{}失败：{}".format(city["playername"], desc, result.m_szError))
+            return False, None, result.m_szError
+
+    def get_pk_info(self):
+        url = "/root/world!getPkInfo.action"
+        data = {"type": 0}
+        result = self.get_protocol_mgr().post_xml(url, data, "决斗信息")
+        if result and result.m_bSucceed:
+            pk_info = dict()
+            pk_info["阶段"] = int(result.m_objResult["stage"])
+            return pk_info
