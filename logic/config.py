@@ -241,6 +241,7 @@ config = {
         "treasure": {  # 国家宝箱
             "enable": True,  # 开启
             "reserve": 100,  # 保留宝箱<=N
+            "arrest_reserve": 30,  # 屠城时，保留宝箱<=N
             "proportion": 0.125,  # 开启宝箱条件，攻击令比例<=N
         },
         "attack": {  # 攻击
@@ -375,5 +376,6 @@ config = {
     "battle": {  # 征战
         "enable": True,  # 开启
         "armyid": 14919,  # 征战NPC
+        "powerid": 133,  # 征战地图从360周易演成开始
     },
 }

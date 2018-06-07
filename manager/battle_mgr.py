@@ -7,6 +7,8 @@ from model.reward_info import RewardInfo
 class BattleMgr(BaseMgr):
     def __init__(self, time_mgr, service_factory, user, index):
         super(BattleMgr, self).__init__(time_mgr, service_factory, user, index)
+        self.m_szTeamId = None
+        self.m_szArmiesId = None
 
     def battle(self):
         url = "/root/battle.action"
@@ -46,11 +48,34 @@ class BattleMgr(BaseMgr):
         data = {"teamId": team_id}
         result = self.get_protocol_mgr().post_xml(url, data, "加入征战军团")
         if result and result.m_bSucceed:
-            pass
+            self.info("加入征战军团({})".format(team_id))
 
     def get_team_info(self, armies_id):
         url = "/root/multiBattle!getTeamInfo.action"
         data = {"armiesId": armies_id}
         result = self.get_protocol_mgr().post_xml(url, data, "征战军团")
         if result and result.m_bSucceed:
-            pass
+            if "team" in result.m_objResult:
+                if isinstance(result.m_objResult["team"], list):
+                    team = result.m_objResult["team"][0]
+                else:
+                    team = result.m_objResult["team"]
+                self.join_team(team["teamid"])
+                self.m_szArmiesId = armies_id
+                self.m_szTeamId = team["teamid"]
+            else:
+                self.m_szTeamId = None
+                self.m_szArmiesId = None
+        else:
+            self.m_szTeamId = None
+            self.m_szArmiesId = None
+
+    def get_power_info(self, power_id):
+        url = "/root/battle!getPowerInfo.action"
+        data = {"powerId": power_id}
+        result = self.get_protocol_mgr().post_xml(url, data, "征战地图")
+        if result and result.m_bSucceed:
+            army_list = result.m_objResult["army"]
+            return army_list
+        else:
+            return []

@@ -9,6 +9,20 @@ class BattleTask(BaseTask):
         super(BattleTask, self).__init__()
         self.m_szName = "battle"
         self.m_szReadable = "征战"
+        self.m_listAllTeams = list()
+
+    def init(self):
+        battle_mgr = self.m_objServiceFactory.get_battle_mgr()
+        if config["battle"]["enable"]:
+            power_id = config["battle"]["powerid"]
+            while True:
+                army_list = battle_mgr.get_power_info(power_id)
+                if len(army_list) > 0 and "军团" in army_list[-1]["armyname"]:
+                    if army_list[-1]["complete"] == "0":
+                        self.m_listAllTeams.append(army_list[-1]["armyid"])
+                    power_id += 1
+                else:
+                    break
 
     def run(self):
         if config["battle"]["enable"]:
@@ -31,4 +45,9 @@ class BattleTask(BaseTask):
                 battle_mgr.recv_battle_event_reward()
                 return self.immediate()
 
-        return self.next_half_hour()
+            for armies_id in self.m_listAllTeams:
+                battle_mgr.get_team_info(armies_id)
+                if battle_mgr.m_szTeamId is not None:
+                    return self.next_half_hour()
+
+        return self.ten_minute()

@@ -70,11 +70,11 @@ class PolishTask(BaseTask):
         while len(list_baowu) > 0:
             if specialtreasure.get("canconsecrate", "0") == "1":
                 equip_mgr.consecrate_special_treasure(specialtreasure)
-                continue
+                return True
 
             if specialtreasure.get("canevolve", "0") == "1":
                 equip_mgr.evolve_special_treasure(specialtreasure)
-                continue
+                return True
 
             if "additionalattribute" in specialtreasure:
                 if isinstance(specialtreasure["additionalattribute"]["attribute"], list):

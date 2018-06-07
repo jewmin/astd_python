@@ -27,8 +27,9 @@ class WorldTask(BaseTask):
         treasure_config = config["world"]["treasure"]
         if treasure_config["enable"] and float(self.m_objUser.m_nAttToken) / float(self.m_objUser.m_nMaxAttToken) <= treasure_config["proportion"]:
             self.m_WorldMgr.get_new_area_treasure_info()
-            if self.m_WorldMgr.m_nTreasureNum > treasure_config["reserve"]:
+            while self.m_WorldMgr.m_nTreasureNum > treasure_config["reserve"]:
                 self.m_WorldMgr.draw_5_new_area_treasure()
+                self.m_WorldMgr.m_nTreasureNum -= 5
 
         # 屠城嘉奖
         tu_city_config = config["world"]["tu_city"]
@@ -153,21 +154,37 @@ class WorldTask(BaseTask):
                     for city in attack_list:
                         lost_times = 0
                         while True:
-                            result, error = self.attack_other_area_city(city["areaid"], city["scopeid"], city["cityid"])
+                            result, error, arrest_state, attack_back = self.attack_other_area_city(city["areaid"], city["scopeid"], city["cityid"])
                             if result is False:
                                 if error == "没有足够的攻击令":
+                                    if attack_arrest:
+                                        self.m_WorldMgr.get_transfer_info()
+                                        while self.m_WorldMgr.m_nTreasureNum > treasure_config["arrest_reserve"]:
+                                            self.m_WorldMgr.draw_5_new_area_treasure()
+                                            self.m_WorldMgr.m_nTreasureNum -= 5
+                                    if self.m_objUser.m_nAttToken <= 0:
+                                        return self.immediate()
+                                elif error == "军令还没有冷却，请等待":
+                                    return self.immediate()
+                                elif error == "你已被抓，请先逃跑":
                                     return self.immediate()
                                 elif error == "该位置玩家发生了变动":
                                     attack_num += 1
+                                    break
                                 elif error == "打不过敌人":
                                     lost_times += 1
-                                elif error == "你已被抓，请先逃跑":
-                                    return self.immediate()
-                                if lost_times < attack_config["lost_times"]:
-                                    continue
-                                break
-                            elif self.m_WorldMgr.m_nSpyAreaId > 0:
-                                self.attack_spy(self.m_WorldMgr.m_nSpyAreaId)
+                                    if lost_times >= attack_config["lost_times"]:
+                                        break
+                                else:
+                                    break
+                            else:
+                                if self.m_WorldMgr.m_nSpyAreaId > 0:
+                                    self.attack_spy(self.m_WorldMgr.m_nSpyAreaId)
+                                if attack_back:
+                                    attack_num += 1
+                                    break
+                                elif arrest_state and not attack_arrest:
+                                    break
                     if attack_arrest and attack_num == total_num:
                         self.m_WorldMgr.info("完成屠城")
 

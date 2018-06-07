@@ -379,6 +379,9 @@ class WorldMgr(BaseMgr):
         if result and result.m_bSucceed:
             if result.m_objResult.get("worldevent", "0") == "1":
                 self.m_nSpyAreaId = self.m_nSelfAreaId
+            slavename = result.m_objResult.get("slavename", "")
+            arrest_state = True if len(slavename) > 0 else False
+            attack_back = True if len(result.m_objResult.get("rewardattackbacktimes", "")) > 0 else False
             winside = "1"
             if "battlereport" in result.m_objResult:
                 winside = result.m_objResult["battlereport"]["winside"]
@@ -401,11 +404,11 @@ class WorldMgr(BaseMgr):
                     "城防": [result.m_objResult["attcityhpchange"], result.m_objResult["defcityhpchange"]],
                     "胜负": "胜利",
                 }
-            self.info("您攻打{}, {}, {}获得战绩{}, 您/敌({}级)城防减少{}/{}".format(de["名称"], report["胜负"], report["消息"], report["战绩"], de["等级"], report["城防"][0], report["城防"][1]))
+            self.info("您攻打{}，{}，{} {}获得战绩{}，您/敌({}级)城防减少{}/{}".format(de["名称"], report["胜负"], slavename, report["消息"], report["战绩"], de["等级"], report["城防"][0], report["城防"][1]))
             if winside == "1":
-                return True, ""
+                return True, "", arrest_state, attack_back
             else:
-                return False, "打不过敌人"
+                return False, "打不过敌人", arrest_state, attack_back
         else:
-            self.warning("攻击敌人失败：{}".format(result.m_szError))
-            return False, result.m_szError
+            self.warning("攻击敌人[areaid={}, scopeid={}, cityid={}]失败：{}".format(area_id, scope_id, city_id, result.m_szError))
+            return False, result.m_szError, False, False
