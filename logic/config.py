@@ -253,6 +253,7 @@ config = {
             "reserve_transfer_cd_clear_num": 10,  # 保留移动cd清除次数
             "lost_times": 5,  # 停止对此人攻击，当失败次数>=N
             "diff_level": 20,  # 决斗相差等级
+            "duel_city_hp_limit": 80,  # 不能决斗，当城防<=N
         },
     },
     "dinner": {  # 宴会

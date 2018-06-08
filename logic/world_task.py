@@ -94,6 +94,9 @@ class WorldTask(BaseTask):
                 self.m_objServiceFactory.get_time_mgr().get_datetime_string(self.m_WorldMgr.m_nCityHpRecoverCd)))
             return self.m_WorldMgr.m_nCityHpRecoverCd
 
+        # 决斗
+        self.do_duel()
+
         # 冷却时间
         if self.m_objUser.m_bTokenCdFlag and self.m_objUser.m_nTokenCd > 0:
             self.m_WorldMgr.info("等待军令冷却时间：{}".format(
@@ -101,97 +104,99 @@ class WorldTask(BaseTask):
             return self.m_objUser.m_nTokenCd
 
         # 攻击令
-        if self.m_objUser.m_nAttToken <= 0:
-            return self.next_half_hour()
-
-        # 个人令
-        use_token_config = config["world"]["use_token"]
-        if use_token_config["enable"]:
-            for token in self.m_WorldMgr.m_listTokens:
-                if token["tokenid"] in use_token_config["list"]:
-                    self.m_WorldMgr.use_token(token)
-
-        # 不在都城
         attack_config = config["world"]["attack"]
-        if attack_config["main_city"][self.m_objUser.m_nNation] != self.m_WorldMgr.m_nSelfAreaId:
-            # 间谍
-            if self.m_WorldMgr.m_nSpyAreaId > 0:
-                self.attack_spy(self.m_WorldMgr.m_nSpyAreaId)
+        if self.m_objUser.m_nAttToken > 0:
+            # 个人令
+            use_token_config = config["world"]["use_token"]
+            if use_token_config["enable"]:
+                for token in self.m_WorldMgr.m_listTokens:
+                    if token["tokenid"] in use_token_config["list"]:
+                        self.m_WorldMgr.use_token(token)
 
-            # 悬赏
-            if city_event_config["enable"]:
-                self.m_WorldMgr.get_new_city_event_info()
-                # 悬赏目标
-                if self.m_WorldMgr.m_dictTarget["悬赏目标"] != 0:
-                    self.attack_city_event_player(self.m_WorldMgr.m_dictTarget["悬赏目标城池"], self.m_WorldMgr.m_dictTarget["悬赏目标城区"], self.m_WorldMgr.m_dictTarget["悬赏目标"])
-                # 领取悬赏任务
-                elif not self.m_WorldMgr.m_dictTarget["悬赏已完成"] and self.m_WorldMgr.m_dictTarget["悬赏剩余次数"] > city_event_config["reserve"] and len(self.m_WorldMgr.m_dictTarget["悬赏任务列表"]) > 0:
-                    for task in self.m_WorldMgr.m_dictTarget["悬赏任务列表"]:
-                        if task["星级"] <= city_event_config["star"]:
-                            self.m_WorldMgr.accept_new_city_event(task)
-                            break
+            # 不在都城
+            if attack_config["main_city"][self.m_objUser.m_nNation] != self.m_WorldMgr.m_nSelfAreaId:
+                # 间谍
+                if self.m_WorldMgr.m_nSpyAreaId > 0:
+                    self.attack_spy(self.m_WorldMgr.m_nSpyAreaId)
 
-            # 决斗
-            area_list = self.m_WorldMgr.get_neighbors_area(self.m_WorldMgr.m_nSelfAreaId)
-            for area in area_list:
-                if area["areaname"] in attack_config["exculde"] and area["areaid"] != attack_config["main_city"][self.m_objUser.m_nNation]:
-                    self.duel(area, attack_config["diff_level"])
-                    break
+                # 悬赏
+                if city_event_config["enable"]:
+                    self.m_WorldMgr.get_new_city_event_info()
+                    # 悬赏目标
+                    if self.m_WorldMgr.m_dictTarget["悬赏目标"] != 0:
+                        self.attack_city_event_player(self.m_WorldMgr.m_dictTarget["悬赏目标城池"], self.m_WorldMgr.m_dictTarget["悬赏目标城区"], self.m_WorldMgr.m_dictTarget["悬赏目标"])
 
-            # 搜索敌人
-            if attack_config["enable"] and attack_config["main_city"][self.m_objUser.m_nNation] != self.m_WorldMgr.m_nSelfAreaId:
-                can_attack_area_list = self.attack_player(self.m_WorldMgr.m_nSelfAreaId)
-                for area in can_attack_area_list:
-                    # 屠城
-                    attack_num = 0
-                    total_num = len(area["玩家列表"]) + len(area["NPC列表"]) + len(area["已被抓的玩家列表"]) + len(area["已被抓的NPC列表"])
-                    attack_arrest = False
-                    if tu_city_config["enable"] and area["屠城"] and self.m_WorldMgr.m_dictTuCity["冷却时间"] == 0 and self.m_WorldMgr.m_dictTuCity["剩余次数"] > 0:
-                        if total_num <= tu_city_config["people_num"]:
-                            self.m_WorldMgr.tu_city(area["城池"])
-                            attack_arrest = True
-                    attack_list = []
-                    attack_list.extend(area["玩家列表"])
-                    attack_list.extend(area["NPC列表"])
-                    if attack_arrest:
-                        attack_list.extend(area["已被抓的玩家列表"])
-                        attack_list.extend(area["已被抓的NPC列表"])
-                    for city in attack_list:
-                        lost_times = 0
-                        while True:
-                            result, error, arrest_state, attack_back = self.attack_other_area_city(city["areaid"], city["scopeid"], city["cityid"])
-                            if result is False:
-                                if error == "没有足够的攻击令":
-                                    if attack_arrest:
-                                        self.m_WorldMgr.get_transfer_info()
-                                        while self.m_WorldMgr.m_nTreasureNum > treasure_config["arrest_reserve"]:
-                                            self.m_WorldMgr.draw_5_new_area_treasure()
-                                            self.m_WorldMgr.m_nTreasureNum -= 5
-                                    if self.m_objUser.m_nAttToken <= 0:
+                # 搜索敌人
+                if attack_config["enable"] and attack_config["main_city"][self.m_objUser.m_nNation] != self.m_WorldMgr.m_nSelfAreaId:
+                    can_attack_area_list = self.attack_player(self.m_WorldMgr.m_nSelfAreaId)
+                    for area in can_attack_area_list:
+                        # 屠城
+                        attack_num = 0
+                        total_num = len(area["玩家列表"]) + len(area["NPC列表"]) + len(area["已被抓的玩家列表"]) + len(area["已被抓的NPC列表"])
+                        attack_arrest = False
+                        if tu_city_config["enable"] and area["屠城"] and self.m_WorldMgr.m_dictTuCity["冷却时间"] == 0 and self.m_WorldMgr.m_dictTuCity["剩余次数"] > 0:
+                            if total_num <= tu_city_config["people_num"]:
+                                self.m_WorldMgr.tu_city(area["城池"])
+                                attack_arrest = True
+                        attack_list = []
+                        attack_list.extend(area["玩家列表"])
+                        attack_list.extend(area["NPC列表"])
+                        if attack_arrest:
+                            attack_list.extend(area["已被抓的玩家列表"])
+                            attack_list.extend(area["已被抓的NPC列表"])
+                        for city in attack_list:
+                            lost_times = 0
+                            while True:
+                                result, error, arrest_state, attack_back = self.attack_other_area_city(city["areaid"], city["scopeid"], city["cityid"])
+                                if result is False:
+                                    if error == "没有足够的攻击令":
+                                        if attack_arrest:
+                                            self.m_WorldMgr.get_transfer_info()
+                                            while self.m_WorldMgr.m_nTreasureNum > treasure_config["arrest_reserve"]:
+                                                self.m_WorldMgr.draw_5_new_area_treasure()
+                                                self.m_WorldMgr.m_nTreasureNum -= 5
+                                        if self.m_objUser.m_nAttToken <= 0:
+                                            return self.immediate()
+                                    elif error == "军令还没有冷却，请等待":
                                         return self.immediate()
-                                elif error == "军令还没有冷却，请等待":
-                                    return self.immediate()
-                                elif error == "你已被抓，请先逃跑":
-                                    return self.immediate()
-                                elif error == "该位置玩家发生了变动":
-                                    attack_num += 1
-                                    break
-                                elif error == "打不过敌人":
-                                    lost_times += 1
-                                    if lost_times >= attack_config["lost_times"]:
+                                    elif error == "你已被抓，请先逃跑":
+                                        return self.immediate()
+                                    elif error == "该位置玩家发生了变动":
+                                        attack_num += 1
+                                        break
+                                    elif error == "打不过敌人":
+                                        lost_times += 1
+                                        if lost_times >= attack_config["lost_times"]:
+                                            break
+                                    else:
                                         break
                                 else:
-                                    break
-                            else:
-                                if self.m_WorldMgr.m_nSpyAreaId > 0:
-                                    self.attack_spy(self.m_WorldMgr.m_nSpyAreaId)
-                                if attack_back:
-                                    attack_num += 1
-                                    break
-                                elif arrest_state and not attack_arrest:
-                                    break
-                    if attack_arrest and attack_num == total_num:
-                        self.m_WorldMgr.info("完成屠城")
+                                    if self.m_WorldMgr.m_nSpyAreaId > 0:
+                                        self.attack_spy(self.m_WorldMgr.m_nSpyAreaId)
+                                    if attack_back:
+                                        attack_num += 1
+                                        break
+                                    elif arrest_state and not attack_arrest:
+                                        break
+                        if attack_arrest and attack_num == total_num:
+                            self.m_WorldMgr.info("完成屠城")
+
+        # 悬赏
+        if city_event_config["enable"]:
+            self.m_WorldMgr.get_new_city_event_info()
+            # 领取悬赏任务
+            if not self.m_WorldMgr.m_dictTarget["悬赏已完成"] and self.m_WorldMgr.m_dictTarget["悬赏剩余次数"] > city_event_config["reserve"] and len(self.m_WorldMgr.m_dictTarget["悬赏任务列表"]) > 0:
+                for task in self.m_WorldMgr.m_dictTarget["悬赏任务列表"]:
+                    if task["星级"] <= city_event_config["star"]:
+                        self.m_WorldMgr.accept_new_city_event(task)
+                        break
+
+        # 决斗
+        area_list = self.m_WorldMgr.get_neighbors_area(self.m_WorldMgr.m_nSelfAreaId)
+        for area in area_list:
+            if area["areaname"] in attack_config["exculde"] and area["areaid"] != attack_config["main_city"][self.m_objUser.m_nNation]:
+                self.duel(area, attack_config["diff_level"], attack_config["duel_city_hp_limit"])
+                break
 
         # 移动cd
         if self.m_WorldMgr.m_nTransferCd > 0:
@@ -245,8 +250,9 @@ class WorldTask(BaseTask):
         for area_id in near_main_city_area_id_list:
             next_area = self.get_next_move_area(area_id)
             if next_area is not None:
-                self.m_WorldMgr.transfer_in_new_area(next_area)
-                return self.immediate()
+                if self.m_WorldMgr.transfer_in_new_area(next_area):
+                    return self.immediate()
+                return self.one_minute()
 
         return self.one_minute()
 
@@ -314,38 +320,46 @@ class WorldTask(BaseTask):
             can_attack_area_list.append({"城池": area["areaid"], "屠城": can_tu_city, "玩家列表": can_attack_player, "NPC列表": can_attack_npc, "已被抓的玩家列表": arrest_player, "已被抓的NPC列表": arrest_npc})
         return can_attack_area_list
 
-    def duel(self, area, diff_level):
-        while self.m_WorldMgr.m_dictDaoJu["诱敌锦囊"] > 0 and self.m_WorldMgr.m_dictDaoJu["决斗战旗"] > 0:
-            scope_id = 1
-            while True:
-                city_list = self.m_WorldMgr.get_all_city(area["areaid"], scope_id)
-                if city_list is None:
+    def duel(self, area, diff_level, duel_city_hp_limit):
+        scope_id = 1
+        while self.m_objUser.m_nCityHp > duel_city_hp_limit and self.m_WorldMgr.m_dictDaoJu["诱敌锦囊"] > 0 and self.m_WorldMgr.m_dictDaoJu["决斗战旗"] > 0:
+            city_list = self.m_WorldMgr.get_all_city(area["areaid"], scope_id)
+            if city_list is None:
+                break
+            for city in city_list:
+                if self.m_objUser.m_nCityHp <= duel_city_hp_limit or self.m_WorldMgr.m_dictDaoJu["诱敌锦囊"] <= 0 or self.m_WorldMgr.m_dictDaoJu["决斗战旗"] <= 0:
                     break
-                for city in city_list:
-                    level = int(city["citylevel"])
-                    if 0 <= self.m_objUser.m_nLevel - level <= diff_level:
-                        result, info, error_code = self.m_WorldMgr.use_world_daoju(city)
-                        if result:
-                            self.m_WorldMgr.m_dictDaoJu["诱敌锦囊"] -= 1
-                            city["areaid"] = info["城池"]
-                            city["scopeid"] = info["区域"]
-                            city["cityid"] = info["玩家"]
-                            result, info, error_code = self.m_WorldMgr.use_world_daoju(city, True)
-                            if result:
-                                self.do_duel(city["areaid"], city["scopeid"], city["cityid"])
-                            else:
-                                return
-                        elif "当前城池正在补充城防" in error_code or "该玩家今日诱敌次数已满" in error_code:
-                            continue
-                        else:
+                level = int(city["citylevel"])
+                if 0 <= self.m_objUser.m_nLevel - level <= diff_level:
+                    result, info, error_code = self.m_WorldMgr.use_world_daoju(city)
+                    if result:
+                        self.m_WorldMgr.m_dictDaoJu["诱敌锦囊"] -= 1
+                        duel_city_list = self.m_WorldMgr.get_all_city(info["城池"], info["区域"])
+                        if duel_city_list is None:
                             return
-                scope_id += 1
+                        for duel_city in duel_city_list:
+                            if duel_city["playerid"] == str(info["玩家"]):
+                                result, info, error_code = self.m_WorldMgr.use_world_daoju(duel_city, True)
+                                if result:
+                                    self.m_WorldMgr.m_dictDaoJu["决斗战旗"] -= 1
+                                    self.do_duel()
+                                    break
+                                else:
+                                    return
+                    elif "当前城池正在补充城防" in error_code or "该玩家今日诱敌次数已满" in error_code:
+                        continue
+                    else:
+                        return
+            scope_id += 1
 
-    def do_duel(self, area_id, scope_id, city_id):
+    def do_duel(self):
         while True:
             pk_info = self.m_WorldMgr.get_pk_info()
             if pk_info is not None and pk_info["阶段"] == 1:
-                self.attack_other_area_city(area_id, scope_id, city_id)
+                self.m_WorldMgr.info("{}({}/{}) VS {}({}/{})".format(
+                    pk_info["攻"]["玩家"], pk_info["攻"]["城防"], pk_info["攻"]["最大城防"],
+                    pk_info["防"]["玩家"], pk_info["防"]["城防"], pk_info["防"]["最大城防"]))
+                self.attack_other_area_city(pk_info["目标"]["城池"], pk_info["目标"]["区域"], pk_info["目标"]["城市"])
             else:
                 break
 
@@ -378,13 +392,13 @@ class WorldTask(BaseTask):
         goal_y, goal_x = coordinate[0] - 1, coordinate[1] - 1
         paths = self.m_WorldMgr.m_AStar.astar((current_y, current_x), (goal_y, goal_x))
         if paths is None:
-            self.m_WorldMgr.info("从城池[{}] 无法到达 城池[{}]".format(current_area["areaname"], goal_area["areaname"]))
+            # self.m_WorldMgr.info("从城池[{}] 无法到达 城池[{}]".format(current_area["areaname"], goal_area["areaname"]))
             return None
 
         path_list = list(paths)
         path_list.pop(0)
         msg = ""
-        if self.m_WorldMgr.m_AStar.ignore_barrier:
+        if self.m_WorldMgr.m_AStar.m_bIgnoreBarrier:
             msg += "忽略国家限制，"
         msg += "从城池[{}] 到达 城池[{}]，需要经过城池".format(current_area["areaname"], goal_area["areaname"])
         for path in path_list:

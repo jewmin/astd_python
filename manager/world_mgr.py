@@ -84,7 +84,11 @@ class WorldMgr(BaseMgr):
                     # 设置地图障碍
                     if "tucitycd" in area and area["tucitynation"] != self.m_objUser.m_nNation:  # 屠城
                         self.m_MovableMap[y][x] = 0
+                    elif area["areaname"] in ("许都", "成都", "武昌"):
+                        self.m_MovableMap[y][x] = 0
                     elif ach_free:  # 穿越
+                        self.m_MovableMap[y][x] = 1
+                    elif self.m_dictTarget["悬赏剩余时间"] > 0:  # 穿越
                         self.m_MovableMap[y][x] = 1
                     elif area["nation"] != self.m_objUser.m_nNation:  # 敌国
                         self.m_MovableMap[y][x] = 0
@@ -95,7 +99,8 @@ class WorldMgr(BaseMgr):
                     self.m_dictXY2Areas[y][x] = area
                 else:
                     self.m_MovableMap[y][x] = 0
-            self.m_AStar.set_map(self.m_MovableMap)
+            # self.m_AStar.set_map(self.m_MovableMap)
+            self.m_AStar.ignore_barrier(False)
 
     def get_neighbors_area(self, area_id, include_me=False, exclude=None):
         neighbors_area_list = []
@@ -129,6 +134,10 @@ class WorldMgr(BaseMgr):
         result = self.get_protocol_mgr().post_xml(url, data, "移动")
         if result and result.m_bSucceed:
             self.info("移动到城池[{}]".format(area["areaname"]))
+            return True
+        else:
+            self.info("移动到城池[{}]失败：{}".format(area["areaname"], result.m_szError))
+            return False
 
     def cd_move_recover_confirm(self):
         url = "/root/world!cdMoveRecoverConfirm.action"
@@ -440,4 +449,23 @@ class WorldMgr(BaseMgr):
         if result and result.m_bSucceed:
             pk_info = dict()
             pk_info["阶段"] = int(result.m_objResult["stage"])
+            pk_info["结果"] = int(result.m_objResult["pkresult"])
+            pk_info["剩余时间"] = int(result.m_objResult.get("remaincd", "0"))
+            pk_info["防"] = {
+                "城防": int(result.m_objResult["fang"]["cityhp"]),
+                "最大城防": int(result.m_objResult["fang"]["maxcityhp"]),
+                "玩家": result.m_objResult["fang"]["name"]
+            }
+            pk_info["攻"] = {
+                "城防": int(result.m_objResult["gong"]["cityhp"]),
+                "最大城防": int(result.m_objResult["gong"]["maxcityhp"]),
+                "玩家": result.m_objResult["gong"]["name"]
+            }
+            pk_info["目标"] = {
+                "城池": int(result.m_objResult.get("pkinfo", {}).get("areaid", "0")),
+                "区域": int(result.m_objResult.get("pkinfo", {}).get("scopeid", "0")),
+                "城市": int(result.m_objResult.get("pkinfo", {}).get("cityid", "0"))
+            }
+            # if "reward" in result.m_objResult:
+            #     self.info("决斗胜利，获得{}宝石，{}战绩".format(result.m_objResult["reward"]["baoshi"], result.m_objResult["reward"]["score"]))
             return pk_info

@@ -199,12 +199,21 @@ class CityMgr(BaseMgr):
     def draught(self, percent):
         need_forces = self.m_objUser.m_nMaxForces * percent
         if self.m_objUser.m_nForces < need_forces:
-            forces = int(need_forces - self.m_objUser.m_nForces)
+            forces = need_forces - self.m_objUser.m_nForces
+            need_copper = int(forces / 2)
+            copper = need_copper - self.m_objUser.m_nCopper
+            if copper > 0:
+                import math
+                exchange_num = int(math.ceil(float(copper) / 5000000.0))
+                misc_mgr = self.get_service_factory().get_misc_mgr()
+                while exchange_num > 0:
+                    exchange_num -= 1
+                    misc_mgr.get_tickets_reward_by_name("银币", 10)
             url = "/root/mainCity!draught.action"
-            data = {"forceNum": forces}
+            data = {"forceNum": int(forces)}
             result = self.get_protocol_mgr().post_xml(url, data, "征兵")
             if result and result.m_bSucceed:
-                self.info("征兵，兵力+{}".format(GlobalFunc.get_short_readable(forces)))
+                self.info("征兵，兵力+{}".format(GlobalFunc.get_short_readable(int(forces))))
 
     def per_impose(self):
         url = "/root/mainCity!perImpose.action"
