@@ -87,6 +87,10 @@ class WorldTask(BaseTask):
         if fengdi_config["enable"]:
             if self.m_WorldMgr.m_dictFengDi["完成"]:
                 self.m_WorldMgr.recv_fengdi_reward()
+            elif self.m_WorldMgr.m_dictFengDi["生产时间"] == 0 and self.m_WorldMgr.m_dictFengDi["剩余封地生产次数"] > 0:
+                area = self.m_WorldMgr.m_dictId2Areas[self.m_WorldMgr.m_nSelfAreaId]
+                if area.get("fengdiflag", "") != "" and area["nation"] == self.m_objUser.m_nNation:
+                    self.m_WorldMgr.generate_big_g(area, fengdi_config["big"])
 
         # 城防恢复
         if self.m_WorldMgr.m_nCityHpRecoverCd > 0:
@@ -180,6 +184,10 @@ class WorldTask(BaseTask):
                                         break
                         if attack_arrest and attack_num == total_num:
                             self.m_WorldMgr.info("完成屠城")
+                            next_area = self.get_next_move_area(area["areaname"])
+                            if next_area is not None:
+                                self.m_WorldMgr.transfer_in_new_area(next_area)
+                                return self.immediate()
 
         # 悬赏
         if city_event_config["enable"]:
@@ -216,10 +224,7 @@ class WorldTask(BaseTask):
         # 封地生产
         if fengdi_config["enable"]:
             if self.m_WorldMgr.m_dictFengDi["生产时间"] == 0 and self.m_WorldMgr.m_dictFengDi["剩余封地生产次数"] > 0:
-                area = self.m_WorldMgr.m_dictId2Areas[self.m_WorldMgr.m_nSelfAreaId]
-                if area.get("fengdiflag", "") != "" and area["nation"] == self.m_objUser.m_nNation:
-                    self.m_WorldMgr.generate_big_g(area, fengdi_config["big"])
-                elif len(self.m_WorldMgr.m_dictFengDiAreas) > 0:
+                if len(self.m_WorldMgr.m_dictFengDiAreas) > 0:
                     for area in self.m_WorldMgr.m_dictFengDiAreas.itervalues():
                         if int(area["fengdicd"]) >= fengdi_config["cd"]:
                             next_area = self.get_next_move_area(area["areaname"])
