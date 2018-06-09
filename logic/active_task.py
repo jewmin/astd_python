@@ -40,7 +40,12 @@ class ActiveTask(BaseTask):
                         active_mgr.royalty_weave2(info["消耗行动力"], 1)
                         return self.immediate()
 
-                    has_trader = info["商人"] in active_config["list"]
+                    refresh_list = active_config["list"]
+                    convert_cost = active_config["cost"]
+                    if info["布匹"] >= active_config["limit"]["limit"]:
+                        refresh_list = active_config["limit"]["list"]
+                        convert_cost = active_config["limit"]["cost"]
+                    has_trader = info["商人"] in refresh_list
                     if not has_trader and info["刷新商人费用"] <= active_config["refresh"]:
                         active_mgr.refresh_royalty_weave_new(info["刷新商人费用"])
                         return self.immediate()
@@ -48,7 +53,7 @@ class ActiveTask(BaseTask):
                     if has_trader:
                         reward = info["换购商品"].get_reward(0)
                         if reward is not None:
-                            for cost in active_config["cost"]:
+                            for cost in convert_cost:
                                 if cost["type"] == reward.type and cost["lv"] == reward.lv and cost["num"] == reward.num:
                                     if info["换购消耗布匹"] <= cost["needweavenum"] and info["换购消耗布匹"] <= info["布匹"]:
                                         active_mgr.convert_royalty_weave_new2(info["换购消耗布匹"])

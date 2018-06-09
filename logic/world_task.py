@@ -12,6 +12,7 @@ class WorldTask(BaseTask):
         self.m_dictTime = dict()
         self.m_WorldMgr = None
         self.m_CityMgr = None
+        self.m_nTransferFailNum = 0
 
     def init(self):
         self.m_WorldMgr = self.m_objServiceFactory.get_world_mgr()
@@ -184,7 +185,7 @@ class WorldTask(BaseTask):
                                         break
                         if attack_arrest and attack_num == total_num:
                             self.m_WorldMgr.info("完成屠城")
-                            next_area = self.get_next_move_area(area["areaname"])
+                            next_area = self.get_next_move_area(area["城池"])
                             if next_area is not None:
                                 self.m_WorldMgr.transfer_in_new_area(next_area)
                                 return self.immediate()
@@ -231,6 +232,8 @@ class WorldTask(BaseTask):
                             if next_area is not None:
                                 self.m_WorldMgr.transfer_in_new_area(next_area)
                                 return self.immediate()
+            elif self.m_WorldMgr.m_dictFengDi["生产时间"] > 0:
+                return self.one_minute()
 
         # 间谍
         if self.m_WorldMgr.m_nSpyAreaId > 0:
@@ -257,6 +260,11 @@ class WorldTask(BaseTask):
             if next_area is not None:
                 if self.m_WorldMgr.transfer_in_new_area(next_area):
                     return self.immediate()
+                else:
+                    self.m_nTransferFailNum += 1
+                if self.m_nTransferFailNum >= attack_config["transfer_fail_num"]:
+                    self.m_nTransferFailNum = 0
+                    return self.next_hour()
                 return self.one_minute()
 
         return self.one_minute()

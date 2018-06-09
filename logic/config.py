@@ -152,6 +152,23 @@ config = {
                 # {"type": 38, "lv": 50, "num": 3, "needweavenum": 260},  # 日月光华 皇家楼兰商人
                 {"type": 51, "lv": 5, "num": 1, "needweavenum": 4500},  # 5星专属 稀有黑市商人
             ],
+            "limit": {  # limit换购
+                "limit": 9300,  # 如果布匹>=N，使用limit换购
+                "list": [  # 换购商人列表
+                    "皇家南越商人",
+                    "皇家大理商人",
+                    "皇家关东商人",
+                    "皇家楼兰商人",
+                    "稀有黑市商人",
+                ],
+                "cost": [  # 换购列表
+                    {"type": 58, "lv": 1, "num": 400, "needweavenum": 650},  # 紫晶石 皇家南越商人
+                    {"type": 57, "lv": 1, "num": 120, "needweavenum": 600},  # 磨砺石 皇家大理商人
+                    {"type": 56, "lv": 1, "num": 30, "needweavenum": 550},  # 觉醒酒 皇家关东商人
+                    {"type": 38, "lv": 50, "num": 3, "needweavenum": 260},  # 日月光华 皇家楼兰商人
+                    {"type": 51, "lv": 5, "num": 1, "needweavenum": 4500},  # 5星专属 稀有黑市商人
+                ],
+            },
         },
         "refine_bin_tie": {  # 炼制
             "enable": True,  # 开启功能
@@ -251,7 +268,8 @@ config = {
             "main_city": [0, 112, 113, 134],  # 三国对应都城
             "near_main_city": [[], [114, 119, 107, 128, 133, 135], [128, 133, 135, 111, 118], [114, 119, 107, 111, 118]],  # 三国对应都城附近
             "reserve_transfer_cd_clear_num": 10,  # 保留移动cd清除次数
-            "lost_times": 5,  # 停止对此人攻击，当失败次数>=N
+            "transfer_fail_num": 3,  # 失败N次停止移动
+            "lost_times": 3,  # 停止对此人攻击，当失败次数>=N
             "diff_level": 20,  # 决斗相差等级
             "duel_city_hp_limit": 80,  # 不能决斗，当城防<=N
         },
