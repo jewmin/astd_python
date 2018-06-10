@@ -208,6 +208,7 @@ class User(object):
 
     def clear_activities(self):
         self.m_dictActivities = dict()
+        self.m_dictActivities[ActivityType.KfRank] = True
 
     def set_season(self, season):
         season_tuple = ("春", "夏", "秋", "冬")

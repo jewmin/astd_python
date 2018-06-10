@@ -203,3 +203,4 @@ class App(IServer):
 
     def build_activity(self):
         self.m_objTaskMgr.add_task(kfrank.KFRank())
+        self.m_objTaskMgr.add_task(bgevent.BGEvent())

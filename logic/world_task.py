@@ -104,8 +104,7 @@ class WorldTask(BaseTask):
 
         # 冷却时间
         if self.m_objUser.m_bTokenCdFlag and self.m_objUser.m_nTokenCd > 0:
-            self.m_WorldMgr.info("等待军令冷却时间：{}".format(
-                self.m_objServiceFactory.get_time_mgr().get_datetime_string(self.m_objUser.m_nTokenCd)))
+            self.m_WorldMgr.info("等待军令冷却时间：{}".format(self.m_objServiceFactory.get_time_mgr().get_datetime_string(self.m_objUser.m_nTokenCd)))
             return self.m_objUser.m_nTokenCd
 
         # 攻击令

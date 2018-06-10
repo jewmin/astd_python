@@ -3,7 +3,8 @@
 
 
 activity_config = {
-    "kfrank": {  # 对战
+    # 对战
+    "KFRank": {
         "enable": True,  # 开启
         "task": {  # 任务 战胜比自己等级高的玩家3次, 胜利25场, 累计获得100积分, 连胜5场
             "enable": True,  # 刷新任务
@@ -19,5 +20,10 @@ activity_config = {
         "def_formation": "鱼鳞阵",  # 防御阵型 不变阵, 鱼鳞阵, 长蛇阵, 锋矢阵, 偃月阵, 锥形阵, 八卦阵, 七星阵, 雁行阵
         "def_enable": True,  # 开启积分下降
         "def_score": 800,  # 积分>=N，使用防御阵型
+    },
+    # 大宴群雄
+    "BGEvent": {
+        "enable": True,  # 开启
+        "limit_cost": 10,  # 花费金币<=N
     },
 }

@@ -61,9 +61,10 @@ class LoginBase(object):
         if result is None:
             login_result.m_eLoginStatus = LoginStatus.FailInGoToGameUrl
         else:
-            location = result.headers["location"]
+            location = result.headers.get("location", None)
             if location is None:
                 login_result.m_eLoginStatus = LoginStatus.FailInGetSession
+                self.logger.error(result.text)
             else:
                 location = LoginBase.make_sure_valid_url(redirect_url, location)
                 if "start.action" not in location:

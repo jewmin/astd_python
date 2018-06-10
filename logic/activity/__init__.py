@@ -2,5 +2,6 @@
 
 
 __all__ = [
-    "kfrank"
+    "kfrank",
+    "bgevent",
 ]
