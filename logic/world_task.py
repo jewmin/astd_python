@@ -245,6 +245,8 @@ class WorldTask(BaseTask):
         near_main_city_area_id_list = attack_config["near_main_city"][self.m_objUser.m_nNation]
         for area_id in near_main_city_area_id_list:
             if area_id == self.m_WorldMgr.m_nSelfAreaId:
+                if self.m_objUser.m_nAttToken == 0 and not self.can_duel(attack_config["duel_city_hp_limit"]):
+                    return self.next_half_hour()
                 return self.immediate()
         for area_id in near_main_city_area_id_list:
             next_area = self.get_next_move_area(area_id)
@@ -332,14 +334,17 @@ class WorldTask(BaseTask):
             can_attack_area_list.append({"城池": area["areaid"], "屠城": can_tu_city, "玩家列表": can_attack_player, "NPC列表": can_attack_npc, "已被抓的玩家列表": arrest_player, "已被抓的NPC列表": arrest_npc})
         return can_attack_area_list
 
+    def can_duel(self, duel_city_hp_limit):
+        return self.m_objUser.m_nCityHp > duel_city_hp_limit and self.m_WorldMgr.m_dictDaoJu["诱敌锦囊"] > 0 and self.m_WorldMgr.m_dictDaoJu["决斗战旗"] > 0
+
     def duel(self, area, diff_level, duel_city_hp_limit):
         scope_id = 1
-        while self.m_objUser.m_nCityHp > duel_city_hp_limit and self.m_WorldMgr.m_dictDaoJu["诱敌锦囊"] > 0 and self.m_WorldMgr.m_dictDaoJu["决斗战旗"] > 0:
+        while self.can_duel(duel_city_hp_limit):
             city_list = self.m_WorldMgr.get_all_city(area["areaid"], scope_id)
             if city_list is None:
                 break
             for city in city_list:
-                if self.m_objUser.m_nCityHp <= duel_city_hp_limit or self.m_WorldMgr.m_dictDaoJu["诱敌锦囊"] <= 0 or self.m_WorldMgr.m_dictDaoJu["决斗战旗"] <= 0:
+                if not self.can_duel(duel_city_hp_limit):
                     break
                 level = int(city["citylevel"])
                 if 0 <= self.m_objUser.m_nLevel - level <= diff_level:

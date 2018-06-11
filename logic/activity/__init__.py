@@ -3,5 +3,7 @@
 
 __all__ = [
     "kfrank",
-    "bgevent",
+    # "bgevent",
+    "training",
+    "bomb_nian_event",
 ]

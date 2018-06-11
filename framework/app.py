@@ -203,4 +203,6 @@ class App(IServer):
 
     def build_activity(self):
         self.m_objTaskMgr.add_task(kfrank.KFRank())
-        self.m_objTaskMgr.add_task(bgevent.BGEvent())
+        # self.m_objTaskMgr.add_task(bgevent.BGEvent())
+        self.m_objTaskMgr.add_task(training.Training())
+        self.m_objTaskMgr.add_task(bomb_nian_event.BombNianEvent())
