@@ -62,6 +62,9 @@ class App(IServer):
 
     def un_init(self):
         self.stop(True)
+        for task in self.m_objTaskMgr.m_listTasks:
+            if isinstance(task, activity_task.ActivityTask) and task.has_reward():
+                self.logger.info(str(task))
 
     def init_completed(self):
         self.start()
@@ -205,4 +208,7 @@ class App(IServer):
         self.m_objTaskMgr.add_task(kfrank.KFRank())
         # self.m_objTaskMgr.add_task(bgevent.BGEvent())
         self.m_objTaskMgr.add_task(training.Training())
-        self.m_objTaskMgr.add_task(bomb_nian_event.BombNianEvent())
+        self.m_objTaskMgr.add_task(bombnianevent.BombNianEvent())
+        self.m_objTaskMgr.add_task(shenhuo.ShenHuo())
+        self.m_objTaskMgr.add_task(yuandanqifu.YuanDanQiFu())
+        self.m_objTaskMgr.add_task(arrestevent.ArrestEvent())

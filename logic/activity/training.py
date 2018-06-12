@@ -39,7 +39,7 @@ class Training(ActivityTask):
 
         hongbao = 0
         while info["红包"] > 0:
-            if hongbao >= 3 and info["重置奖励花费金币"] == 0:
+            if hongbao >= 3 and info["免费重置奖励次数"] > 0:
                 self.reset_reward()
                 return self.immediate()
 
@@ -59,7 +59,7 @@ class Training(ActivityTask):
             info["部队"] = result.m_objResult["training"]["aramy"]  # 111123
             info["战旗"] = result.m_objResult["training"]["flags"]  # 0000
             info["红包"] = int(result.m_objResult["training"]["hongbao"])
-            info["重置奖励花费金币"] = int(result.m_objResult["training"]["resetcost"])
+            info["免费重置奖励次数"] = int(result.m_objResult["training"]["resettime"])
             return info
 
     def start(self):
@@ -70,11 +70,11 @@ class Training(ActivityTask):
 
     def attack_army(self, army_idx, army):
         army_tuple = ("", "普通", "精英", "首领")
-        url = "/root/training!start.action"
+        url = "/root/training!attackArmy.action"
         data = {"army": army_idx}
         result = self.post_xml(url, data, "攻击部队")
         if result and result.m_bSucceed:
-            self.info("攻击[{}]部队".format(army_tuple[army]))
+            self.info("攻击[{}]部队，获得{}红包".format(army_tuple[army], result.m_objResult["addhongbao"]))
 
     def rec_hongbao(self, hongbao):
         url = "/root/training!recHongbao.action"

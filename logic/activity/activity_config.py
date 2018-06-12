@@ -38,4 +38,21 @@ activity_config = {
         "bomb": [{3: 1, 2: 2, 1: 3}, {2: 1, 1: 2, 3: 3}, {1: 1, 2: 2, 3: 3}],  # 使用不同鞭炮
         "gold": {1: 2, 2: 0, 3: 0},  # 花费金币<=N
     },
+    # 百炼精铁
+    "ShenHuo": {
+        "enable": True,  # 开启
+    },
+    # 酒神觉醒
+    "YuanDanQiFu": {
+        "enable": True,  # 开启
+        "gold": 2,  # 花费金币<=N
+        "all_open_gold": 10,  # 全开花费金币<=N
+        "all_open_fuqi": 200,  # 全开需要福气>=N
+    },
+    # 抓捕活动
+    "ArrestEvent": {
+        "enable": True,  # 开启
+        "high_gold": 0,  # 使用鞭子花费金币<=N
+        "buy_gold": 5,  # 购买抓捕令花费金币<=N
+    },
 }

@@ -2,8 +2,12 @@
 
 
 __all__ = [
+    "activity_task",
     "kfrank",
     # "bgevent",
     "training",
-    "bomb_nian_event",
+    "bombnianevent",
+    "shenhuo",
+    "yuandanqifu",
+    "arrestevent",
 ]

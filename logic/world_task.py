@@ -186,6 +186,7 @@ class WorldTask(BaseTask):
                             self.m_WorldMgr.info("完成屠城")
                             next_area = self.get_next_move_area(area["城池"])
                             if next_area is not None:
+                                self.m_WorldMgr.cd_move_recover_confirm()
                                 self.m_WorldMgr.transfer_in_new_area(next_area)
                                 return self.immediate()
 

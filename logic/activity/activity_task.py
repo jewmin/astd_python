@@ -41,8 +41,22 @@ class ActivityTask(BaseTask):
         self.m_nConsumeGold += gold
 
     def add_reward(self, reward_info):
-        for reward in reward_info:
+        for reward in reward_info.m_listRewards:
             if reward.type in self.m_dictRewardInfo:
                 self.m_dictRewardInfo[reward.type].num += reward.num
             else:
                 self.m_dictRewardInfo[reward.type] = reward
+
+    def has_reward(self):
+        return self.m_nConsumeGold > 0 or len(self.m_dictRewardInfo) > 0
+
+    def __str__(self):
+        reward_msg = ""
+        first = True
+        for item in self.m_dictRewardInfo.itervalues():
+            if first:
+                first = False
+                reward_msg += "{}".format(item)
+            else:
+                reward_msg += " {}".format(item)
+        return "活动[{}]：花费{}金币，获得{}".format(self.m_szReadable, self.m_nConsumeGold, reward_msg)
