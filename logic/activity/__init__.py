@@ -10,4 +10,7 @@ __all__ = [
     "shenhuo",
     "yuandanqifu",
     "arrestevent",
+    "giftevent",
+    "paradeevent",
+    "borrowingarrowsevent",
 ]

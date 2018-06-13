@@ -31,7 +31,7 @@ class BombNianEvent(ActivityTask):
             if info["年兽血量"] >= hp:
                 info["鞭炮"] = sorted(info["鞭炮"], key=lambda obj: self.m_dictConfig["bomb"][idx][obj["类型"]])
                 for bomb in info["鞭炮"]:
-                    if bomb["免费次数"] > 0 or bomb["花费金币"] <= self.m_dictConfig["gold"][bomb["类型"]]:
+                    if bomb["免费次数"] > 0 or (bomb["花费金币"] <= self.m_dictConfig["gold"][bomb["类型"]] and bomb["花费金币"] <= self.get_available_gold()):
                         self.bomb_nian(bomb)
                         return self.immediate()
 

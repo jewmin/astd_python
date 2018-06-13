@@ -22,7 +22,7 @@ class YuanDanQiFu(ActivityTask):
         self.info("福气：{}/{}".format(info["福气"], info["最大福气"]))
 
         if info["状态"] == 0:
-            if info["祈福花费金币"] <= self.m_dictConfig["gold"]:
+            if info["祈福花费金币"] <= self.m_dictConfig["gold"] and info["祈福花费金币"] <= self.get_available_gold():
                 self.start_qifu(info["祈福花费金币"])
                 return self.immediate()
         elif info["状态"] == 1:
@@ -31,7 +31,7 @@ class YuanDanQiFu(ActivityTask):
             self.qifu_choose(2)
             return self.immediate()
         elif info["状态"] == 2:
-            if info["宝箱总福气"] >= self.m_dictConfig["all_open_fuqi"] and info["全开花费金币"] <= self.m_dictConfig["all_open_gold"]:
+            if info["宝箱总福气"] >= self.m_dictConfig["all_open_fuqi"] and info["全开花费金币"] <= self.m_dictConfig["all_open_gold"] and info["全开花费金币"] <= self.get_available_gold():
                 self.fuling_enze(info["全开花费金币"])
                 return self.immediate()
             else:
@@ -85,11 +85,14 @@ class YuanDanQiFu(ActivityTask):
         result = self.get_xml(url, "开始祈福")
         if result and result.m_bSucceed:
             self.consume_gold(cost)
-            self.info("花费{}金币，开始祈福".format(cost))
+            if cost > 0:
+                self.info("花费{}金币，开始祈福".format(cost), True)
+            else:
+                self.info("免费开始祈福")
 
     def fuling_enze(self, cost):
         url = "/root/yuandanqifu!fulingEnze.action"
         result = self.get_xml(url, "金币全开")
         if result and result.m_bSucceed:
             self.consume_gold(cost)
-            self.info("花费{}金币，全开宝箱".format(cost))
+            self.info("花费{}金币，全开宝箱".format(cost), True)

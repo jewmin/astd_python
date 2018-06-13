@@ -55,4 +55,21 @@ activity_config = {
         "high_gold": 0,  # 使用鞭子花费金币<=N
         "buy_gold": 5,  # 购买抓捕令花费金币<=N
     },
+    # 充值赠礼
+    "GiftEvent": {
+        "enable": True,  # 开启
+    },
+    # 阅兵庆典
+    "ParadeEvent": {
+        "enable": True,  # 开启
+        "round_cost": 0,  # 购买轮数金币<=N
+    },
+    # 草船借箭
+    "BorrowingArrowsEvent": {
+        "enable": True,  # 开启
+        "unlock": {"0": 4, "1": 1, "2": 2, "3": 3},  # 开启宝箱顺序，"镔铁", "点卷", "宝物", "宝石"
+        "cost_limit": 150000,  # 邀功花费军功<=N
+        "sail_gold": 5,  # 发船花费金币<=N
+        "arrow_diff": 10000,  # 承重差<=N
+    },
 }

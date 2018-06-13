@@ -212,3 +212,6 @@ class App(IServer):
         self.m_objTaskMgr.add_task(shenhuo.ShenHuo())
         self.m_objTaskMgr.add_task(yuandanqifu.YuanDanQiFu())
         self.m_objTaskMgr.add_task(arrestevent.ArrestEvent())
+        self.m_objTaskMgr.add_task(giftevent.GiftEvent())
+        self.m_objTaskMgr.add_task(paradeevent.ParadeEvent())
+        self.m_objTaskMgr.add_task(borrowingarrowsevent.BorrowingArrowsEvent())

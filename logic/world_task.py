@@ -165,6 +165,8 @@ class WorldTask(BaseTask):
                                         return self.immediate()
                                     elif error == "你已被抓，请先逃跑":
                                         return self.immediate()
+                                    elif error == "您当前正在组队征战中，不可以进行其他操作":
+                                        return self.ten_minute()
                                     elif error == "该位置玩家发生了变动":
                                         attack_num += 1
                                         break

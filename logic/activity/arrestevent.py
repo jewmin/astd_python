@@ -26,7 +26,7 @@ class ArrestEvent(ActivityTask):
         if info["俘虏"] > 0:
             if info["免费鞭子次数"] > 0:
                 self.shen_slaves(True, 0)
-            elif info["鞭子花费金币"] <= self.m_dictConfig["high_gold"]:
+            elif info["鞭子花费金币"] <= self.m_dictConfig["high_gold"] and info["鞭子花费金币"] <= self.get_available_gold():
                 self.shen_slaves(True, info["鞭子花费金币"])
             else:
                 self.shen_slaves(False, 0)
@@ -36,7 +36,7 @@ class ArrestEvent(ActivityTask):
             self.eat_rice_dumpling()
             return self.immediate()
 
-        if info["抓捕令"] == 0 and info["购买抓捕令花费金币"] <= self.m_dictConfig["buy_gold"]:
+        if info["抓捕令"] == 0 and info["购买抓捕令花费金币"] <= self.m_dictConfig["buy_gold"] and info["购买抓捕令花费金币"] <= self.get_available_gold():
             self.buy_arrest_token(info["购买抓捕令花费金币"])
             return self.immediate()
 
@@ -54,7 +54,6 @@ class ArrestEvent(ActivityTask):
             info["鞭子花费金币"] = int(result.m_objResult["hishengold"])
             info["粽子数量"] = int(result.m_objResult["ricedumpling"])
             info["购买抓捕令花费金币"] = int(result.m_objResult["arresttokencostgold"])
-
             return info
 
     def recv_arrest_token(self):
@@ -72,7 +71,13 @@ class ArrestEvent(ActivityTask):
             reward_info.handle_info(result.m_objResult["rewardinfo"])
             self.add_reward(reward_info)
             self.consume_gold(cost)
-            self.info("{}审问俘虏，获得{}".format("使用鞭子，" if high else "", reward_info))
+            if cost > 0:
+                msg = "花费{}金币，使用鞭子，".format(cost)
+                use_gold = True
+            else:
+                msg = "免费使用鞭子，" if high else ""
+                use_gold = False
+            self.info("{}审问俘虏，获得{}".format(msg, reward_info), use_gold)
 
     def eat_rice_dumpling(self):
         url = "/root/event!eatRiceDumpling.action"
@@ -88,4 +93,4 @@ class ArrestEvent(ActivityTask):
         result = self.get_xml(url, "购买抓捕令")
         if result and result.m_bSucceed:
             self.consume_gold(cost)
-            self.info("花费{}金币，购买抓捕令".format(cost))
+            self.info("花费{}金币，购买抓捕令".format(cost), True)
