@@ -244,6 +244,13 @@ class WorldTask(BaseTask):
                 self.m_WorldMgr.transfer_in_new_area(next_area)
                 return self.immediate()
 
+        # 随机屠城
+        if tu_city_config["enable"] and self.m_WorldMgr.m_dictTuCity["冷却时间"] == 0 and self.m_WorldMgr.m_dictTuCity["剩余次数"] > 0 and self.m_WorldMgr.m_dictTarget["悬赏剩余次数"] == 0:
+            for area in self.m_WorldMgr.m_dictId2Areas.itervalues():
+                if area["nation"] != self.m_objUser.m_nNation and area["areaname"] not in attack_config["exculde"]:
+                    self.m_WorldMgr.tu_city(area["areaid"])
+                    return self.immediate()
+
         # 敌方都城附近
         near_main_city_area_id_list = attack_config["near_main_city"][self.m_objUser.m_nNation]
         for area_id in near_main_city_area_id_list:
@@ -270,12 +277,6 @@ class WorldTask(BaseTask):
                     self.m_nTransferFailNum = 0
                     return self.next_hour()
                 return self.one_minute()
-
-        # 随机屠城
-        if tu_city_config["enable"] and self.m_WorldMgr.m_dictTuCity["冷却时间"] == 0 and self.m_WorldMgr.m_dictTuCity["剩余次数"] > 0 and self.m_WorldMgr.m_dictTarget["悬赏剩余次数"] == 0:
-            for area in self.m_WorldMgr.m_dictId2Areas.itervalues():
-                if area["nation"] != self.m_objUser.m_nNation and area["areaname"] not in attack_config["exculde"]:
-                    self.m_WorldMgr.tu_city(area["areaid"])
 
         return self.one_minute()
 
