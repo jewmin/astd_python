@@ -4,7 +4,7 @@
 __all__ = [
     "activity_task",
     "kfrank",
-    # "bgevent",
+    "bgevent",
     "training",
     "bombnianevent",
     "shenhuo",
