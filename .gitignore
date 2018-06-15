@@ -1,2 +1,4 @@
 *.pyc
 /.idea/workspace.xml
+/bin/account.ini
+/bin/run.bat

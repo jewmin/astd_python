@@ -15,6 +15,8 @@ class ActivityTask(BaseTask):
         self.m_ActivityMgr = None
         self.m_dictConfig = dict()
         self.m_eActivityType = activity_type
+        self.m_nConsumeGold = 0
+        self.m_dictRewardInfo = dict()
 
     def init(self):
         self.m_ActivityMgr = self.m_objServiceFactory.get_activity_mgr()
@@ -28,3 +30,33 @@ class ActivityTask(BaseTask):
 
     def info(self, msg, use_gold=False):
         self.m_ActivityMgr.info(msg, use_gold)
+
+    def get_xml(self, url, desc):
+        return self.m_objProtocolMgr.get_xml(url, desc)
+
+    def post_xml(self, url, data, desc):
+        return self.m_objProtocolMgr.post_xml(url, data, desc)
+
+    def consume_gold(self, gold):
+        self.m_nConsumeGold += gold
+
+    def add_reward(self, reward_info):
+        for reward in reward_info.m_listRewards:
+            if reward.type in self.m_dictRewardInfo:
+                self.m_dictRewardInfo[reward.type].num += reward.num
+            else:
+                self.m_dictRewardInfo[reward.type] = reward
+
+    def has_reward(self):
+        return self.m_nConsumeGold > 0 or len(self.m_dictRewardInfo) > 0
+
+    def __str__(self):
+        reward_msg = ""
+        first = True
+        for item in self.m_dictRewardInfo.itervalues():
+            if first:
+                first = False
+                reward_msg += "{}".format(item)
+            else:
+                reward_msg += " {}".format(item)
+        return "活动[{}]：花费{}金币，获得{}".format(self.m_szReadable, self.m_nConsumeGold, reward_msg)

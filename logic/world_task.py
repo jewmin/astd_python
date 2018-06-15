@@ -165,6 +165,8 @@ class WorldTask(BaseTask):
                                         return self.immediate()
                                     elif error == "你已被抓，请先逃跑":
                                         return self.immediate()
+                                    elif error == "您当前正在组队征战中，不可以进行其他操作":
+                                        return self.ten_minute()
                                     elif error == "该位置玩家发生了变动":
                                         attack_num += 1
                                         break
@@ -186,6 +188,7 @@ class WorldTask(BaseTask):
                             self.m_WorldMgr.info("完成屠城")
                             next_area = self.get_next_move_area(area["城池"])
                             if next_area is not None:
+                                self.m_WorldMgr.cd_move_recover_confirm()
                                 self.m_WorldMgr.transfer_in_new_area(next_area)
                                 return self.immediate()
 
@@ -213,14 +216,6 @@ class WorldTask(BaseTask):
             else:
                 return self.m_WorldMgr.m_nTransferCd
 
-        # 集结
-        if self.m_WorldMgr.m_szNationTaskAreaName != "":
-            self.m_WorldMgr.info("发现集结城池[{}]".format(self.m_WorldMgr.m_szNationTaskAreaName))
-            next_area = self.get_next_move_area(self.m_WorldMgr.m_szNationTaskAreaName)
-            if next_area is not None:
-                self.m_WorldMgr.transfer_in_new_area(next_area)
-                return self.immediate()
-
         # 封地生产
         if fengdi_config["enable"]:
             if self.m_WorldMgr.m_dictFengDi["生产时间"] == 0 and self.m_WorldMgr.m_dictFengDi["剩余封地生产次数"] > 0:
@@ -234,6 +229,14 @@ class WorldTask(BaseTask):
             elif self.m_WorldMgr.m_dictFengDi["生产时间"] > 0:
                 return self.one_minute()
 
+        # 集结
+        if self.m_WorldMgr.m_szNationTaskAreaName != "":
+            self.m_WorldMgr.info("发现集结城池[{}]".format(self.m_WorldMgr.m_szNationTaskAreaName))
+            next_area = self.get_next_move_area(self.m_WorldMgr.m_szNationTaskAreaName)
+            if next_area is not None:
+                self.m_WorldMgr.transfer_in_new_area(next_area)
+                return self.immediate()
+
         # 间谍
         if self.m_WorldMgr.m_nSpyAreaId > 0:
             next_area = self.get_next_move_area(self.m_WorldMgr.m_nSpyAreaId)
@@ -241,10 +244,19 @@ class WorldTask(BaseTask):
                 self.m_WorldMgr.transfer_in_new_area(next_area)
                 return self.immediate()
 
+        # 随机屠城
+        if tu_city_config["enable"] and self.m_WorldMgr.m_dictTuCity["冷却时间"] == 0 and self.m_WorldMgr.m_dictTuCity["剩余次数"] > 0 and self.m_WorldMgr.m_dictTarget["悬赏剩余次数"] == 0:
+            for area in self.m_WorldMgr.m_dictId2Areas.itervalues():
+                if area["nation"] != self.m_objUser.m_nNation and area["areaname"] not in attack_config["exculde"]:
+                    self.m_WorldMgr.tu_city(area["areaid"])
+                    return self.immediate()
+
         # 敌方都城附近
         near_main_city_area_id_list = attack_config["near_main_city"][self.m_objUser.m_nNation]
         for area_id in near_main_city_area_id_list:
             if area_id == self.m_WorldMgr.m_nSelfAreaId:
+                if self.m_objUser.m_nAttToken == 0 and not self.can_duel(attack_config["duel_city_hp_limit"]):
+                    return self.next_half_hour()
                 return self.immediate()
         for area_id in near_main_city_area_id_list:
             next_area = self.get_next_move_area(area_id)
@@ -332,14 +344,17 @@ class WorldTask(BaseTask):
             can_attack_area_list.append({"城池": area["areaid"], "屠城": can_tu_city, "玩家列表": can_attack_player, "NPC列表": can_attack_npc, "已被抓的玩家列表": arrest_player, "已被抓的NPC列表": arrest_npc})
         return can_attack_area_list
 
+    def can_duel(self, duel_city_hp_limit):
+        return self.m_objUser.m_nCityHp > duel_city_hp_limit and self.m_WorldMgr.m_dictDaoJu["诱敌锦囊"] > 0 and self.m_WorldMgr.m_dictDaoJu["决斗战旗"] > 0
+
     def duel(self, area, diff_level, duel_city_hp_limit):
         scope_id = 1
-        while self.m_objUser.m_nCityHp > duel_city_hp_limit and self.m_WorldMgr.m_dictDaoJu["诱敌锦囊"] > 0 and self.m_WorldMgr.m_dictDaoJu["决斗战旗"] > 0:
+        while self.can_duel(duel_city_hp_limit):
             city_list = self.m_WorldMgr.get_all_city(area["areaid"], scope_id)
             if city_list is None:
                 break
             for city in city_list:
-                if self.m_objUser.m_nCityHp <= duel_city_hp_limit or self.m_WorldMgr.m_dictDaoJu["诱敌锦囊"] <= 0 or self.m_WorldMgr.m_dictDaoJu["决斗战旗"] <= 0:
+                if not self.can_duel(duel_city_hp_limit):
                     break
                 level = int(city["citylevel"])
                 if 0 <= self.m_objUser.m_nLevel - level <= diff_level:

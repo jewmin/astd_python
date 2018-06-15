@@ -62,6 +62,9 @@ class App(IServer):
 
     def un_init(self):
         self.stop(True)
+        for task in self.m_objTaskMgr.m_listTasks:
+            if isinstance(task, activity_task.ActivityTask) and task.has_reward():
+                self.logger.info(str(task))
 
     def init_completed(self):
         self.start()
@@ -203,4 +206,15 @@ class App(IServer):
 
     def build_activity(self):
         self.m_objTaskMgr.add_task(kfrank.KFRank())
-        self.m_objTaskMgr.add_task(bgevent.BGEvent())
+        # self.m_objTaskMgr.add_task(bgevent.BGEvent())
+        self.m_objTaskMgr.add_task(training.Training())
+        self.m_objTaskMgr.add_task(bombnianevent.BombNianEvent())
+        self.m_objTaskMgr.add_task(shenhuo.ShenHuo())
+        self.m_objTaskMgr.add_task(yuandanqifu.YuanDanQiFu())
+        self.m_objTaskMgr.add_task(arrestevent.ArrestEvent())
+        self.m_objTaskMgr.add_task(giftevent.GiftEvent())
+        self.m_objTaskMgr.add_task(paradeevent.ParadeEvent())
+        self.m_objTaskMgr.add_task(borrowingarrowsevent.BorrowingArrowsEvent())
+        self.m_objTaskMgr.add_task(ringevent.RingEvent())
+        self.m_objTaskMgr.add_task(kfwd.KfWD())
+        self.m_objTaskMgr.add_task(duanwuevent.DuanWuEvent())

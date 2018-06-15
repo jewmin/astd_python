@@ -2,6 +2,18 @@
 
 
 __all__ = [
+    "activity_task",
     "kfrank",
-    "bgevent",
+    # "bgevent",
+    "training",
+    "bombnianevent",
+    "shenhuo",
+    "yuandanqifu",
+    "arrestevent",
+    "giftevent",
+    "paradeevent",
+    "borrowingarrowsevent",
+    "ringevent",
+    "kfwd",
+    "duanwuevent",
 ]

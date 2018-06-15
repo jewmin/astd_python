@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+import sys
 import base64
 import argparse
 import logging
-from logging.handlers import RotatingFileHandler
+from logging.handlers import RotatingFileHandler, TimedRotatingFileHandler
 from model.account import Account
 from model.enum.server_type import ServerType
 from framework.app import App
@@ -46,9 +47,13 @@ def init_logging():
     logging.basicConfig(level=logging.DEBUG,
                         format="%(asctime)s %(filename)s [%(levelname)s] %(message)s",
                         datefmt="%Y-%m-%d %H:%M:%S",
-                        filename="astd.log",
-                        when="D",
-                        interval=1)
+                        filename="all.log")
+
+    file_handler = TimedRotatingFileHandler("astd.log", when="D", interval=1)
+    file_handler.setLevel(logging.DEBUG)
+    formatter = logging.Formatter("%(asctime)s %(filename)s [%(levelname)s] %(message)s")
+    file_handler.setFormatter(formatter)
+    logging.getLogger().addHandler(file_handler)
 
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
