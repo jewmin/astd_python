@@ -216,14 +216,6 @@ class WorldTask(BaseTask):
             else:
                 return self.m_WorldMgr.m_nTransferCd
 
-        # 集结
-        if self.m_WorldMgr.m_szNationTaskAreaName != "":
-            self.m_WorldMgr.info("发现集结城池[{}]".format(self.m_WorldMgr.m_szNationTaskAreaName))
-            next_area = self.get_next_move_area(self.m_WorldMgr.m_szNationTaskAreaName)
-            if next_area is not None:
-                self.m_WorldMgr.transfer_in_new_area(next_area)
-                return self.immediate()
-
         # 封地生产
         if fengdi_config["enable"]:
             if self.m_WorldMgr.m_dictFengDi["生产时间"] == 0 and self.m_WorldMgr.m_dictFengDi["剩余封地生产次数"] > 0:
@@ -236,6 +228,14 @@ class WorldTask(BaseTask):
                                 return self.immediate()
             elif self.m_WorldMgr.m_dictFengDi["生产时间"] > 0:
                 return self.one_minute()
+
+        # 集结
+        if self.m_WorldMgr.m_szNationTaskAreaName != "":
+            self.m_WorldMgr.info("发现集结城池[{}]".format(self.m_WorldMgr.m_szNationTaskAreaName))
+            next_area = self.get_next_move_area(self.m_WorldMgr.m_szNationTaskAreaName)
+            if next_area is not None:
+                self.m_WorldMgr.transfer_in_new_area(next_area)
+                return self.immediate()
 
         # 间谍
         if self.m_WorldMgr.m_nSpyAreaId > 0:
@@ -270,6 +270,12 @@ class WorldTask(BaseTask):
                     self.m_nTransferFailNum = 0
                     return self.next_hour()
                 return self.one_minute()
+
+        # 随机屠城
+        if tu_city_config["enable"] and self.m_WorldMgr.m_dictTuCity["冷却时间"] == 0 and self.m_WorldMgr.m_dictTuCity["剩余次数"] > 0 and self.m_WorldMgr.m_dictTarget["悬赏剩余次数"] == 0:
+            for area in self.m_WorldMgr.m_dictId2Areas.itervalues():
+                if area["nation"] != self.m_objUser.m_nNation and area["areaname"] not in attack_config["exculde"]:
+                    self.m_WorldMgr.tu_city(area["areaid"])
 
         return self.one_minute()
 

@@ -281,7 +281,7 @@ config = {
         "war_chariot": {  # 战车
             "enable": True,  # 开启
             "only_use_hammer": True,  # 只用铁锤强化
-            "hammer_level": 4,  # 使用铁锤暴击<=N
+            "hammer_level": 10,  # 使用铁锤暴击<=N
             "auto_exchange_weapon": True,  # 自动兑换兵器
             "auto_exchange_bowlder": True,  # 自动兑换玉石
             "equipment_num": 20000,  # 兵器<=N
