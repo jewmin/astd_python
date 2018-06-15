@@ -13,4 +13,7 @@ __all__ = [
     "giftevent",
     "paradeevent",
     "borrowingarrowsevent",
+    "ringevent",
+    "kfwd",
+    "duanwuevent",
 ]

@@ -72,4 +72,22 @@ activity_config = {
         "sail_gold": 5,  # 发船花费金币<=N
         "arrow_diff": 10000,  # 承重差<=N
     },
+    # 新年敲钟
+    "RingEvent": {
+        "enable": True,  # 开启
+        "cost": 5,  # 敲钟花费金币<=N
+        "reward": 1,  # 奖励选项 1:大将令 2:镔铁
+    },
+    # 武斗会
+    "KfWD": {
+        "enable": True,  # 开启
+    },
+    # 百家宴
+    "DuanWuEvent": {
+        "enable": True,  # 开启
+        "gold_hunger": 3,  # 粽子花费金币<=N
+        "limit_hunger": 8,  # 免费粽子，饥饿度<=N
+        "gold_round": 0,  # 轮数花费金币<=N
+        "general": ["成吉思汗", "李白", "张良", "项羽"],  # 大将令列表
+    },
 }
