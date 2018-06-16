@@ -72,3 +72,8 @@ class KfWD(ActivityTask):
         result = self.get_xml(url, "武斗会积分奖励")
         if result and result.m_bSucceed:
             self.info("武斗会积分奖励，获得{}宝箱".format(result.m_objResult["message"]["tickets"]))
+
+    def get_tribute_detail(self):
+        url = "/root/kfwd!getTributeDetail.action"
+        result = self.get_xml(url, "武斗会结算详情")
+        if result and result.m_bSucceed:
