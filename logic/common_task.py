@@ -63,3 +63,7 @@ class CommonTask(BaseTask):
         # 自动技术研究
         if config["outCity"]["auto_tech_research"]:
             city_mgr.jail(self.get_available_gold(), config["outCity"]["jail_baoshi"])
+
+        # 自动委派
+        if config["mainCity"]["auto_trade"]:
+            misc_mgr.get_player_merchant()

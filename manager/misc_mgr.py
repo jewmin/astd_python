@@ -317,6 +317,27 @@ class MiscMgr(BaseMgr):
         else:
             self.abandon_supper_market_gift(supper_market_dto)
 
+    def get_player_merchant(self):
+        url = "/root/market!getPlayerMerchant.action"
+        result = self.get_protocol_mgr().get_xml(url, "委派商人")
+        if result and result.m_bSucceed:
+            if result.m_objResult["free"] == "1":
+                self.trade(result.m_objResult["merchant"][0])
+
+    def trade(self, merchant):
+        url = "/root/market!trade.action"
+        data = {"gold": 0, "merchantId": merchant["merchantid"]}
+        result = self.get_protocol_mgr().post_xml(url, data, "委派")
+        if result and result.m_bSucceed:
+            self.confirm(result.m_objResult["tradesn"], result.m_objResult["merchandise"])
+
+    def confirm(self, trade_sn, merchandise):
+        url = "/root/market!confirm.action"
+        data = {"tradeSN": trade_sn}
+        result = self.get_protocol_mgr().post_xml(url, data, "卖出委派商品")
+        if result and result.m_bSucceed:
+            self.info("卖出委派商品[{}]，获得{}银币".format(merchandise["merchandisename"], result.m_objResult["cost"]))
+
     #######################################
     # tickets begin
     #######################################

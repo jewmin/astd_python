@@ -16,4 +16,5 @@ __all__ = [
     "ringevent",
     "kfwd",
     "duanwuevent",
+    "towerstage",
 ]

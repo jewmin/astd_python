@@ -218,3 +218,4 @@ class App(IServer):
         self.m_objTaskMgr.add_task(ringevent.RingEvent())
         self.m_objTaskMgr.add_task(kfwd.KfWD())
         self.m_objTaskMgr.add_task(duanwuevent.DuanWuEvent())
+        self.m_objTaskMgr.add_task(towerstage.TowerStage())

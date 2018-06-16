@@ -22,6 +22,11 @@ class KfWD(ActivityTask):
         if info["报名状态"] == 0:
             self.sign_up()
             return self.immediate()
+        elif info["报名状态"] == 1:
+            detail = self.get_match_detail()
+            if detail is not None and detail["积分奖励"]:
+                self.get_score_tickets_reward()
+                return self.immediate()
 
         while info["宝箱"] > 0:
             info["宝箱"] -= 1
@@ -53,3 +58,17 @@ class KfWD(ActivityTask):
             reward_info.handle_info(result.m_objResult["message"]["rewardinfo"])
             self.add_reward(reward_info)
             self.info("开启武斗会宝箱，获得{}点券 {}".format(result.m_objResult["message"]["tickets"], reward_info))
+
+    def get_match_detail(self):
+        url = "/root/kfwd!getMatchDetail.action"
+        result = self.get_xml(url, "武斗会比赛详情")
+        if result and result.m_bSucceed:
+            detail = dict()
+            detail["积分奖励"] = result.m_objResult["message"].get("scoreticketsreward", "0") == "1"
+            return detail
+
+    def get_score_tickets_reward(self):
+        url = "/root/kfwd!getScoreTicketsReward.action"
+        result = self.get_xml(url, "武斗会积分奖励")
+        if result and result.m_bSucceed:
+            self.info("武斗会积分奖励，获得{}宝箱".format(result.m_objResult["message"]["tickets"]))
