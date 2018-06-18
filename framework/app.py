@@ -224,3 +224,4 @@ class App(IServer):
         self.m_objTaskMgr.add_task(dumpevent.DumpEvent())
         self.m_objTaskMgr.add_task(moongeneralevent.MoonGeneralEvent())
         self.m_objTaskMgr.add_task(superfanpai.SuperFanPai())
+        self.m_objTaskMgr.add_task(doubleelevenevent.DoubleElevenEvent())

@@ -124,4 +124,8 @@ activity_config = {
         "superlv": 18,  # 卡牌全开限制，宝石等级>=N
         "buyone": 5,  # 购买次数花费金币<=N
     },
+    # 消费送礼
+    "DoubleElevenEvent": {
+        "enable": True,  # 开启
+    },
 }

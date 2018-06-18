@@ -112,6 +112,8 @@ class CityMgr(BaseMgr):
             user.m_dictActivities[ActivityType.SuperFanPai] = True
         if dict_activities_info.get("yuandanqifu", "0") == "1":
             user.m_dictActivities[ActivityType.YuanDanQiFu] = True
+        if dict_activities_info.get("doubleelevenevent", "0") == "1":
+            user.m_dictActivities[ActivityType.DoubleElevenEvent] = True
 
     def get_update_reward(self):
         url = "/root/mainCity!getUpdateReward.action"

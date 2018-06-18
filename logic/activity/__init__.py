@@ -22,4 +22,5 @@ __all__ = [
     "dumpevent",
     "moongeneralevent",
     "superfanpai",
+    "doubleelevenevent",
 ]

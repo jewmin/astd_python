@@ -47,3 +47,4 @@ class ActivityType(Enum):
     YuanDanQiFu = 39  # 酒神觉醒
     KfWDEventReward = 40  # 武斗庆典
     KfRank = 41  # 对战
+    DoubleElevenEvent = 42  # 消费送礼
