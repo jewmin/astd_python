@@ -33,4 +33,26 @@ class FeteTask(BaseTask):
                 misc_mgr.do_fete(6, 0, "大祭祀")
                 return self.immediate()
 
+            if self.m_objUser.m_dictActivities.get(ActivityType.FeteEvent, False):
+                info = self.get_fete_event_info()
+                if info is not None:
+                    for god in info["神"]:
+                        if god["state"] == "1":
+                            self.recv_fete_ticket(god)
+
         return self.next_half_hour()
+
+    def get_fete_event_info(self):
+        url = "/root/fete!getFeteEventInfo.action"
+        result = self.m_objProtocolMgr.get_xml(url, "祭祀活动")
+        if result and result.m_bSucceed:
+            info = dict()
+            info["神"] = result.m_objResult["god"]
+            return info
+
+    def recv_fete_ticket(self, god):
+        url = "/root/fete!recvFeteTicket.action"
+        data = {"feteId": god["godticket"]["id"]}
+        result = self.m_objProtocolMgr.post_xml(url, data, "领取祭祀活动奖励")
+        if result and result.m_bSucceed:
+            self.m_objServiceFactory.get_misc_mgr().info("领取祭祀活动奖励，获得{}宝石".format(result.m_objResult["godticket"]["baoshi"]))

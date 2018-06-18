@@ -22,6 +22,8 @@ class ServerResult(object):
             else:
                 self.m_nHttpCode = 200
                 try:
+                    # 过滤掉非法字符&
+                    result = result.replace("&", "")
                     self.m_objResult = XmlParse().parse(result)["results"]
                     if self.m_objResult.get("state", "0") == "1":
                         self.m_bSucceed = True

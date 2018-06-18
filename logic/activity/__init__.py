@@ -17,4 +17,9 @@ __all__ = [
     "kfwd",
     "duanwuevent",
     "towerstage",
+    "kfevent",
+    "qingmingevent",
+    "dumpevent",
+    "moongeneralevent",
+    "superfanpai",
 ]

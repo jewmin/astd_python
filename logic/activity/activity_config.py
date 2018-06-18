@@ -95,4 +95,33 @@ activity_config = {
         "enable": True,  # 开启
         "tower": 1,  # 选择宝塔 0'青龙镇国塔' 1'白虎伏灵塔' 2'朱雀迎瑞塔' 3'玄武定运塔'
     },
+    # 武斗庆典
+    "KFEvent": {
+        "enable": True,  # 开启
+    },
+    # 群雄煮酒
+    "QingMingEvent": {
+        "enable": True,  # 开启
+        "buycost": 10,  # 购买轮数花费金币<=N
+        "golddrinkcost": 0,  # 酒仙附体花费金币<=N
+        "golddrink": [True, True, True, True, True, True, True, False],  # 酒仙附体限制
+        "drink": [30, 40, 50, 60, 70, 75, 95, 999],  # 醉意限制
+    },
+    # 宝石倾销
+    "DumpEvent": {
+        "enable": True,  # 开启
+    },
+    # 赏月送礼
+    "MoonGeneralEvent": {
+        "enable": True,  # 开启
+        "buyroundcost": 0,  # 购买轮数花费金币<=N
+        "cakecost": 0,  # 送礼花费金币<=N
+    },
+    # 超级翻牌
+    "SuperFanPai": {
+        "enable": True,  # 开启
+        "buyall": 20,  # 卡牌全开花费金币<=N
+        "superlv": 18,  # 卡牌全开限制，宝石等级>=N
+        "buyone": 5,  # 购买次数花费金币<=N
+    },
 }

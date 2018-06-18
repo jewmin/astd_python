@@ -219,3 +219,8 @@ class App(IServer):
         self.m_objTaskMgr.add_task(kfwd.KfWD())
         self.m_objTaskMgr.add_task(duanwuevent.DuanWuEvent())
         self.m_objTaskMgr.add_task(towerstage.TowerStage())
+        self.m_objTaskMgr.add_task(kfevent.KFEvent())
+        self.m_objTaskMgr.add_task(qingmingevent.QingMingEvent())
+        self.m_objTaskMgr.add_task(dumpevent.DumpEvent())
+        self.m_objTaskMgr.add_task(moongeneralevent.MoonGeneralEvent())
+        self.m_objTaskMgr.add_task(superfanpai.SuperFanPai())

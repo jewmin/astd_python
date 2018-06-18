@@ -61,3 +61,6 @@ class Reward(BaseObject):
 
     def __str__(self):
         return "{}(lv.{})+{}".format(self.itemname, self.lv, GlobalFunc.get_short_readable(self.num))
+
+    def __eq__(self, other):
+        return self.type == other.type and self.itemname == other.itemname and self.lv == other.lv and self.quality == other.quality

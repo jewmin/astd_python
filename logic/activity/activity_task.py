@@ -16,7 +16,7 @@ class ActivityTask(BaseTask):
         self.m_dictConfig = dict()
         self.m_eActivityType = activity_type
         self.m_nConsumeGold = 0
-        self.m_dictRewardInfo = dict()
+        self.m_listRewardInfo = list()
 
     def init(self):
         self.m_ActivityMgr = self.m_objServiceFactory.get_activity_mgr()
@@ -42,18 +42,22 @@ class ActivityTask(BaseTask):
 
     def add_reward(self, reward_info):
         for reward in reward_info.m_listRewards:
-            if reward.type in self.m_dictRewardInfo:
-                self.m_dictRewardInfo[reward.type].num += reward.num
-            else:
-                self.m_dictRewardInfo[reward.type] = reward
+            has = False
+            for my_reward in self.m_listRewardInfo:
+                if my_reward == reward:
+                    has = True
+                    my_reward.num += reward.num
+                    break
+            if not has:
+                self.m_listRewardInfo.append(reward)
 
     def has_reward(self):
-        return self.m_nConsumeGold > 0 or len(self.m_dictRewardInfo) > 0
+        return self.m_nConsumeGold > 0 or len(self.m_listRewardInfo) > 0
 
     def __str__(self):
         reward_msg = ""
         first = True
-        for item in self.m_dictRewardInfo.itervalues():
+        for item in self.m_listRewardInfo:
             if first:
                 first = False
                 reward_msg += "{}".format(item)

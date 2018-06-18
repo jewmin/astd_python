@@ -45,6 +45,7 @@ class BGEvent(ActivityTask):
         if result and result.m_bSucceed:
             reward_info = RewardInfo()
             reward_info.handle_info(result.m_objResult["rewardinfo"])
+            self.add_reward(reward_info)
             self.info("开启宴请宝箱，获得{}".format(reward_info))
 
     def do_bg_event(self, cost):
@@ -53,6 +54,8 @@ class BGEvent(ActivityTask):
         if result and result.m_bSucceed:
             reward_info = RewardInfo()
             reward_info.handle_info(result.m_objResult["bginfo"]["rewardinfo"])
+            self.add_reward(reward_info)
+            self.consume_gold(cost)
             if cost > 0:
                 self.info("花费{}金币宴请群雄，获得{}".format(cost, reward_info), True)
             else:
