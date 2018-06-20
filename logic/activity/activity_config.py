@@ -128,4 +128,25 @@ activity_config = {
     "DoubleElevenEvent": {
         "enable": True,  # 开启
     },
+    # 宝石翻牌
+    "GemCard": {
+        "enable": True,  # 开启
+        "comboxs": 5,  # 组合倍数>=N
+        "total": 9,  # 卡牌总值>=N
+        "buygold": 0,  # 购买次数花费金币<=N
+        "doublecost": 0,  # 翻倍花费金币<=N
+        "upgradegold": 0,  # 升级花费金币<=N
+        "combo": [111, 222, 333, 444, 555, 123, 234, 345],  # 组合
+        "upgrade": {  # 升级组合
+            113: 1,
+            122: 2,
+            134: 0,
+            224: 1,
+            233: 2,
+            245: 0,
+            335: 1,
+            344: 2,
+            455: 0,
+        },
+    },
 }

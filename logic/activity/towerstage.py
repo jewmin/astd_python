@@ -2,7 +2,7 @@
 # 宝塔活动
 from logic.activity.activity_task import ActivityTask
 from model.enum.activity_type import ActivityType
-from model.reward_info import RewardInfo
+from model.reward_info import RewardInfo, Reward
 from model.global_func import GlobalFunc
 
 
@@ -22,6 +22,8 @@ class TowerStage(ActivityTask):
 
         if info["阶段"] == 1 and info["选中宝塔"] == 0:
             self.accept_by_tower_id(info["宝塔"][self.m_dictConfig["tower"]])
+        elif info["阶段"] == 2 and info["状态"] == 0:
+            self.finish_tower()
 
         return self.next_half_hour()
 
@@ -33,6 +35,7 @@ class TowerStage(ActivityTask):
             info["阶段"] = int(result.m_objResult["stage"])
             info["选中宝塔"] = int(result.m_objResult.get("curtowerid", "0"))
             info["宝塔"] = result.m_objResult["towerbaoshi"]
+            info["状态"] = int(result.m_objResult["curstate"])
             return info
 
     def accept_by_tower_id(self, tower):
@@ -46,4 +49,12 @@ class TowerStage(ActivityTask):
         url = "/root/festaval!finishTower.action"
         result = self.get_xml(url, "完成宝塔")
         if result and result.m_bSucceed:
-            pass
+            reward = Reward()
+            reward.type = 5
+            reward.lv = 1
+            reward.num = int(result.m_objResult["baoshi"])
+            reward.init()
+            reward_info = RewardInfo()
+            reward_info.m_listRewards.append(reward)
+            self.add_reward(reward_info)
+            self.info("完成宝塔，获得{}筑造石，{}".format(result.m_objResult["buildingstone"], reward_info))

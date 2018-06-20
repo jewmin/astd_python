@@ -126,7 +126,7 @@ def main():
             app_list.append(app)
 
         while True:
-            cmd = input("请输入命令：退出(quit)、启动(start)、暂停(stop)、重新登录(relogin)")
+            cmd = input("请输入命令：退出(quit)、启动(start)、暂停(stop)、重新登录(relogin)\n")
             if cmd.startswith("quit"):
                 break
             elif cmd.startswith("start") or cmd.startswith("stop") or cmd.startswith("relogin"):

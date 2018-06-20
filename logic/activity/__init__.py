@@ -23,4 +23,5 @@ __all__ = [
     "moongeneralevent",
     "superfanpai",
     "doubleelevenevent",
+    "gemcard",
 ]
