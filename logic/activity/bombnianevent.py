@@ -25,17 +25,16 @@ class BombNianEvent(ActivityTask):
                 if reward_info["state"] == "1":
                     self.open_gift(reward_info["id"])
             return self.immediate()
-
-        self.info("年兽血量：{}/{}".format(info["年兽血量"], info["年兽最大血量"]))
-        for idx, hp in enumerate(self.m_dictConfig["hp"]):
-            if info["年兽血量"] >= hp:
-                info["鞭炮"] = sorted(info["鞭炮"], key=lambda obj: self.m_dictConfig["bomb"][idx][obj["类型"]])
-                for bomb in info["鞭炮"]:
-                    if bomb["免费次数"] > 0 or (bomb["花费金币"] <= self.m_dictConfig["gold"][bomb["类型"]] and bomb["花费金币"] <= self.get_available_gold()):
-                        self.bomb_nian(bomb)
-                        return self.immediate()
-
-        self.hunt_nian()
+        else:
+            self.info("年兽血量：{}/{}".format(info["年兽血量"], info["年兽最大血量"]))
+            for idx, hp in enumerate(self.m_dictConfig["hp"]):
+                if info["年兽血量"] >= hp:
+                    info["鞭炮"] = sorted(info["鞭炮"], key=lambda obj: self.m_dictConfig["bomb"][idx][obj["类型"]])
+                    for bomb in info["鞭炮"]:
+                        if bomb["花费金币"] <= self.m_dictConfig["gold"][bomb["类型"]] and bomb["花费金币"] <= self.get_available_gold():
+                            self.bomb_nian(bomb)
+                            return self.immediate()
+            self.hunt_nian()
 
         return self.next_half_hour()
 
@@ -44,26 +43,28 @@ class BombNianEvent(ActivityTask):
         result = self.get_xml(url, "抓年兽")
         if result and result.m_bSucceed:
             info = dict()
-            info["年兽血量"] = int(result.m_objResult["playerbombnianeventinfo"]["nianhp"])
-            info["年兽最大血量"] = int(result.m_objResult["playerbombnianeventinfo"]["nianmaxhp"])
-            info["鞭炮"] = list()
-            info["鞭炮"].append({
-                "类型": 1,
-                "免费次数": int(result.m_objResult["playerbombnianeventinfo"]["firecrackersnum"]),
-                "花费金币": int(result.m_objResult["playerbombnianeventinfo"]["firecrackerscost"]),
-            })
-            info["鞭炮"].append({
-                "类型": 2,
-                "免费次数": int(result.m_objResult["playerbombnianeventinfo"]["stringfirecrackersnum"]),
-                "花费金币": int(result.m_objResult["playerbombnianeventinfo"]["stringfirecrackerscost"]),
-            })
-            info["鞭炮"].append({
-                "类型": 3,
-                "免费次数": int(result.m_objResult["playerbombnianeventinfo"]["springthundernum"]),
-                "花费金币": int(result.m_objResult["playerbombnianeventinfo"]["springthundercost"]),
-            })
             info["领奖状态"] = int(result.m_objResult["canget"])
-            info["奖励"] = result.m_objResult["reward"]
+            if info["领奖状态"] == 1:
+                info["奖励"] = result.m_objResult["reward"]
+            else:
+                info["年兽血量"] = int(result.m_objResult["playerbombnianeventinfo"]["nianhp"])
+                info["年兽最大血量"] = int(result.m_objResult["playerbombnianeventinfo"]["nianmaxhp"])
+                info["鞭炮"] = list()
+                info["鞭炮"].append({
+                    "类型": 1,
+                    "免费次数": int(result.m_objResult["playerbombnianeventinfo"]["firecrackersnum"]),
+                    "花费金币": int(result.m_objResult["cost"]["firecrackerscost"]),
+                })
+                info["鞭炮"].append({
+                    "类型": 2,
+                    "免费次数": int(result.m_objResult["playerbombnianeventinfo"]["stringfirecrackersnum"]),
+                    "花费金币": int(result.m_objResult["cost"]["stringfirecrackerscost"]),
+                })
+                info["鞭炮"].append({
+                    "类型": 3,
+                    "免费次数": int(result.m_objResult["playerbombnianeventinfo"]["springthundernum"]),
+                    "花费金币": int(result.m_objResult["cost"]["springthundercost"]),
+                })
             return info
 
     def open_gift(self, gift_id):
@@ -84,7 +85,7 @@ class BombNianEvent(ActivityTask):
             reward_info = RewardInfo()
             reward_info.handle_info(result.m_objResult["bombnianreward"]["rewardinfo"])
             self.add_reward(reward_info)
-            if bomb["免费次数"] > 0:
+            if bomb["花费金币"] == 0:
                 self.info("免费放鞭炮，获得{}".format(reward_info))
             else:
                 self.consume_gold(bomb["花费金币"])

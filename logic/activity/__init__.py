@@ -24,4 +24,5 @@ __all__ = [
     "superfanpai",
     "doubleelevenevent",
     "gemcard",
+    "snowtrading",
 ]

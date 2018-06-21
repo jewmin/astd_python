@@ -226,3 +226,4 @@ class App(IServer):
         self.m_objTaskMgr.add_task(superfanpai.SuperFanPai())
         self.m_objTaskMgr.add_task(doubleelevenevent.DoubleElevenEvent())
         self.m_objTaskMgr.add_task(gemcard.GemCard())
+        self.m_objTaskMgr.add_task(snowtrading.SnowTrading())
