@@ -84,7 +84,7 @@ class CityMgr(BaseMgr):
             user.m_dictActivities[ActivityType.TowerStage] = True
         if dict_activities_info.get("moontowerevent", "0") == "1":
             user.m_dictActivities[ActivityType.MoonTowerEvent] = True
-        if dict_activities_info.get("goldboxevent", "0") == "1":
+        if dict_activities_info.get("goldboxevent", "-1") == "0":
             user.m_dictActivities[ActivityType.GoldBoxEvent] = True
         if dict_activities_info.get("nationdaygoldboxevent", "0") == "1":
             user.m_dictActivities[ActivityType.NationDayGoldBoxEvent] = True

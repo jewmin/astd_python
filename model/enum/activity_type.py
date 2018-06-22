@@ -29,7 +29,7 @@ class ActivityType(Enum):
     ParadeEvent = 21  # 阅兵庆典
     TowerStage = 22  # 宝塔活动
     MoonTowerEvent = 23
-    GoldBoxEvent = 24
+    GoldBoxEvent = 24  # 群雄争霸
     NationDayGoldBoxEvent = 25  # 充值赠礼
     HasDayTreasureGame = 26
     HasTroopFeedback = 27

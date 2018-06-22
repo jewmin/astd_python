@@ -25,4 +25,5 @@ __all__ = [
     "doubleelevenevent",
     "gemcard",
     "snowtrading",
+    "kfzb",
 ]
