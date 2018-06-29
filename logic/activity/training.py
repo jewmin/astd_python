@@ -81,7 +81,7 @@ class Training(ActivityTask):
         data = {"hongbao": hongbao}
         result = self.post_xml(url, data, "领取战旗奖励")
         if result and result.m_bSucceed:
-            self.info("领取战旗奖励，获得{}红包".format(0))
+            self.info("领取战旗奖励，获得{}红包".format(result.m_objResult["addhongbao"]))
 
     def reset_reward(self):
         url = "/root/training!resetReward.action"

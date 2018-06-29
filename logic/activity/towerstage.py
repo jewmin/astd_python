@@ -22,7 +22,7 @@ class TowerStage(ActivityTask):
 
         if info["阶段"] == 1 and info["选中宝塔"] == 0:
             self.accept_by_tower_id(info["宝塔"][self.m_dictConfig["tower"]])
-        elif info["阶段"] == 2 and info["状态"] == 0:
+        elif info["阶段"] == 2 and info["宝石"] >= int(info["宝塔"]["baoshi"]):
             self.finish_tower()
 
         return self.next_half_hour()
@@ -35,7 +35,8 @@ class TowerStage(ActivityTask):
             info["阶段"] = int(result.m_objResult["stage"])
             info["选中宝塔"] = int(result.m_objResult.get("curtowerid", "0"))
             info["宝塔"] = result.m_objResult["towerbaoshi"]
-            info["状态"] = int(result.m_objResult["curstate"])
+            info["宝石"] = int(result.m_objResult["curbaoshi"])
+            info["状态"] = int(result.m_objResult.get("curstate", "-1"))
             return info
 
     def accept_by_tower_id(self, tower):

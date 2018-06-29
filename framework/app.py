@@ -228,3 +228,5 @@ class App(IServer):
         self.m_objTaskMgr.add_task(gemcard.GemCard())
         self.m_objTaskMgr.add_task(snowtrading.SnowTrading())
         self.m_objTaskMgr.add_task(kfzb.KFZB())
+        self.m_objTaskMgr.add_task(goldgifttype.GoldGiftType())
+        self.m_objTaskMgr.add_task(kfpvp.KfPVP())

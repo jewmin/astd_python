@@ -164,4 +164,13 @@ activity_config = {
     "KFZB": {
         "enable": True,  # 开启
     },
+    # 盛宴活动
+    "GoldGiftType": {
+        "enable": True,  # 开启
+        "buyjoingold": 0,  # 购买盛宴次数花费金币<=N
+    },
+    # 英雄帖
+    "KfPVP": {
+        "enable": True,  # 开启
+    },
 }

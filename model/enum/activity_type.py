@@ -48,3 +48,4 @@ class ActivityType(Enum):
     KfWDEventReward = 40  # 武斗庆典
     KfRank = 41  # 对战
     DoubleElevenEvent = 42  # 消费送礼
+    GoldGiftType = 43  # 盛宴活动

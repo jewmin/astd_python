@@ -114,6 +114,8 @@ class CityMgr(BaseMgr):
             user.m_dictActivities[ActivityType.YuanDanQiFu] = True
         if dict_activities_info.get("doubleelevenevent", "0") == "1":
             user.m_dictActivities[ActivityType.DoubleElevenEvent] = True
+        if dict_activities_info.get("goldgifttype", "0") == "2":
+            user.m_dictActivities[ActivityType.GoldGiftType] = True
 
     def get_update_reward(self):
         url = "/root/mainCity!getUpdateReward.action"

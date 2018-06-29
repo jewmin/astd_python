@@ -26,4 +26,6 @@ __all__ = [
     "gemcard",
     "snowtrading",
     "kfzb",
+    "goldgifttype",
+    "kfpvp",
 ]

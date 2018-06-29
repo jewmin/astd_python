@@ -136,13 +136,14 @@ class WorldTask(BaseTask):
                     for area in can_attack_area_list:
                         # 屠城
                         attack_num = 0
-                        total_num = len(area["玩家列表"]) + len(area["NPC列表"]) + len(area["已被抓的玩家列表"]) + len(area["已被抓的NPC列表"])
+                        total_num = len(area["英雄帖玩家列表"]) + len(area["玩家列表"]) + len(area["NPC列表"]) + len(area["已被抓的玩家列表"]) + len(area["已被抓的NPC列表"])
                         attack_arrest = False
                         if tu_city_config["enable"] and area["屠城"] and self.m_WorldMgr.m_dictTuCity["冷却时间"] == 0 and self.m_WorldMgr.m_dictTuCity["剩余次数"] > 0:
                             if total_num <= tu_city_config["people_num"]:
                                 self.m_WorldMgr.tu_city(area["城池"])
                                 attack_arrest = True
                         attack_list = []
+                        attack_list.extend(area["英雄帖玩家列表"])
                         attack_list.extend(area["玩家列表"])
                         attack_list.extend(area["NPC列表"])
                         if attack_arrest:
@@ -318,6 +319,7 @@ class WorldTask(BaseTask):
             can_attack_npc = []
             arrest_player = []
             arrest_npc = []
+            pvp_attack_player = []
             for i in xrange(1, 100):
                 city_list = self.m_WorldMgr.get_all_city(area["areaid"], i)
                 if city_list is None:
@@ -334,14 +336,17 @@ class WorldTask(BaseTask):
                         elif city["inpk"] != "0":
                             can_tu_city = False
                         elif city["arreststate"] == "0":
-                            can_attack_player.append(city)
+                            if city.get("heronote", "0") == "2":
+                                pvp_attack_player.append(city)
+                            else:
+                                can_attack_player.append(city)
                         else:
                             arrest_player.append(city)
                     elif city["arreststate"] == "0":
                         can_attack_npc.append(city)
                     else:
                         arrest_npc.append(city)
-            can_attack_area_list.append({"城池": area["areaid"], "屠城": can_tu_city, "玩家列表": can_attack_player, "NPC列表": can_attack_npc, "已被抓的玩家列表": arrest_player, "已被抓的NPC列表": arrest_npc})
+            can_attack_area_list.append({"城池": area["areaid"], "屠城": can_tu_city, "英雄帖玩家列表": pvp_attack_player, "玩家列表": can_attack_player, "NPC列表": can_attack_npc, "已被抓的玩家列表": arrest_player, "已被抓的NPC列表": arrest_npc})
         return can_attack_area_list
 
     def can_duel(self, duel_city_hp_limit):
