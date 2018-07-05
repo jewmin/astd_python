@@ -68,7 +68,8 @@ class ActiveTask(BaseTask):
                         return self.one_minute()
 
                     if info["消耗余料"] > info["当前余料"]:
-                        return self.next_half_hour()
+                        # return self.next_half_hour()
+                        continue
 
                     if info["消耗行动力"] > self.m_objUser.m_nCurActive:
                         return self.next_half_hour()
