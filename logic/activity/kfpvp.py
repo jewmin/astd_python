@@ -23,9 +23,28 @@ class KfPVP(ActivityTask):
             self.sign_up()
             return self.immediate()
         elif info["报名状态"] == 1:
-            detail = self.get_match_detail()
-            if detail is not None:
-                pass
+            if info["冷却时间"] < 0:
+                detail = self.get_tribute_detail()
+                if detail is not None:
+                    self.info("英雄帖初始排名：{}，最终排名：{}".format(detail["初始排名"], detail["最终排名"]))
+                    if detail["最终排名奖励"]:
+                        self.recv_reward_by_id(False)
+                        return self.immediate()
+                    if detail["最终排名前三奖励"]:
+                        self.recv_reward_by_id(True)
+                        return self.immediate()
+                    if detail["徽章"] == 0:
+                        self.recv_wd_medal()
+                        return self.immediate()
+            else:
+                detail = self.get_match_detail()
+                if detail is not None:
+                    me = detail["攻方"] if detail["攻方"]["playername"] == self.m_objUser.m_szUserName else detail["守方"]
+                    if detail["可以鼓舞"] and detail["免费鼓舞"] > 0 and me["inspire"]["attack"] == "0" and me["inspire"]["defend"] == "0":
+                        self.inspire()
+                        return self.immediate()
+                    elif detail["冷却时间"] > 0:
+                        return detail["冷却时间"]
 
         while info["宝箱"] > 0:
             info["宝箱"] -= 1
@@ -73,48 +92,41 @@ class KfPVP(ActivityTask):
         if result and result.m_bSucceed:
             detail = dict()
             detail["积分奖励"] = result.m_objResult["message"].get("scoreticketsreward", "0") == "1"
+            detail["免费鼓舞"] = int(result.m_objResult["message"].get("freeinspire", "0"))
+            detail["可以鼓舞"] = result.m_objResult["message"].get("caninspire", "0") == "1"
+            detail["冷却时间"] = int(result.m_objResult["message"].get("cd", "0"))
+            detail["攻方"] = result.m_objResult["message"]["attacker"]
+            detail["守方"] = result.m_objResult["message"]["defender"]
             return detail
-    #
-    # def get_score_tickets_reward(self):
-    #     url = "/root/kfwd!getScoreTicketsReward.action"
-    #     result = self.get_xml(url, "武斗会积分奖励")
-    #     if result and result.m_bSucceed:
-    #         self.info("武斗会积分奖励，获得{}宝箱".format(result.m_objResult["message"]["tickets"]))
-    #
-    # def get_tribute_detail(self):
-    #     url = "/root/kfwd!getTributeDetail.action"
-    #     result = self.get_xml(url, "武斗会结算详情")
-    #     if result and result.m_bSucceed:
-    #         detail = dict()
-    #         detail["积分奖励"] = result.m_objResult["message"].get("scoreticketsreward", "0") == "1"
-    #         detail["比赛奖励"] = result.m_objResult["message"]["tributeinfo"]["tributelist"]["tribute"]
-    #         return detail
-    #
-    # def buy_tribute(self, tribute):
-    #     url = "/root/kfwd!buyTribute.action"
-    #     result = self.get_xml(url, "武斗会比赛奖励")
-    #     if result and result.m_bSucceed:
-    #         self.info("花费{}金币领取武斗会比赛奖励，获得{}宝箱".format(tribute.get("gold", "0"), tribute["tickets"]))
-    #
-    # def get_wd_medal_gift(self):
-    #     url = "/root/kfwd!getWdMedalGift.action"
-    #     result = self.get_xml(url, "武斗会勋章")
-    #     if result and result.m_bSucceed:
-    #         info = dict()
-    #         info["勋章"] = result.m_objResult["message"]["medal"]
-    #         return info
-    #
-    # def recv_wd_medal_gift(self, medal):
-    #     url = "/root/kfwd!recvWdMedalGift.action"
-    #     data = {"medalId": medal["id"]}
-    #     result = self.post_xml(url, data, "领取武斗会勋章奖励")
-    #     if result and result.m_bSucceed:
-    #         reward = Reward()
-    #         reward.type = 5
-    #         reward.lv = int(result.m_objResult["message"]["baoshi"]["baoshilevel"])
-    #         reward.num = int(result.m_objResult["message"]["baoshi"]["baoshinum"])
-    #         reward.itemname = "宝石"
-    #         reward_info = RewardInfo()
-    #         reward_info.m_listRewards.append(reward)
-    #         self.add_reward(reward_info)
-    #         self.info("领取武斗会勋章奖励，获得{}".format(reward_info))
+
+    def inspire(self):
+        url = "/root/kfpvp!inspire.action"
+        data = {"count": 1}
+        result = self.post_xml(url, data, "跨服PVP鼓舞")
+        if result and result.m_bSucceed:
+            self.info("跨服PVP鼓舞")
+
+    def get_tribute_detail(self):
+        url = "/root/kfpvp!getTributeDetail.action"
+        result = self.get_xml(url, "英雄帖结算详情")
+        if result and result.m_bSucceed:
+            detail = dict()
+            detail["初始排名"] = int(result.m_objResult["message"]["expectrank"])
+            detail["最终排名"] = int(result.m_objResult["message"]["finalrank"])
+            detail["最终排名奖励"] = result.m_objResult["message"].get("cangetfinalreward", "0") == "1"
+            detail["最终排名前三奖励"] = result.m_objResult["message"].get("cangettopreward", "0") == "1"
+            detail["徽章"] = int(result.m_objResult["message"]["medalstate"])
+            return detail
+
+    def recv_reward_by_id(self, top3):
+        url = "/root/kfpvp!recvRewardById.action"
+        data = {"rewardId": 2 if top3 else 1}
+        result = self.post_xml(url, data, "英雄帖最终排名奖励")
+        if result and result.m_bSucceed:
+            self.info("领取英雄帖最终排名奖励，获得{}宝箱".format(result.m_objResult["message"]["rewardbox"]))
+
+    def recv_wd_medal(self):
+        url = "/root/kfpvp!recvWdMedal.action"
+        result = self.get_xml(url, "领取英雄帖勋章奖励")
+        if result and result.m_bSucceed:
+            self.info("领取英雄帖勋章奖励，获得{}".format(result.m_objResult["message"]["wdmedalname"]))

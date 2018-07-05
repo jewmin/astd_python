@@ -353,7 +353,7 @@ config = {
         "awaken": {  # 觉醒
             "enable": True,  # 开启
             "use_stone": True,  # 使用觉醒酒
-            "only_awaken": True,  # 觉醒后停止
+            "only_awaken": False,  # 觉醒后停止
         },
         "tech": {  # 科技
             "enable": True,  # 开启
