@@ -54,4 +54,6 @@ class GiftEvent(ActivityTask):
             elif "ticket" in result.m_objResult["reward"]:
                 self.info("开启充值赠礼宝箱，获得{}点券".format(result.m_objResult["reward"]["ticket"]))
             else:
-                pass
+                self.info("开启充值赠礼宝箱，{}".format(result.m_szXml))
+            if "biginfo" in result.m_objResult:
+                self.info("开启充值赠礼宝箱，获得大将令[{}]+{}".format(result.m_objResult["biginfo"]["name"], result.m_objResult["biginfo"]["addnum"]))
