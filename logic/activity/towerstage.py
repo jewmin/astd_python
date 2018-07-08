@@ -35,7 +35,7 @@ class TowerStage(ActivityTask):
             info["阶段"] = int(result.m_objResult["stage"])
             info["选中宝塔"] = int(result.m_objResult.get("curtowerid", "0"))
             info["宝塔"] = result.m_objResult["towerbaoshi"]
-            info["宝石"] = int(result.m_objResult["curbaoshi"])
+            info["宝石"] = int(result.m_objResult.get("curbaoshi", "0"))
             info["状态"] = int(result.m_objResult.get("curstate", "-1"))
             return info
 
