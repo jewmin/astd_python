@@ -43,7 +43,7 @@ class EquipMgr(BaseMgr):
             dict_info["当前进度"] = int(result.m_objResult["upgradeeffectnum"])
             dict_info["使用铁锤"] = result.m_objResult.get("chuizi", "0") == "1"
             dict_info["进度"] = int(result.m_objResult.get("isbaoji", "0"))
-            dict_info["余料"] = int(result.m_objResult["surplus"])
+            dict_info["余料"] = int(result.m_objResult.get("surplus", "0"))
             if dict_info["进度"] == 0:
                 msg = "战车升级"
             else:
