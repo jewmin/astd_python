@@ -28,6 +28,9 @@ class ActiveTask(BaseTask):
                     if info["消耗行动力"] > self.m_objUser.m_nCurActive:
                         return self.next_half_hour()
 
+                    if info["布匹"] >= info["布匹上限"]:
+                        continue
+
                     if active_config["do_high"] and info["剩余高效次数"] > 0:
                         active_mgr.royalty_weave2(info["消耗行动力"], 1)
                         return self.immediate()

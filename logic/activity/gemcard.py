@@ -40,7 +40,7 @@ class GemCard(ActivityTask):
                             is_combo = True
                             break
             total = sum([item["combo"] for item in info["卡牌"]])
-            if is_combo and info["组合倍数"] >= self.m_dictConfig["comboxs"] and total >= self.m_dictConfig["total"]:
+            if (is_combo and info["组合倍数"] >= self.m_dictConfig["comboxs"] and total >= self.m_dictConfig["total"]) or (info["免费次数"] <= info["免费翻倍次数"]):
                 if info["免费翻倍次数"] > 0:
                     double = 1
                 elif info["翻倍花费金币"] <= self.m_dictConfig["doublecost"] and info["翻倍花费金币"] <= self.get_available_gold():
