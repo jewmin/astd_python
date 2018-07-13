@@ -42,11 +42,11 @@ class PolishTask(BaseTask):
                 equip_mgr.melt(dict_info["0属性的专属玉佩"].pop(), True)
 
             for specialtreasure in dict_info["装备的专属玉佩"]:
-                if not self.upgrade_specialtreasure(specialtreasure, dict_info["日月光华"], specialtreasure_config["attribute"]):
+                if not self.upgrade_specialtreasure(specialtreasure, dict_info["日月光华"], specialtreasure_config["attribute"], specialtreasure_config["include"]):
                     break
 
             for specialtreasure in dict_info["专属玉佩"]:
-                if not self.upgrade_specialtreasure(specialtreasure, dict_info["日月光华"], specialtreasure_config["attribute"]):
+                if not self.upgrade_specialtreasure(specialtreasure, dict_info["日月光华"], specialtreasure_config["attribute"], specialtreasure_config["include"]):
                     break
 
         baowu_config = config["equip"]["polish"]["baowu"]
@@ -65,7 +65,7 @@ class PolishTask(BaseTask):
 
         return self.next_half_hour()
 
-    def upgrade_specialtreasure(self, specialtreasure, list_baowu, attribute_config):
+    def upgrade_specialtreasure(self, specialtreasure, list_baowu, attribute_config, include_config):
         equip_mgr = self.m_objServiceFactory.get_equip_mgr()
         while len(list_baowu) > 0:
             if specialtreasure.get("canconsecrate", "0") == "1":
@@ -76,16 +76,17 @@ class PolishTask(BaseTask):
                 equip_mgr.evolve_special_treasure(specialtreasure)
                 return True
 
-            if "additionalattribute" in specialtreasure:
-                if isinstance(specialtreasure["additionalattribute"]["attribute"], list):
-                    for attribute in specialtreasure["additionalattribute"]["attribute"]:
-                        attrs = attribute.split(":")
+            if int(specialtreasure["storeid"]) not in include_config:
+                if "additionalattribute" in specialtreasure:
+                    if isinstance(specialtreasure["additionalattribute"]["attribute"], list):
+                        for attribute in specialtreasure["additionalattribute"]["attribute"]:
+                            attrs = attribute.split(":")
+                            if attrs[1] not in attribute_config:
+                                return True
+                    else:
+                        attrs = specialtreasure["additionalattribute"]["attribute"].split(":")
                         if attrs[1] not in attribute_config:
                             return True
-                else:
-                    attrs = specialtreasure["additionalattribute"]["attribute"].split(":")
-                    if attrs[1] not in attribute_config:
-                        return True
 
             upgrade_baowu = list_baowu.pop()
             if upgrade_baowu is not None:
