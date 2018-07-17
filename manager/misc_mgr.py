@@ -108,6 +108,12 @@ class MiscMgr(BaseMgr):
                 if result.m_objResult["gift"]["intime"] == "1" and result.m_objResult["gift"]["statuts"] == "0":
                     self.get_new_gift_reward(result.m_objResult["gift"]["id"])
 
+        result = self.get_protocol_mgr().get_xml(url, "补偿礼包")
+        if result and result.m_bSucceed:
+            if "gift" in result.m_objResult:
+                if result.m_objResult["gift"]["intime"] == "1" and result.m_objResult["gift"]["statuts"] == "0":
+                    self.get_new_gift_reward(result.m_objResult["gift"]["id"])
+
     def get_new_gift_reward(self, gift_id):
         url = "/root/newGift!getNewGiftReward.action"
         data = {"giftId": gift_id}
