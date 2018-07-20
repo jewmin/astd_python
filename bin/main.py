@@ -113,7 +113,11 @@ def main():
     args = parser.parse_args()
     account_list = get_account_config()
     user_names = args.user_name.split(",")
-    role_names = args.role_name.decode("gbk").encode("utf-8").split(",")
+    import platform
+    if platform.system() == "Windows":
+        role_names = args.role_name.decode("gbk").encode("utf-8").split(",")
+    else:
+        role_names = args.role_name.split(",")
     if args.enable_debug:
         init_pycharm_debug()
     if len(user_names) != len(role_names):
