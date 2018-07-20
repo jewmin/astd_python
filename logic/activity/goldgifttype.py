@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# 盛宴活动
+# 盛宴活动 军资回馈
 from logic.activity.activity_task import ActivityTask
 from model.enum.activity_type import ActivityType
 from model.reward_info import RewardInfo, Reward
@@ -16,23 +16,27 @@ class GoldGiftType(ActivityTask):
             return self.next_half_hour()
 
         info = self.kf_banquet()
-        if info is None:
-            return self.next_half_hour()
-
-        if info["基础点券"] > 0:
-            self.choosen_double(0, info["再喝一杯花费金币"], info["基础点券"])
-            return self.immediate()
-        elif info["所在房间"] > 0:
-            return self.immediate() * 5
-        elif info["状态"] == 1:
-            if info["加入盛宴免费次数"] > 0:
-                for room in info["盛宴房间"]:
-                    if int(room["bufnum"]) > 0 and int(room["nation"]) == self.m_objUser.m_nNation:
-                        self.join_banquet(room)
-                        return self.immediate()
-            elif info["加入盛宴花费金币"] <= self.m_dictConfig["buyjoingold"] and info["加入盛宴花费金币"] <= self.get_available_gold():
-                self.buy_banquet_num(1, info["加入盛宴花费金币"])
+        if info is not None:
+            if info["基础点券"] > 0:
+                self.choosen_double(0, info["再喝一杯花费金币"], info["基础点券"])
                 return self.immediate()
+            elif info["所在房间"] > 0:
+                return self.immediate() * 5
+            elif info["状态"] == 1:
+                if info["加入盛宴免费次数"] > 0:
+                    for room in info["盛宴房间"]:
+                        if int(room["bufnum"]) > 0 and int(room["nation"]) == self.m_objUser.m_nNation:
+                            self.join_banquet(room)
+                            return self.immediate()
+                elif info["加入盛宴花费金币"] <= self.m_dictConfig["buyjoingold"] and info["加入盛宴花费金币"] <= self.get_available_gold():
+                    self.buy_banquet_num(1, info["加入盛宴花费金币"])
+                    return self.immediate()
+
+        info = self.get_repay_event_gift_info()
+        if info is not None:
+            for index, status in enumerate(info["领取状态"]):
+                if status == 1:
+                    self.receive_repay_event_reward(info["奖励"][index])
 
         return self.next_half_hour()
 
@@ -86,3 +90,27 @@ class GoldGiftType(ActivityTask):
             self.add_reward(reward_info)
             msg += "，获得{}".format(reward_info)
             self.info(msg, double == 1)
+
+    def get_repay_event_gift_info(self):
+        url = "/root/gift!getRepayEventGiftInfo.action"
+        result = self.get_xml(url, "军资回馈")
+        if result and result.m_bSucceed:
+            info = dict()
+            info["奖励"] = result.m_objResult["reward"]
+            info["领取状态"] = map(int, result.m_objResult["rewardnum"][:-1].split(","))
+            return info
+
+    def receive_repay_event_reward(self, reward):
+        url = "/root/gift!receiveRepayEventReward.action"
+        data = {"id": reward["id"]}
+        result = self.post_xml(url, data, "领取礼包")
+        if result and result.m_bSucceed:
+            reward1 = Reward()
+            reward1.type = 5
+            reward1.lv = 1
+            reward1.num = int(result.m_objResult["message"])
+            reward1.itemname = "宝石"
+            reward_info = RewardInfo()
+            reward_info.m_listRewards.append(reward1)
+            self.add_reward(reward_info)
+            self.info("军资回馈，领取礼包，获得{}".format(reward_info))
