@@ -220,6 +220,7 @@ class CityMgr(BaseMgr):
                 self.info("征兵，兵力+{}".format(GlobalFunc.get_short_readable(int(forces))))
 
     def per_impose(self):
+        impose_num, force_impose_cost = 0, 100
         url = "/root/mainCity!perImpose.action"
         result = self.get_protocol_mgr().get_xml(url, "征收")
         if result and result.m_bSucceed:

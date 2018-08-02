@@ -13,6 +13,8 @@ class PolishTask(BaseTask):
     def run(self):
         equip_mgr = self.m_objServiceFactory.get_equip_mgr()
         dict_info = equip_mgr.get_bao_wu_polish_info()
+        if dict_info is None:
+            return self.next_half_hour()
 
         dict_info["装备的专属玉佩"] = list()
         dict_info["0属性的专属玉佩"] = list()

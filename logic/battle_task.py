@@ -28,6 +28,9 @@ class BattleTask(BaseTask):
         if config["battle"]["enable"]:
             battle_mgr = self.m_objServiceFactory.get_battle_mgr()
             info = battle_mgr.battle()
+            if info is None:
+                return self.next_half_hour()
+
             if info["免费强攻令"] > 0 and config["battle"].get("armyid", 0) > 0:
                 while info["免费强攻令"] > 0:
                     battle_mgr.battle_army(config["battle"]["armyid"], True)
