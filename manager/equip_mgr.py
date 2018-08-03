@@ -220,6 +220,13 @@ class EquipMgr(BaseMgr):
         if result and result.m_bSucceed:
             pass
 
+    def update_baoshi_whole_level(self, gem_level):
+        url = "/root/equip!updateBaoshiWholeLevel.action"
+        data = {"baoshiId": gem_level}
+        result = self.get_protocol_mgr().post_xml(url, data, "同级合成")
+        if result and result.m_bSucceed:
+            self.info("{}个{}级宝石合成{}个{}级宝石".format(result.m_objResult["num"], result.m_objResult["baoshilevel"], result.m_objResult["numup"], result.m_objResult["baoshilevelup"]))
+
     #######################################
     # polish begin
     #######################################

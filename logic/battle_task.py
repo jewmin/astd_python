@@ -48,6 +48,13 @@ class BattleTask(BaseTask):
                 battle_mgr.recv_battle_event_reward()
                 return self.immediate()
 
+            if config["battle"]["auto"]["enable"]:
+                if self.m_objUser.m_nTokenCd > 0:
+                    return self.m_objUser.m_nTokenCd
+
+                battle_mgr.battle_army(config["battle"]["auto"]["armyid"])
+                return self.immediate()
+
             for armies_id in self.m_listAllTeams:
                 battle_mgr.get_team_info(armies_id)
                 if battle_mgr.m_szTeamId is not None:

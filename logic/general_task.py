@@ -165,6 +165,8 @@ class GeneralTask(BaseTask):
     def train_general(self, num, new_train):
         general_mgr = self.m_objServiceFactory.get_general_mgr()
         train_info = general_mgr.get_big_train_info()
+        if train_info is None:
+            return
         for train in train_info["训练位"]:
             if num > 0:
                 num -= 1

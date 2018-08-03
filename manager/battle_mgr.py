@@ -79,3 +79,10 @@ class BattleMgr(BaseMgr):
             return army_list
         else:
             return []
+
+    def reset_soldier(self, general_id, force_num):
+        url = "/root/mainCity!resetSoldier.action"
+        data = {"generalId": general_id, "forceNum": force_num}
+        result = self.get_protocol_mgr().post_xml(url, data, "设置残兵")
+        if result and result.m_bSucceed:
+            self.info("把武将[墨子]的兵力设置为{}".format(force_num))

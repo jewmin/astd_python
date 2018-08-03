@@ -345,6 +345,10 @@ config = {
         "zhuge": {  # 淬炼
             "enable": True,  # 开启
         },
+        "merge": {  # 宝石合成
+            "enable": True,  # 开启
+            "level": 18,  # 最高合成等级<=N
+        },
     },
     "general": {  # 武将
         "wash": {  # 培养
@@ -401,5 +405,13 @@ config = {
         "enable": True,  # 开启
         "armyid": 14919,  # 征战NPC
         "powerid": 133,  # 征战地图从360周易演成开始
+        "auto": {  # 过图
+            "enable": False,  # 开启
+            "armyid": 19920,  # 过图NPC(370李白19920)
+            "util_catch": True,  # 抓到为止
+            "reset_soldier": True,  # 自动残兵
+            "force_num": 4000000,  # 残兵兵力
+            "general": 30166,  # 武将(蜀墨子30166)
+        },
     },
 }

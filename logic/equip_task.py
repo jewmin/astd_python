@@ -93,6 +93,11 @@ class EquipTask(BaseTask):
                 if upgrade:
                     return self.immediate()
 
+        merge_config = config["equip"]["merge"]
+        if merge_config["enable"]:
+            for level in xrange(1, merge_config["level"]):
+                equip_mgr.update_baoshi_whole_level(level)
+
         return self.next_half_hour()
 
     @staticmethod
