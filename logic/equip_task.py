@@ -18,12 +18,15 @@ class EquipTask(BaseTask):
         # tickets ticketsstatus
         monkey_config = config["equip"]["monkey"]
         if monkey_config["enable"]:
-            dict_info = equip_mgr.get_upgrade_info()
+            dict_info = equip_mgr.get_upgrade_info(True)
             if dict_info is not None:
                 upgrade = False
                 for equipdto in dict_info["套装"]:
                     if int(equipdto["xuli"]) >= int(equipdto["maxxuli"]):
                         equip_mgr.use_xuli(equipdto)
+
+                    if int(equipdto["monkeylv"]) >= equip_mgr.m_nMaxTaoZhuangLv:
+                        continue
 
                     if int(equipdto["tickets"]) <= monkey_config["use_tickets"] and equip_mgr.m_nTicketNumber > monkey_config["reverse_tickets"]:
                         equip_mgr.upgrade_monkey_tao(equipdto, 40)

@@ -11,6 +11,7 @@ class EquipMgr(BaseMgr):
         self.m_nMagic = 100
         self.m_nMoliStone = 0
         self.m_nTicketNumber = 0
+        self.m_nMaxTaoZhuangLv = 0
 
     #######################################
     # warChariot begin
@@ -115,15 +116,14 @@ class EquipMgr(BaseMgr):
             self.m_nMagic = int(result.m_objResult["magic"])
             self.m_nMoliStone = int(result.m_objResult["molistone"])
             self.m_nTicketNumber = int(result.m_objResult["ticketnumber"])
+            self.m_nMaxTaoZhuangLv = int(result.m_objResult["taozhuang"]["maxtaozhuanglv"])
             dict_info = dict()
             dict_info["套装"] = result.m_objResult["playerequipdto"]
             self.info("魔力值：{}，磨砺石：{}，点券：{}".format(self.m_nMagic, self.m_nMoliStone, GlobalFunc.get_short_readable(self.m_nTicketNumber)))
             if show:
                 for equipdto in dict_info["套装"]:
                     power = equipdto["powerstr"].split(";")
-                    self.info("套装[id={} name={} general={} 强攻({}/{}) 强防({}/{})]".format(
-                        equipdto["composite"], equipdto["equipname"], equipdto["generalname"],
-                        power[0], equipdto["attfull"], power[1], equipdto["deffull"]))
+                    self.info("套装[id={} name={} general={} 强攻({}/{}) 强防({}/{})]".format(equipdto["composite"], equipdto["equipname"], equipdto["generalname"], power[0], equipdto["attfull"], power[1], equipdto["deffull"]))
             return dict_info
 
     def upgrade_monkey_tao(self, equipdto, num=0):
