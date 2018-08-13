@@ -32,6 +32,8 @@ class YuanDanQiFu(ActivityTask):
             return self.immediate()
         elif info["状态"] == 2:
             if info["宝箱总福气"] >= self.m_dictConfig["all_open_fuqi"] and info["全开花费金币"] <= self.m_dictConfig["all_open_gold"] and info["全开花费金币"] <= self.get_available_gold():
+                if info["福气"] >= info["最大福气"]:
+                    self.qifu_active()
                 self.fuling_enze(info["全开花费金币"])
                 return self.immediate()
             else:
