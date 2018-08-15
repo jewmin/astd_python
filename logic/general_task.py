@@ -49,6 +49,10 @@ class GeneralTask(BaseTask):
                             if detail["满技能"]:
                                 continue
 
+                            if detail["当前已喝"] >= detail["千杯佳酿需求"]:
+                                general_mgr.use_special_liquor(general)
+                                return self.immediate()
+
                             if detail["免费觉醒酒"] >= detail["需要觉醒酒"]:
                                 general_mgr.awaken_general(general)
                                 return self.immediate()

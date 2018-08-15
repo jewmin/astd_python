@@ -60,6 +60,8 @@ class GeneralMgr(BaseMgr):
             dict_info["免费觉醒酒"] = int(result.m_objResult["generalawakeinfo"]["freeliquornum"])
             dict_info["需要觉醒酒"] = int(result.m_objResult["generalawakeinfo"]["needliquornum"])
             dict_info["拥有觉醒酒"] = int(result.m_objResult["generalawakeinfo"]["liquornum"])
+            dict_info["千杯佳酿需求"] = int(result.m_objResult["generalawakeinfo"]["maxnum"])
+            dict_info["当前已喝"] = int(result.m_objResult["generalawakeinfo"]["invalidnum"])
             dict_info["满技能"] = result.m_objResult["generalawakeinfo"]["isfull"] == "1"
             return dict_info
 
@@ -71,6 +73,13 @@ class GeneralMgr(BaseMgr):
             msg = "免费" if need_num == 0 else "消耗{}觉醒酒".format(need_num)
             msg += "，觉醒大将{}".format(general["generalname"])
             self.info(msg)
+
+    def use_special_liquor(self, general):
+        url = "/root/general!useSpecialLiquor.action"
+        data = {"generalId": general["generalid"]}
+        result = self.get_protocol_mgr().post_xml(url, data, "千杯佳酿")
+        if result and result.m_bSucceed:
+            self.info("大将[{}]使用千杯佳酿".format(general["generalname"]))
 
     def get_all_big_generals(self):
         url = "/root/general!getAllBigGenerals.action"
