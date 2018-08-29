@@ -23,7 +23,15 @@ class KfPVP(ActivityTask):
             self.sign_up()
             return self.immediate()
         elif info["报名状态"] == 1:
-            if info["冷却时间"] < 0:
+            detail = self.get_match_detail()
+            if detail is not None:
+                me = detail["攻方"] if detail["攻方"]["playername"] == self.m_objUser.m_szUserName else detail["守方"]
+                if detail["可以鼓舞"] and detail["免费鼓舞"] > 0 and me["inspire"]["attack"] == "0" and me["inspire"]["defend"] == "0":
+                    self.inspire()
+                    return self.immediate()
+                elif detail["冷却时间"] > 0:
+                    return detail["冷却时间"]
+            elif info["冷却时间"] < 0:
                 detail = self.get_tribute_detail()
                 if detail is not None:
                     self.info("英雄帖初始排名：{}，最终排名：{}".format(detail["初始排名"], detail["最终排名"]))
@@ -36,21 +44,12 @@ class KfPVP(ActivityTask):
                     if detail["徽章"] == 0:
                         self.recv_wd_medal()
                         return self.immediate()
-            else:
-                detail = self.get_match_detail()
-                if detail is not None:
-                    me = detail["攻方"] if detail["攻方"]["playername"] == self.m_objUser.m_szUserName else detail["守方"]
-                    if detail["可以鼓舞"] and detail["免费鼓舞"] > 0 and me["inspire"]["attack"] == "0" and me["inspire"]["defend"] == "0":
-                        self.inspire()
-                        return self.immediate()
-                    elif detail["冷却时间"] > 0:
-                        return detail["冷却时间"]
 
         while info["宝箱"] > 0:
             info["宝箱"] -= 1
             self.open_box_by_id(0)
 
-        return self.next_half_hour()
+        return self.two_minute()
 
     def get_signup_list(self):
         url = "/root/kfpvp!getSignupList.action"
