@@ -72,7 +72,7 @@ class EquipTask(BaseTask):
             if dict_info is not None:
                 for storehousedto in dict_info["物品"]:
                     if dict_info["使用"] < dict_info["总量"]:
-                        if int(storehousedto["remaintime"]) > 0:
+                        if int(storehousedto.get("remaintime", "0")) > 0:
                             equip_mgr.draw(storehousedto)
                             dict_info["使用"] += 1
                     else:
