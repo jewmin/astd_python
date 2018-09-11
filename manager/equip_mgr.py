@@ -57,6 +57,55 @@ class EquipMgr(BaseMgr):
             return False
 
     #######################################
+    # warDrum begin
+    #######################################
+    def get_war_drum_info(self):
+        url = "/root/warDrum!getWarDrumInfo.action"
+        result = self.get_protocol_mgr().get_xml(url, "战鼓")
+        if result and result.m_bSucceed:
+            dict_info = dict()
+            dict_info["最大等级"] = int(result.m_objResult["maxupdatelevel"])
+            dict_info["库存点券"] = int(result.m_objResult["ticketnum"])
+            dict_info["库存玉石"] = int(result.m_objResult["bowldernum"])
+            dict_info["库存镔铁"] = int(result.m_objResult["steelnum"])
+            dict_info["战鼓列表"] = dict()
+            for war_drum in result.m_objResult["getwardruminfo"]["wardrum"]:
+                war_drum_info = dict()
+                war_drum_info["名称"] = war_drum["name"]
+                war_drum_info["类型"] = int(war_drum["type"])
+                war_drum_info["当前等级"] = int(war_drum["drumlevel"])
+                war_drum_info["特殊等级"] = int(war_drum["speciallevel"])
+                war_drum_info["最大特殊等级"] = int(war_drum["maxspeciallevel"])
+                war_drum_info["消耗镔铁"] = int(war_drum["needsteelnum"])
+                war_drum_info["消耗玉石"] = int(war_drum["needbowldernum"])
+                war_drum_info["消耗点券"] = int(war_drum["needticketnum"])
+                war_drum_info["当前进度"] = int(war_drum["effectnum"])
+                war_drum_info["总进度"] = int(war_drum["totalnum"])
+                dict_info["战鼓列表"][war_drum_info["类型"]] = war_drum_info
+            return dict_info
+
+    def strengthen_war_drum(self, drum_type):
+        url = "/root/warDrum!strengthenWarDrum.action"
+        data = {"type": drum_type}
+        result = self.get_protocol_mgr().post_xml(url, data, "强化战鼓")
+        if result and result.m_bSucceed:
+            dict_info = dict()
+            dict_info["战鼓"] = result.m_objResult["wardrumdto"]["name"]
+            dict_info["当前进度"] = int(result.m_objResult["wardrumdto"]["effectnum"])
+            dict_info["总进度"] = int(result.m_objResult["wardrumdto"]["totalnum"])
+            dict_info["进度"] = int(result.m_objResult.get("crits", "0"))
+            dict_info["余料"] = int(result.m_objResult.get("surplus", "0"))
+            if dict_info["当前进度"] == 0:
+                msg = "战鼓升级"
+            else:
+                msg = "强化战鼓[{}]，进度+{}，{}/{}，余料+{}".format(dict_info["战鼓"], dict_info["进度"], dict_info["当前进度"], dict_info["总进度"], dict_info["余料"])
+            self.info(msg)
+            return True
+        else:
+            self.warning("强化战鼓报错：{}".format(result.m_szError))
+            return False
+
+    #######################################
     # equip begin
     #######################################
     def get_special_equip_cast_info(self):

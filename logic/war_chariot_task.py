@@ -12,11 +12,26 @@ class WarChariotTask(BaseTask):
 
     def run(self):
         war_chariot_config = config["equip"]["war_chariot"]
+        war_drum_config = config["equip"]["war_drum"]
         if war_chariot_config["enable"]:
             equip_mgr = self.m_objServiceFactory.get_equip_mgr()
             misc_mgr = self.m_objServiceFactory.get_misc_mgr()
+            active_mgr = self.m_objServiceFactory.get_active_mgr()
             dict_info = equip_mgr.get_war_chariot_info()
             if dict_info is not None:
+                if dict_info["当前等级"] >= 100:
+                    if war_drum_config["enable"]:
+                        refine_info = active_mgr.get_refine_info()
+                        war_drum_info = equip_mgr.get_war_drum_info()
+                        if refine_info is not None and war_drum_info is not None:
+                            if refine_info["当前余料"] < int(refine_info["余料上限"] * war_drum_config["refine_rate"]):
+                                for v in war_drum_config["sort"]:
+                                    war_drum = war_drum_info["战鼓列表"][v]
+                                    if self.can_upgrade_war_drum(war_drum, war_drum_info):
+                                        equip_mgr.strengthen_war_drum(v)
+                                        return self.immediate()
+                    return self.next_half_hour()
+
                 if dict_info["消耗兵器"] > war_chariot_config["equipment_num"]:
                     return self.next_day()
 
@@ -58,3 +73,7 @@ class WarChariotTask(BaseTask):
                         return self.next_half_hour()
 
         return self.next_half_hour()
+
+    @staticmethod
+    def can_upgrade_war_drum(war_drum, war_drum_info):
+        return war_drum["当前等级"] < war_drum_info["最大等级"] and war_drum["消耗镔铁"] <= war_drum_info["库存镔铁"] and war_drum["消耗玉石"] <= war_drum_info["库存玉石"] and war_drum["消耗点券"] <= war_drum_info["库存点券"]

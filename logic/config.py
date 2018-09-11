@@ -280,6 +280,11 @@ config = {
         "enable": True,  # 开启
     },
     "equip": {  # 强化
+        "war_drum": {  # 战鼓
+            "enable": True,  # 开启
+            "refine_rate": 0.8,  # 余料百分比
+            "sort": [2, 1, 4, 3],  # 执行顺序
+        },
         "war_chariot": {  # 战车
             "enable": True,  # 开启
             "only_use_hammer": True,  # 只用铁锤强化

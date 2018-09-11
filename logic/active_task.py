@@ -15,6 +15,7 @@ class ActiveTask(BaseTask):
         if self.m_objUser.m_nCurActive > config["active"]["reserve"]:
             active_mgr = self.m_objServiceFactory.get_active_mgr()
             misc_mgr = self.m_objServiceFactory.get_misc_mgr()
+            equip_mgr = self.m_objServiceFactory.get_equip_mgr()
             for v in config["active"]["sort"]:
                 active_config = config["active"][v]
                 if not active_config["enable"]:
@@ -28,20 +29,18 @@ class ActiveTask(BaseTask):
                     if info["消耗行动力"] > self.m_objUser.m_nCurActive:
                         return self.next_half_hour()
 
-                    if info["布匹"] >= info["布匹上限"]:
-                        continue
+                    if info["布匹"] < info["布匹上限"]:
+                        if active_config["do_high"] and info["剩余高效次数"] > 0:
+                            active_mgr.royalty_weave2(info["消耗行动力"], 1)
+                            return self.immediate()
 
-                    if active_config["do_high"] and info["剩余高效次数"] > 0:
-                        active_mgr.royalty_weave2(info["消耗行动力"], 1)
-                        return self.immediate()
+                        if active_config["do_tired"] and info["剩余极限次数"] > 0:
+                            active_mgr.royalty_weave2(info["消耗行动力"], 1)
+                            return self.immediate()
 
-                    if active_config["do_tired"] and info["剩余极限次数"] > 0:
-                        active_mgr.royalty_weave2(info["消耗行动力"], 1)
-                        return self.immediate()
-
-                    if active_config["finish_task"] and not self.is_finish_task(12):
-                        active_mgr.royalty_weave2(info["消耗行动力"], 1)
-                        return self.immediate()
+                        if active_config["finish_task"] and not self.is_finish_task(12):
+                            active_mgr.royalty_weave2(info["消耗行动力"], 1)
+                            return self.immediate()
 
                     refresh_list = active_config["list"]
                     convert_cost = active_config["cost"]
@@ -114,16 +113,24 @@ class ActiveTask(BaseTask):
                     if info["消耗银币"] > self.get_available_copper():
                         misc_mgr.get_tickets_reward_by_name("银币", 10)
 
+                    war_chariot_info = equip_mgr.get_war_chariot_info()
+                    if war_chariot_info is None:
+                        continue
+
+                    mode = active_config["mode"]
+                    if war_chariot_info["当前等级"] >= 100:
+                        mode = 1
+
                     if active_config["do_high"] and info["剩余高效次数"] > 0:
-                        active_mgr.do_refine_bin_tie_factory(info["消耗银币"], info["消耗行动力"], active_config["mode"])
+                        active_mgr.do_refine_bin_tie_factory(info["消耗银币"], info["消耗行动力"], mode)
                         return self.immediate()
 
                     if active_config["do_tired"] and info["剩余极限次数"] > 0:
-                        active_mgr.do_refine_bin_tie_factory(info["消耗银币"], info["消耗行动力"], active_config["mode"])
+                        active_mgr.do_refine_bin_tie_factory(info["消耗银币"], info["消耗行动力"], mode)
                         return self.immediate()
 
                     if active_config["finish_task"] and not self.is_finish_task(10):
-                        active_mgr.do_refine_bin_tie_factory(info["消耗银币"], info["消耗行动力"], active_config["mode"])
+                        active_mgr.do_refine_bin_tie_factory(info["消耗银币"], info["消耗行动力"], mode)
                         return self.immediate()
 
                 elif v == "caravan":
