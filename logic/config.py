@@ -284,6 +284,7 @@ config = {
             "enable": True,  # 开启
             "refine_rate": 0.8,  # 余料百分比
             "sort": [2, 1, 4, 3],  # 执行顺序
+            "diff_level": 5,  # 最大等级差
         },
         "war_chariot": {  # 战车
             "enable": True,  # 开启
