@@ -17,7 +17,10 @@ class SpecialEquipTask(BaseTask):
             dict_info = equip_mgr.get_special_equip_cast_info()
             if dict_info is not None:
                 if dict_info["当前进度"] >= dict_info["总进度"]:
-                    equip_mgr.special_equip_cast(2, "免费精火铸造")
+                    if dict_info["免费神火铸造次数"] > 0:
+                        equip_mgr.special_equip_cast(3, "免费神火铸造")
+                    else:
+                        equip_mgr.special_equip_cast(2, "免费精火铸造")
                     return self.immediate()
                 elif dict_info["免费铸造次数"] > 0:
                     equip_mgr.special_equip_cast(1, "免费铸造")

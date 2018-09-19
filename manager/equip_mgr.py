@@ -123,6 +123,7 @@ class EquipMgr(BaseMgr):
             dict_info["免费铸造次数"] = int(result.m_objResult["freetimes"])
             dict_info["铸造消耗金币"] = int(result.m_objResult["firstcost"])
             dict_info["精火铸造消耗金币"] = int(result.m_objResult["secondcost"])
+            dict_info["免费神火铸造次数"] = int(result.m_objResult["times"])
             dict_info["总进度"] = int(result.m_objResult["maxprogress"])
             dict_info["当前进度"] = int(result.m_objResult["progress"])
             self.info("铸造进度：{}/{}，免费铸造次数：{}".format(dict_info["当前进度"], dict_info["总进度"], dict_info["免费铸造次数"]))
