@@ -230,3 +230,4 @@ class App(IServer):
         self.m_objTaskMgr.add_task(kfzb.KFZB())
         self.m_objTaskMgr.add_task(goldgifttype.GoldGiftType())
         self.m_objTaskMgr.add_task(kfpvp.KfPVP())
+        self.m_objTaskMgr.add_task(eatmooncaketevent.EatMoonCakeEvent())

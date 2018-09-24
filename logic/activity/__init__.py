@@ -28,4 +28,5 @@ __all__ = [
     "kfzb",
     "goldgifttype",
     "kfpvp",
+    "eatmooncaketevent",
 ]

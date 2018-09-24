@@ -173,4 +173,9 @@ activity_config = {
     "KfPVP": {
         "enable": True,  # 开启
     },
+    # 中秋月饼
+    "EatMoonCakeEvent": {
+        "enable": True,  # 开启
+        "gold": 4,  # 花费金币<=N
+    },
 }

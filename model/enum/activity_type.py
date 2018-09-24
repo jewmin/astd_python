@@ -49,3 +49,4 @@ class ActivityType(Enum):
     KfRank = 41  # 对战
     DoubleElevenEvent = 42  # 消费送礼
     GoldGiftType = 43  # 盛宴活动
+    EatMoonCakeEvent = 44  # 中秋月饼
