@@ -16,11 +16,11 @@ class KFZB(ActivityTask):
 
         info = self.get_match_detail()
         if info is None:
-            return self.next_half_hour()
+            return self.ten_minute()
 
-        goods = self.get_kfzb_market()
-        if goods is None:
-            return self.next_half_hour()
+        # goods = self.get_kfzb_market()
+        # if goods is None:
+        #     return self.next_half_hour()
 
         if info["可以鼓舞"] and info["鼓舞花费金币"] <= 0:
             if int(info["攻方"]["playerlevel"]) >= int(info["守方"]["playerlevel"]):
@@ -29,21 +29,17 @@ class KFZB(ActivityTask):
                 self.support(info["守方"], info["鼓舞花费金币"])
             return self.immediate()
         else:
-            cd = min(info["冷却时间"], goods["冷却时间"])
-            return cd
+            return self.one_minute()
 
     def get_match_detail(self):
         url = "/root/kfzb!getMatchDetail.action"
         result = self.get_xml(url, "群雄争霸")
         if result and result.m_bSucceed:
             info = dict()
-            info["攻方"] = result.m_objResult["message"]["attacker"]
-            info["守方"] = result.m_objResult["message"]["defender"]
-            info["冷却时间"] = int(result.m_objResult["message"]["nextcd"])
-            info["可以鼓舞"] = result.m_objResult["message"]["canbuymorereward"] == "1"
-            info["鼓舞花费金币"] = int(result.m_objResult["message"]["buymorerewardgold"])
-            if "cd" in result.m_objResult["message"]:
-                info["冷却时间"] = int(result.m_objResult["message"]["cd"])
+            info["攻方"] = result.m_objResult["message"].get("attacker", None)
+            info["守方"] = result.m_objResult["message"].get("defender", None)
+            info["可以鼓舞"] = result.m_objResult["message"].get("canbuymorereward", "0") == "1"
+            info["鼓舞花费金币"] = int(result.m_objResult["message"].get("buymorerewardgold", "0"))
             return info
 
     def support(self, competitor, cost):
