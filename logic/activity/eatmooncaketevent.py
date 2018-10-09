@@ -21,8 +21,7 @@ class EatMoonCakeEvent(ActivityTask):
 
         for eat_state in info["吃货状态"]:
             if eat_state["state"] == "1":
-                # self.get_progress_reward(eat_state["id"])
-                pass
+                self.get_progress_reward(eat_state["id"])
 
         if info["吃蛋黄月饼花费金币"] <= self.m_dictConfig["gold"]:
             self.eat_moon_cake(info["吃蛋黄月饼花费金币"], 1)
