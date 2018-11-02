@@ -97,9 +97,9 @@ class EquipMgr(BaseMgr):
         result = self.get_protocol_mgr().post_xml(url, data, "强化战鼓")
         if result and result.m_bSucceed:
             dict_info = dict()
-            dict_info["战鼓"] = result.m_objResult["wardrumdto"]["name"]
-            dict_info["当前进度"] = int(result.m_objResult["wardrumdto"]["effectnum"])
-            dict_info["总进度"] = int(result.m_objResult["wardrumdto"]["totalnum"])
+            dict_info["战鼓"] = result.m_objResult.get("wardrumdto", {}).get("name", "")
+            dict_info["当前进度"] = int(result.m_objResult("wardrumdto", {}).get("effectnum", "0"))
+            dict_info["总进度"] = int(result.m_objResult("wardrumdto", {}).get("totalnum", "0"))
             dict_info["进度"] = int(result.m_objResult.get("crits", "0"))
             dict_info["余料"] = int(result.m_objResult.get("surplus", "0"))
             if dict_info["当前进度"] == 0:
@@ -194,7 +194,7 @@ class EquipMgr(BaseMgr):
             equipdto["canupgrade"] = result.m_objResult["changeinfo"]["canupgrade"]
             if "xuli" in result.m_objResult["changeinfo"]:
                 equipdto["xuli"] = result.m_objResult["changeinfo"]["xuli"]
-            msg = "套装强化，{}倍暴击".format(result.m_objResult["baoji"])
+            msg = "套装强化，{}倍暴击".format(result.m_objResult.get("baoji", "1"))
             if isinstance(result.m_objResult["addinfo"], list):
                 for addinfo in result.m_objResult["addinfo"]:
                     msg += "，{}+{}".format(addinfo["name"], addinfo["val"])
