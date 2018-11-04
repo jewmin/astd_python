@@ -98,8 +98,8 @@ class EquipMgr(BaseMgr):
         if result and result.m_bSucceed:
             dict_info = dict()
             dict_info["战鼓"] = result.m_objResult.get("wardrumdto", {}).get("name", "")
-            dict_info["当前进度"] = int(result.m_objResult("wardrumdto", {}).get("effectnum", "0"))
-            dict_info["总进度"] = int(result.m_objResult("wardrumdto", {}).get("totalnum", "0"))
+            dict_info["当前进度"] = int(result.m_objResult.get("wardrumdto", {}).get("effectnum", "0"))
+            dict_info["总进度"] = int(result.m_objResult.get("wardrumdto", {}).get("totalnum", "0"))
             dict_info["进度"] = int(result.m_objResult.get("crits", "0"))
             dict_info["余料"] = int(result.m_objResult.get("surplus", "0"))
             if dict_info["当前进度"] == 0:
