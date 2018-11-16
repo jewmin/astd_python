@@ -20,12 +20,17 @@ class PolishTask(BaseTask):
         dict_info["0属性的专属玉佩"] = list()
         for i in range(len(dict_info["专属玉佩"]) - 1, -1, -1):
             specialtreasure = dict_info["专属玉佩"][i]
-            if specialtreasure["attribute_lea"] == specialtreasure["attribute_str"] == specialtreasure["attribute_int"] == "0":
+            attribute_lea = int(specialtreasure["attribute_lea"])
+            attribute_str = int(specialtreasure["attribute_str"])
+            attribute_int = int(specialtreasure["attribute_int"])
+            if attribute_lea == attribute_str == attribute_int == 0:
                 dict_info["0属性的专属玉佩"].append(specialtreasure)
                 dict_info["专属玉佩"].remove(specialtreasure)
             elif specialtreasure.get("generalname", None) is not None:
                 dict_info["装备的专属玉佩"].append(specialtreasure)
                 dict_info["专属玉佩"].remove(specialtreasure)
+            elif attribute_lea >= 20 and attribute_str >= 20 and attribute_int >= 20:
+                equip_mgr.info("3属性超过20的专属玉佩[{}]".format(specialtreasure["storeid"]))
 
         dict_info["装备的家传玉佩"] = list()
         dict_info["日月光华"] = list()
