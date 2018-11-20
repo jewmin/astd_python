@@ -23,11 +23,15 @@ class ActivityMgr(BaseMgr):
             info["状态"] = result.m_objResult["message"]["globalstate"]
             info["准备状态"] = result.m_objResult["message"].get("canready", "0") == "1"
             info["下次战斗冷却时间"] = int(result.m_objResult["message"].get("nextbattlecd", "0"))
-            for player_info in result.m_objResult["message"]["selfrank"]["playerinfo"]:
-                if player_info.get("self", "0") == "1":
-                    info["排名"] = int(player_info["rank"])
-                    info["积分"] = int(player_info["score"])
-                    break
+            if isinstance(result.m_objResult["message"]["selfrank"], dict):
+                for player_info in result.m_objResult["message"]["selfrank"]["playerinfo"]:
+                    if player_info.get("self", "0") == "1":
+                        info["排名"] = int(player_info["rank"])
+                        info["积分"] = int(player_info["score"])
+                        break
+            else:
+                info["排名"] = 0
+                info["积分"] = 0
             return info
 
     def start_match(self, token):
