@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # 任务管理
 import traceback
+import model.dump as dump
 from logging import getLogger
 
 
@@ -50,7 +51,14 @@ class TaskMgr(object):
                     if ex.message == "需要重新登录":
                         break
                     else:
-                        self.logger.error(traceback.format_exc())
+                        trace = traceback.format_exc()
+                        try:
+                            var = dump.RecordVar.recordvar()
+                        except Exception:
+                            var = ""
+                        self.logger.error('\n'.join([trace, var]))
+                        dump.save_dump(trace, var)
+
         # self.m_szStatus = ""
         # self.m_listTasks.sort()
         # for item in self.m_listTasks:
