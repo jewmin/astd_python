@@ -93,7 +93,7 @@ class YuanDanQiFu(ActivityTask):
                 self.info("免费开始祈福")
 
     def fuling_enze(self, cost):
-        url = "/root/yuandanqifu!fulingEnze.action"
+        url = "root/yuandanqifu!qifuChooseAll.action"
         result = self.get_xml(url, "金币全开")
         if result and result.m_bSucceed:
             self.consume_gold(cost)
