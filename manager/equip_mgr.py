@@ -69,7 +69,7 @@ class EquipMgr(BaseMgr):
             dict_info["库存玉石"] = int(result.m_objResult["bowldernum"])
             dict_info["库存镔铁"] = int(result.m_objResult["steelnum"])
             dict_info["最大战鼓等级"] = 0
-            dict_info["最小战鼓等级"] = 0
+            dict_info["最小战鼓等级"] = 99
             dict_info["战鼓列表"] = dict()
             for war_drum in result.m_objResult["getwardruminfo"]["wardrum"]:
                 war_drum_info = dict()

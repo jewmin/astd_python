@@ -152,7 +152,7 @@ activity_config = {
     # 雪地通商
     "SnowTrading": {
         "enable": True,  # 开启
-        "choose": 2,  # 选择奖励 1:镔铁 2:点券
+        "choose": 1,  # 选择奖励 1:镔铁 2:点券
         "reinforce": {  # 加固雪橇
             "enable": False,  # 开启
             "cost": 0,  # 加固雪橇花费金币<=N
