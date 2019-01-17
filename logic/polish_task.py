@@ -29,8 +29,13 @@ class PolishTask(BaseTask):
             elif specialtreasure.get("generalname", None) is not None:
                 dict_info["装备的专属玉佩"].append(specialtreasure)
                 dict_info["专属玉佩"].remove(specialtreasure)
-            elif attribute_lea >= 20 and attribute_str >= 20 and attribute_int >= 20:
-                equip_mgr.info("3属性超过20的专属玉佩[{}]".format(specialtreasure["storeid"]))
+            elif attribute_lea >= 10 and attribute_str >= 10 and attribute_int >= 10 and "additionalattribute" in specialtreasure:
+                additionalattribute = specialtreasure["additionalattribute"]["attribute"]
+                if isinstance(additionalattribute, list) and len(additionalattribute) >= 3:
+                    attribute_msg = ""
+                    for attribute in additionalattribute:
+                        attribute_msg += attribute + ", "
+                    equip_mgr.warning("3属性超过10且有3个技能以上的专属玉佩[{}]({})".format(specialtreasure["storeid"], attribute_msg[:-2]))
 
         dict_info["装备的家传玉佩"] = list()
         dict_info["日月光华"] = list()
