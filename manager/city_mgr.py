@@ -118,6 +118,8 @@ class CityMgr(BaseMgr):
             user.m_dictActivities[ActivityType.GoldGiftType] = True
         if dict_activities_info.get("eatmooncaketevent", "0") == "1":
             user.m_dictActivities[ActivityType.EatMoonCakeEvent] = True
+        if dict_activities_info.get("springfestivalwishevent", "0") == "1":
+            user.m_dictActivities[ActivityType.SpringFestivalWishEvent] = True
 
     def get_update_reward(self):
         url = "/root/mainCity!getUpdateReward.action"

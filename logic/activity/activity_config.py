@@ -178,4 +178,8 @@ activity_config = {
         "enable": True,  # 开启
         "gold": 4,  # 花费金币<=N
     },
+    # 许愿
+    "SpringFestivalWishEvent": {
+        "enable": True,  # 开启
+    },
 }

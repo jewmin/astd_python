@@ -50,3 +50,4 @@ class ActivityType(Enum):
     DoubleElevenEvent = 42  # 消费送礼
     GoldGiftType = 43  # 盛宴活动
     EatMoonCakeEvent = 44  # 中秋月饼
+    SpringFestivalWishEvent = 45  # 许愿
