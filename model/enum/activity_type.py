@@ -51,3 +51,4 @@ class ActivityType(Enum):
     GoldGiftType = 43  # 盛宴活动
     EatMoonCakeEvent = 44  # 中秋月饼
     SpringFestivalWishEvent = 45  # 许愿
+    MemoryEvent = 46  # 新春拜年

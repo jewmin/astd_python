@@ -182,4 +182,10 @@ activity_config = {
     "SpringFestivalWishEvent": {
         "enable": True,  # 开启
     },
+    # 新春拜年
+    "MemoryEvent": {
+        "enable": True,  # 开启
+        "hongbaocost": 0,  # 开红包花费金币<=N
+        "wishcost": 8,  # 拜年花费金币<=N
+    },
 }
