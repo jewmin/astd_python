@@ -42,7 +42,7 @@ class GeneralTask(BaseTask):
                                 return self.immediate()
 
                 # isfull maxlevel liquornum freeliquornum needliquornum needbaoshinum isawaken maxnum invalidnum
-                if config["general"]["awaken"]["enable"] and "isawaken" in general:
+                if config["general"]["awaken"]["enable"] and "isawaken" in general and general["generalname"] in config["general"]["awaken"]["general"]:
                     if general["isawaken"] == "0" or not config["general"]["awaken"]["only_awaken"]:
                         detail = general_mgr.get_awaken_general_info(general)
                         if detail is not None:

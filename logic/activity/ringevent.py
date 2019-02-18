@@ -23,6 +23,10 @@ class RingEvent(ActivityTask):
             if reward["state"] == "1":
                 self.get_progress_reward(reward, self.m_dictConfig["reward"])
 
+        while info["红包"] > 0:
+            self.recv_red_paper()
+            info["红包"] -= 1
+
         if info["对联状态"] == 1:
             self.open_reel()
             return self.immediate()
@@ -96,6 +100,7 @@ class RingEvent(ActivityTask):
             info["敲钟"].append({"免费次数": int(result.m_objResult["thirdtimes"]), "花费金币": int(result.m_objResult["thirdcost"])})
             info["对联"] = result.m_objResult.get("need", "")
             info["已激活次数"] = int(result.m_objResult.get("reelnum", "0"))
+            info["红包"] = int(result.m_objResult.get("redpapernum", "0"))
             return info
 
     def get_progress_reward(self, reward, reward_type):
@@ -147,3 +152,12 @@ class RingEvent(ActivityTask):
         result = self.get_xml(url, "放弃对联")
         if result and result.m_bSucceed:
             self.info("放弃对联")
+
+    def recv_red_paper(self):
+        url = "/root/ringEvent!recvRedPaper.action"
+        result = self.get_xml(url, "领取红包")
+        if result and result.m_bSucceed:
+            reward_info = RewardInfo()
+            reward_info.handle_info(result.m_objResult["rewardinfo"])
+            self.add_reward(reward_info)
+            self.info("领取红包，获得{}".format(reward_info))
