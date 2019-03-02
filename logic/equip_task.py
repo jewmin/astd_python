@@ -87,8 +87,17 @@ class EquipTask(BaseTask):
                 for baoshidto in dict_info["水晶石"]:
                     if baoshidto.get("istop", "0") == "1":
                         continue
-                    if int(baoshidto["baoshilevel"]) >= crystal_config["level"]:
+                    curbaoshinum = int(baoshidto.get("curbaoshinum", "0"))
+                    totalbaoshinum = int(baoshidto.get("totalbaoshinum", "0"))
+                    if totalbaoshinum == 0:
+                        continue
+                    if totalbaoshinum <= curbaoshinum:
                         if not equip_mgr.upgrade_crystal(baoshidto):
+                            return self.next_half_hour()
+                        else:
+                            upgrade = True
+                    elif int(baoshidto["baoshilevel"]) >= crystal_config["level"]:
+                        if not equip_mgr.melt_crystal(baoshidto):
                             return self.next_half_hour()
                         else:
                             upgrade = True

@@ -166,6 +166,17 @@ class EquipMgr(BaseMgr):
             self.warning("水晶石进阶报错：{}".format(result.m_szError))
             return False
 
+    def melt_crystal(self, baoshidto):
+        url = "/root/equip!meltCrystal.action"
+        data = {"storeId": baoshidto["storeid"], "baoshiId": 18}
+        result = self.get_protocol_mgr().post_xml(url, data, "水晶石融合")
+        if result and result.m_bSucceed:
+            self.info("水晶石lv.{}[{}({})]融合1颗宝石lv.18成功".format(baoshidto["baoshilevel"], baoshidto["goodsname"], baoshidto["generalname"]))
+            return True
+        else:
+            self.warning("水晶石融合报错：{}".format(result.m_szError))
+            return False
+
     def get_upgrade_info(self, show=False):
         url = "/root/equip!getUpgradeInfo.action"
         result = self.get_protocol_mgr().get_xml(url, "套装")
