@@ -40,8 +40,7 @@ class CommonTask(BaseTask):
             misc_mgr.officer()
 
         # 将军塔
-        if config["mainCity"]["auto_build_general_tower"]:
-            city_mgr.get_general_tower_info()
+        city_mgr.get_general_tower_info(config["mainCity"]["auto_build_general_tower"])
 
         # 免费征兵
         if config["mainCity"]["auto_right_army"]:

@@ -175,14 +175,16 @@ class CityMgr(BaseMgr):
         if result and result.m_bSucceed:
             self.info("恭贺，获得点券+{}".format(GlobalFunc.get_short_readable((int)(result.m_objResult["tickets"]))))
 
-    def get_general_tower_info(self):
+    def get_general_tower_info(self, build):
         url = "/root/mainCity!getGeneralTowerInfo.action"
         result = self.get_protocol_mgr().get_xml(url, "将军塔")
         if result and result.m_bSucceed:
             tower = GeneralTower()
             tower.handle_info(result.m_objResult["generaltower"])
-            while tower.buildingstone > 0:
-                self.use_building_stone(tower)
+            self.info("今天获得宝石+{}".format(tower.gemstonenum))
+            if build:
+                while tower.buildingstone > 0:
+                    self.use_building_stone(tower)
 
     def use_building_stone(self, tower):
         url = "/root/mainCity!useBuildingStone.action"
