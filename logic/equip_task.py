@@ -28,6 +28,9 @@ class EquipTask(BaseTask):
                     if int(equipdto["monkeylv"]) >= equip_mgr.m_nMaxTaoZhuangLv:
                         continue
 
+                    if int(equipdto["monkeylv"]) >= 15 and int(equipdto["powertao"]) == 0:
+                        continue
+
                     if int(equipdto["tickets"]) <= monkey_config["use_tickets"] and equip_mgr.m_nTicketNumber > monkey_config["reverse_tickets"]:
                         equip_mgr.upgrade_monkey_tao(equipdto, 40)
                         upgrade = True
