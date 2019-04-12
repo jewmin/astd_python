@@ -24,15 +24,18 @@ class WarChariotTask(BaseTask):
                         refine_info = active_mgr.get_refine_info()
                         war_drum_info = equip_mgr.get_war_drum_info()
                         if refine_info is not None and war_drum_info is not None:
-                            has_max_diff_level = war_drum_info["最大等级差"] >= war_drum_config["diff_level"]
-                            if refine_info["当前余料"] < int(refine_info["余料上限"] * war_drum_config["refine_rate"]):
-                                for v in war_drum_config["sort"]:
-                                    war_drum = war_drum_info["战鼓列表"][v]
-                                    if has_max_diff_level and war_drum["当前等级"] >= war_drum_info["最大战鼓等级"]:
-                                        continue
-                                    if self.can_upgrade_war_drum(war_drum, war_drum_info):
-                                        equip_mgr.strengthen_war_drum(v)
-                                        return self.immediate()
+                            if war_drum_info["库存镔铁"] > war_drum_config["save_steelnum"]:
+                                has_max_diff_level = war_drum_info["最大等级差"] >= war_drum_config["diff_level"]
+                                if war_drum_config["until_double"] or (refine_info["当前余料"] < int(refine_info["余料上限"] * war_drum_config["refine_rate"])):
+                                    for v in war_drum_config["sort"]:
+                                        war_drum = war_drum_info["战鼓列表"][v]
+                                        if war_drum["高效"] is False:
+                                            continue
+                                        if has_max_diff_level and war_drum["当前等级"] >= war_drum_info["最大战鼓等级"]:
+                                            continue
+                                        if self.can_upgrade_war_drum(war_drum, war_drum_info):
+                                            equip_mgr.strengthen_war_drum(v, war_drum["消耗镔铁"], war_drum["消耗玉石"], war_drum["消耗点券"])
+                                            return self.immediate()
                     return self.next_half_hour()
 
                 if dict_info["消耗兵器"] > war_chariot_config["equipment_num"]:

@@ -83,6 +83,7 @@ class EquipMgr(BaseMgr):
                 war_drum_info["消耗点券"] = int(war_drum["needticketnum"])
                 war_drum_info["当前进度"] = int(war_drum["effectnum"])
                 war_drum_info["总进度"] = int(war_drum["totalnum"])
+                war_drum_info["高效"] = war_drum["needdouble"] == "1"
                 dict_info["战鼓列表"][war_drum_info["类型"]] = war_drum_info
                 if dict_info["最大战鼓等级"] < war_drum_info["当前等级"]:
                     dict_info["最大战鼓等级"] = war_drum_info["当前等级"]
@@ -91,7 +92,7 @@ class EquipMgr(BaseMgr):
             dict_info["最大等级差"] = dict_info["最大战鼓等级"] - dict_info["最小战鼓等级"]
             return dict_info
 
-    def strengthen_war_drum(self, drum_type):
+    def strengthen_war_drum(self, drum_type, steelnum, bowldernum, ticketnum):
         url = "/root/warDrum!strengthenWarDrum.action"
         data = {"type": drum_type}
         result = self.get_protocol_mgr().post_xml(url, data, "强化战鼓")
@@ -105,7 +106,7 @@ class EquipMgr(BaseMgr):
             if dict_info["当前进度"] == 0:
                 msg = "战鼓升级"
             else:
-                msg = "强化战鼓[{}]，进度+{}，{}/{}，余料+{}".format(dict_info["战鼓"], dict_info["进度"], dict_info["当前进度"], dict_info["总进度"], dict_info["余料"])
+                msg = "强化战鼓[{}]，消耗镔铁+{}、玉石+{}、点券+{}，进度+{}，{}/{}，余料+{}".format(dict_info["战鼓"], steelnum, bowldernum, ticketnum, dict_info["进度"], dict_info["当前进度"], dict_info["总进度"], dict_info["余料"])
             self.info(msg)
             return True
         else:
