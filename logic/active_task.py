@@ -188,6 +188,8 @@ class ActiveTask(BaseTask):
         return self.next_half_hour()
 
     def handle_event(self, info):
+        if info is None:
+            return
         active_mgr = self.m_objServiceFactory.get_active_mgr()
         active_config = config["active"]["caravan"]["event"][info["事件"]]
         if info["事件"] == "1":
