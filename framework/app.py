@@ -44,7 +44,6 @@ class App(IServer):
         self.m_bIsReLogin = False
         self.m_threadTask = None
         self.m_timerReLogin = None
-        self.m_objTaskMgr = None
         self.m_listAccounts = account_list
         self.m_objAccount = None
         self.m_objUser = None
@@ -62,9 +61,10 @@ class App(IServer):
 
     def un_init(self):
         self.stop(True)
-        for task in self.m_objTaskMgr.m_listTasks:
-            if isinstance(task, activity_task.ActivityTask) and task.has_reward():
-                self.logger.info(str(task))
+        if self.m_objTaskMgr is not None:
+            for task in self.m_objTaskMgr.m_listTasks:
+                if isinstance(task, activity_task.ActivityTask) and task.has_reward():
+                    self.logger.warning(str(task))
 
     def init_completed(self):
         self.start()

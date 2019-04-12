@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import sys
+import signal
 import base64
 import argparse
 import logging
@@ -7,6 +7,9 @@ from logging.handlers import RotatingFileHandler, TimedRotatingFileHandler
 from model.account import Account
 from model.enum.server_type import ServerType
 from framework.app import App
+
+
+g_running = False
 
 
 def get_account_config():
@@ -104,7 +107,18 @@ def handle_cmd(key, value, app_list):
         print("执行命令出错：{}".format(str(ex)))
 
 
+def init_signal():
+    signal.signal(signal.SIGINT, action)
+
+
+def action(signal_num, frame):
+    logging.getLogger().info("收到信号：{}, {}".format(signal_num, frame))
+    global g_running
+    g_running = False
+
+
 def main():
+    init_signal()
     init_logging()
     parser = argparse.ArgumentParser(description='傲视天地小助手')
     parser.add_argument('--user-name', default="", dest="user_name")
@@ -118,6 +132,7 @@ def main():
         role_names = args.role_name.decode("gbk").encode("utf-8").split(",")
     else:
         role_names = args.role_name.split(",")
+    # logging.getLogger().info("原始参数：{}，角色参数：{}".format(args.role_name, role_names))
     if args.enable_debug:
         init_pycharm_debug()
     if len(user_names) != len(role_names):
@@ -129,17 +144,22 @@ def main():
             app.init(user_name, role_names[index])
             app_list.append(app)
 
-        while True:
-            cmd = input("请输入命令：退出(quit)、启动(start)、暂停(stop)、重新登录(relogin)\n")
-            if cmd.startswith("quit"):
-                break
-            elif cmd.startswith("start") or cmd.startswith("stop") or cmd.startswith("relogin"):
-                index = cmd.find("=")
-                if index == -1:
-                    continue
-                key = cmd[:index]
-                value = cmd[index + 1:]
-                handle_cmd(key, value, app_list)
+        global g_running
+        g_running = True
+        while g_running:
+            try:
+                cmd = input("请输入命令：退出(quit)、启动(start)、暂停(stop)、重新登录(relogin)\n")
+                if cmd.startswith("quit"):
+                    g_running = False
+                elif cmd.startswith("start") or cmd.startswith("stop") or cmd.startswith("relogin"):
+                    index = cmd.find("=")
+                    if index == -1:
+                        continue
+                    key = cmd[:index]
+                    value = cmd[index + 1:]
+                    handle_cmd(key, value, app_list)
+            except Exception as ex:
+                logging.getLogger().error(str(ex))
 
         for app in app_list:
             app.un_init()
