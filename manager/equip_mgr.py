@@ -363,7 +363,10 @@ class EquipMgr(BaseMgr):
         result = self.get_protocol_mgr().post_xml(url, data, "玉佩升级")
         if result and result.m_bSucceed:
             if result.m_objResult.get("upgraderesult", "0") == "1":
-                self.info("{}升级成功，统+{} 勇+{} 智+{}".format(desc, result.m_objResult.get("succlea", "0"), result.m_objResult.get("succstr", "0"), result.m_objResult.get("succint", "0")))
+                if "baowu" in result.m_objResult:
+                    self.info("{}升级成功，统+{} 勇+{} 智+{}".format(desc, result.m_objResult["baowu"].get("succlea", "0"), result.m_objResult["baowu"].get("succstr", "0"), result.m_objResult["baowu"].get("succint", "0")))
+                else:
+                    self.info("{}升级成功，统+{} 勇+{} 智+{}".format(desc, result.m_objResult.get("succlea", "0"), result.m_objResult.get("succstr", "0"), result.m_objResult.get("succint", "0")))
             else:
                 self.info("{}升级失败".format(desc))
             return True
