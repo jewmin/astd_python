@@ -170,8 +170,8 @@ class App(IServer):
 
     def init_logging(self):
         partner = ServerTypeString.get_desc(self.m_objAccount.m_eServerType).decode("utf-8").encode("gbk")
-        username = self.m_objUser.m_szUserName.decode("utf-8").encode("gbk")
-        path = "logs/{}_{}_{}".format(partner, self.m_objAccount.m_nServerId, username)
+        # username = self.m_objUser.m_szUserName.decode("utf-8").encode("gbk")
+        path = "logs/{}_{}_{}".format(partner, self.m_objAccount.m_nServerId, self.m_objUser.m_nId)
         if not os.path.exists(path):
             os.makedirs(path)
         file_handler = TimedRotatingFileHandler("{}/astd.log".format(path), when="D", interval=1)
