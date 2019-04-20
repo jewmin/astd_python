@@ -157,7 +157,7 @@ config = {
                 # {"type": 57, "lv": 1, "num": 120, "needweavenum": 600},  # 磨砺石 皇家大理商人
                 # {"type": 56, "lv": 1, "num": 30, "needweavenum": 550},  # 觉醒酒 皇家关东商人
                 # {"type": 38, "lv": 50, "num": 3, "needweavenum": 260},  # 日月光华 皇家楼兰商人
-                {"type": 51, "lv": 5, "num": 1, "needweavenum": 4500},  # 5星专属 稀有黑市商人
+                {"type": 51, "lv": 5, "num": 1, "needweavenum": 8000},  # 5星专属 稀有黑市商人
             ],
             "limit": {  # limit换购
                 "limit": 9300,  # 如果布匹>=N，使用limit换购
@@ -173,7 +173,7 @@ config = {
                     {"type": 57, "lv": 1, "num": 120, "needweavenum": 600},  # 磨砺石 皇家大理商人
                     {"type": 56, "lv": 1, "num": 30, "needweavenum": 550},  # 觉醒酒 皇家关东商人
                     {"type": 38, "lv": 50, "num": 3, "needweavenum": 260},  # 日月光华 皇家楼兰商人
-                    {"type": 51, "lv": 5, "num": 1, "needweavenum": 4500},  # 5星专属 稀有黑市商人
+                    {"type": 51, "lv": 5, "num": 1, "needweavenum": 8000},  # 5星专属 稀有黑市商人
                 ],
             },
         },
@@ -291,7 +291,7 @@ config = {
             "sort": [2, 1, 4, 3],  # 执行顺序
             "diff_level": 5,  # 最大等级差
             "save_steelnum": 1000000,  # 保留镔铁
-            "until_double": True,  # 强化到双倍
+            "until_double": False,  # 强化到双倍
         },
         "war_chariot": {  # 战车
             "enable": True,  # 开启
