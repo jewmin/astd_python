@@ -307,7 +307,7 @@ config = {
             "secondcost": 0,  # 精火铸造花费金币<=N
             "smelt": {  # 熔化条件
                 "quality": 5,  # 品质<=N
-                "level": 3,  # 等级<=N
+                "level": 4,  # 等级<=N
             },
         },
         "polish": {  # 炼化
