@@ -82,8 +82,10 @@ config = {
     "market": {
         "auto_buy_item": True,  # 自动购买
         "withdraw_gold_item": True,  # 下架金币商品
+        "withdraw_gold_item_exclude": {"宝石": 8},  # 保留金币商品
         "withdraw_discount_fail": {"enable": True, "gold": True, "copper": False},  # 下架还价失败商品
         "buy_special_item": True,  # 购买特供商品
+        "buy_gold_item": False,  # 购买金币商品
         "supplement_item": {"enable": True, "limit": 15},  # 商品数量<=N，使用进货令
         "gift": {  # 赠送商品
             "enable": True,

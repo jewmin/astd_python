@@ -13,6 +13,7 @@ class SupperMarketDto(BaseObject):
         self.num = 0
         self.baoshinum = 0
         self.finalprice = 0
+        self.quality = 0
 
     def get_price(self):
         res = self.price.split(":")

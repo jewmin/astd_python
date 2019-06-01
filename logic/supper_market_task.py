@@ -20,6 +20,9 @@ class SupperMarketTask(BaseTask):
                 for v in supper_market_dto_set:
                     price_type, price = v.get_price()
                     if price_type == "gold":
+                        if v.name in config["market"]["withdraw_gold_item_exclude"]:
+                            if v.quality >= config["market"]["withdraw_gold_item_exclude"][v.name]:
+                                continue
                         misc_mgr.off_supper_market_commodity(v)
                         with_draw_supper_market_dto_set.add(v)
             supper_market_dto_set -= with_draw_supper_market_dto_set
@@ -42,7 +45,7 @@ class SupperMarketTask(BaseTask):
                         misc_mgr.get_tickets_reward_by_name("银币", 10)
                     misc_mgr.buy_supper_market_commodity(v)
                     with_draw_supper_market_dto_set.add(v)
-                elif price_type == "gold":
+                elif price_type == "gold" and config["market"]["buy_gold_item"]:
                     if price <= self.get_available_gold():
                         misc_mgr.buy_supper_market_commodity(v, True)
                         with_draw_supper_market_dto_set.add(v)
