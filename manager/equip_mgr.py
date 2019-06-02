@@ -183,7 +183,7 @@ class EquipMgr(BaseMgr):
         result = self.get_protocol_mgr().get_xml(url, "套装")
         if result and result.m_bSucceed:
             self.m_nMagic = int(result.m_objResult["magic"])
-            self.m_nMoliStone = int(result.m_objResult["molistone"])
+            self.m_nMoliStone = int(result.m_objResult.get("molistone", "0"))
             self.m_nTicketNumber = int(result.m_objResult["ticketnumber"])
             self.m_nMaxTaoZhuangLv = int(result.m_objResult["taozhuang"]["maxtaozhuanglv"])
             dict_info = dict()
