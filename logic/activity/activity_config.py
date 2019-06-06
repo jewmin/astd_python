@@ -188,4 +188,11 @@ activity_config = {
         "hongbaocost": 0,  # 开红包花费金币<=N
         "wishcost": 8,  # 拜年花费金币<=N
     },
+    # 龙舟
+    "BoatEvent": {
+        "enable": True,  # 开启
+        "create": True,  # 创建龙舟
+        "upgrade": 0,  # 升级龙舟
+        "gold": 0,  # 冲刺花费金币<=N
+    },
 }

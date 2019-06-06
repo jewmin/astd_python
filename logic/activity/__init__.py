@@ -31,4 +31,5 @@ __all__ = [
     "eatmooncaketevent",
     "springfestivalwishevent",
     "memoryevent",
+    "boatevent",
 ]

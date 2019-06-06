@@ -14,7 +14,7 @@ class ActivityType(Enum):
     ArrestEvent = 6  # 抓捕活动
     GoldTicketEvent = 7
     YueBingEvent = 8
-    BoatEvent = 9
+    BoatEvent = 9  # 龙舟
     BuffEvent = 10
     CuiLianEvent = 11  # 淬炼大放送
     PayHongBaoEvent = 12
