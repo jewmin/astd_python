@@ -13,7 +13,7 @@ config = {
     },
     "mainCity": {
         "auto_get_login_reward": True,  # 自动领取登录奖励(今日手气、礼包、登录送礼、恭贺、俸禄)
-        "auto_build_general_tower": False,  # 自动筑造将军塔
+        "auto_build_general_tower": True,  # 自动筑造将军塔
         "auto_right_army": True,  # 自动征义兵
         "auto_apply_token": True,  # 自动领取军令
         "build_list": ["纺织局", "铁匠铺", "招商局", "军机处", "商店", "钱庄", "账房", "账房二", "铸币厂", "兵营", "校场", "校场二", "校场三", "银库一", "银库二", "民居一", "民居二", "民居三", "民居四", "民居五", "民居六", "民居七", "民居八", "民居九", "民居十", "货仓", "城墙"],  # 建造列表，只建造列表中的建筑
@@ -82,7 +82,7 @@ config = {
     "market": {
         "auto_buy_item": True,  # 自动购买
         "withdraw_gold_item": True,  # 下架金币商品
-        "withdraw_gold_item_exclude": {"宝石": 8, "觉醒酒": 8, "紫晶石": 8, "磨砺石": 8},  # 保留金币商品
+        "withdraw_gold_item_exclude": {"宝石": 7, "觉醒酒": 7, "紫晶石": 7, "磨砺石": 7},  # 保留金币商品
         "withdraw_discount_fail": {"enable": True, "gold": True, "copper": False},  # 下架还价失败商品
         "buy_special_item": True,  # 购买特供商品
         "buy_gold_item": False,  # 购买金币商品
@@ -381,7 +381,7 @@ config = {
             "enable": True,  # 开启
             "use_stone": True,  # 使用觉醒酒
             "only_awaken": False,  # 觉醒后停止
-            "general": ["刘邦", "张良", "韩信", "项羽", "成吉思汗", "貂蝉", "赵敏"],  # 觉醒将列表
+            "general": ["张良", "韩信", "项羽", "成吉思汗", "貂蝉", "赵敏", "戚继光"],  # 觉醒将列表
         },
         "tech": {  # 科技
             "enable": True,  # 开启
@@ -392,13 +392,15 @@ config = {
             "fast_train": 1,  # 突飞花费大将令
             "new_train": 10,  # 突破花费大将令
             "dict": {
+                "赵敏": 750,
+                "貂蝉": 760,
+                "周泰": 770,
+                "戚继光": 780,
                 "韩信": 800,
                 # "岳飞": 900,
                 "李白": 1000,
                 "成吉思汗": 1100,
                 "项羽": 1200,
-                "周泰": 1210,
-                "貂蝉": 1220,
                 "刘邦": 1250,
                 "姜维": 1260,
                 "欧阳修": 1270,
