@@ -350,6 +350,7 @@ config = {
                     4: 3,
                 }
             },
+            "reverse_50": 2,  # 保留N个50属性专属玉佩
         },
         "monkey": {  # 套装
             "enable": True,  # 开启

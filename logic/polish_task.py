@@ -48,6 +48,7 @@ class PolishTask(BaseTask):
                 dict_info["日月光华"].append(baowu)
                 dict_info["家传玉佩"].remove(baowu)
 
+        reverse_50 = config["equip"]["polish"]["reverse_50"]
         specialtreasure_config = config["equip"]["polish"]["specialtreasure"]
         if specialtreasure_config["enable"]:
             while len(dict_info["0属性的专属玉佩"]) > specialtreasure_config["reverse"]:
@@ -56,18 +57,18 @@ class PolishTask(BaseTask):
             for specialtreasure in dict_info["装备的专属玉佩"]:
                 if specialtreasure["generalname"] not in specialtreasure_config["include_general"]:
                     continue
-                if not self.upgrade_specialtreasure(specialtreasure, dict_info["日月光华"], specialtreasure_config["attribute"], specialtreasure_config["include"], specialtreasure_config["available_attribute_len"]):
+                if not self.upgrade_specialtreasure(reverse_50, specialtreasure, dict_info["日月光华"], specialtreasure_config["attribute"], specialtreasure_config["include"], specialtreasure_config["available_attribute_len"]):
                     break
 
             for specialtreasure in dict_info["专属玉佩"]:
-                if not self.upgrade_specialtreasure(specialtreasure, dict_info["日月光华"], specialtreasure_config["attribute"], specialtreasure_config["include"], specialtreasure_config["available_attribute_len"]):
+                if not self.upgrade_specialtreasure(reverse_50, specialtreasure, dict_info["日月光华"], specialtreasure_config["attribute"], specialtreasure_config["include"], specialtreasure_config["available_attribute_len"]):
                     break
 
         baowu_config = config["equip"]["polish"]["baowu"]
         if baowu_config["enable"]:
             dict_info["装备的家传玉佩"] = sorted(dict_info["装备的家传玉佩"], key=lambda value: int(value["maxadd"]), reverse=True)
             for baowu in dict_info["装备的家传玉佩"]:
-                if not self.upgrade_baowu(baowu, dict_info["日月光华"]):
+                if not self.upgrade_baowu(reverse_50, baowu, dict_info["日月光华"]):
                     break
 
         polish_config = config["equip"]["polish"]["polish"]
@@ -79,7 +80,7 @@ class PolishTask(BaseTask):
 
         return self.next_half_hour()
 
-    def upgrade_specialtreasure(self, specialtreasure, list_baowu, attribute_config, include_config, available_attribute_len_config):
+    def upgrade_specialtreasure(self, reverse_50, specialtreasure, list_baowu, attribute_config, include_config, available_attribute_len_config):
         equip_mgr = self.m_objServiceFactory.get_equip_mgr()
 
         attribute_max = 35
@@ -107,7 +108,7 @@ class PolishTask(BaseTask):
                 if available_additionalattribute_len < available_attribute_len_config[total_additionalattribute_len]:
                     return True
 
-        while len(list_baowu) > 0:
+        while len(list_baowu) > reverse_50:
             if specialtreasure.get("canconsecrate", "0") == "1":
                 equip_mgr.consecrate_special_treasure(specialtreasure)
                 return True
@@ -123,9 +124,9 @@ class PolishTask(BaseTask):
 
         return False
 
-    def upgrade_baowu(self, baowu, list_baowu):
+    def upgrade_baowu(self, reverse_50, baowu, list_baowu):
         equip_mgr = self.m_objServiceFactory.get_equip_mgr()
-        while len(list_baowu) > 0:
+        while len(list_baowu) > reverse_50:
             upgrade_baowu = list_baowu.pop()
             if upgrade_baowu is not None:
                 if not equip_mgr.upgrade_baowu(baowu, upgrade_baowu):
