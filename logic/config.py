@@ -381,7 +381,7 @@ config = {
         "awaken": {  # 觉醒
             "enable": True,  # 开启
             "use_stone": True,  # 使用觉醒酒
-            "only_awaken": False,  # 觉醒后停止
+            "only_awaken": True,  # 觉醒后停止
             "general": ["张良", "韩信", "项羽", "成吉思汗", "貂蝉", "赵敏", "戚继光"],  # 觉醒将列表
         },
         "tech": {  # 科技
