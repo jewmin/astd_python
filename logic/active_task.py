@@ -38,7 +38,7 @@ class ActiveTask(BaseTask):
                             active_mgr.royalty_weave2(info["消耗行动力"], 1)
                             return self.immediate()
 
-                        if active_config["finish_task"] and not self.is_finish_task(12):
+                        if active_config["finish_task"] and not self.is_finish_task(12) and info["剩余极限次数"] > 0:
                             active_mgr.royalty_weave2(info["消耗行动力"], 1)
                             return self.immediate()
 
