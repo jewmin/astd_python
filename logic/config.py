@@ -293,7 +293,7 @@ config = {
             "sort": [2, 1, 4, 3],  # 执行顺序
             "diff_level": 5,  # 最大等级差
             "save_steelnum": 1000000,  # 保留镔铁
-            "until_double": False,  # 强化到双倍
+            "until_double": True,  # 强化到双倍
         },
         "war_chariot": {  # 战车
             "enable": True,  # 开启
