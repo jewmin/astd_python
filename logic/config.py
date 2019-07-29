@@ -159,7 +159,8 @@ config = {
                 # {"type": 57, "lv": 1, "num": 120, "needweavenum": 600},  # 磨砺石 皇家大理商人
                 # {"type": 56, "lv": 1, "num": 30, "needweavenum": 550},  # 觉醒酒 皇家关东商人
                 # {"type": 38, "lv": 50, "num": 3, "needweavenum": 260},  # 日月光华 皇家楼兰商人
-                {"type": 51, "lv": 5, "num": 1, "needweavenum": 8000},  # 5星专属 稀有黑市商人
+                {"type": 51, "lv": 5, "num": 1, "needweavenum": 5000},  # 5星专属 稀有黑市商人
+                {"type": 51, "lv": 6, "num": 1, "needweavenum": 8000},  # 6星专属 稀有黑市商人
             ],
             "limit": {  # limit换购
                 "limit": 9300,  # 如果布匹>=N，使用limit换购
@@ -175,7 +176,8 @@ config = {
                     {"type": 57, "lv": 1, "num": 120, "needweavenum": 600},  # 磨砺石 皇家大理商人
                     {"type": 56, "lv": 1, "num": 30, "needweavenum": 550},  # 觉醒酒 皇家关东商人
                     {"type": 38, "lv": 50, "num": 3, "needweavenum": 260},  # 日月光华 皇家楼兰商人
-                    {"type": 51, "lv": 5, "num": 1, "needweavenum": 8000},  # 5星专属 稀有黑市商人
+                    {"type": 51, "lv": 5, "num": 1, "needweavenum": 5000},  # 5星专属 稀有黑市商人
+                    {"type": 51, "lv": 6, "num": 1, "needweavenum": 8000},  # 6星专属 稀有黑市商人
                 ],
             },
         },
