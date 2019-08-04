@@ -176,7 +176,7 @@ activity_config = {
     # 中秋月饼
     "EatMoonCakeEvent": {
         "enable": True,  # 开启
-        "gold": 8,  # 花费金币<=N
+        "gold": 7,  # 花费金币<=N
     },
     # 许愿
     "SpringFestivalWishEvent": {
