@@ -2,3 +2,7 @@
 /.idea/workspace.xml
 /bin/account.ini
 /bin/run.bat
+/bin/run.sh
+/bin/clean.sh
+/bin/logs
+/bin/cache
