@@ -195,4 +195,8 @@ activity_config = {
         "upgrade": 0,  # 升级龙舟
         "gold": 0,  # 冲刺花费金币<=N
     },
+    # 充值送红包
+    "PayHongBaoEvent": {
+        "enable": True,  # 开启
+    },
 }

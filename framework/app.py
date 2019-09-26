@@ -234,3 +234,4 @@ class App(IServer):
         self.m_objTaskMgr.add_task(springfestivalwishevent.SpringFestivalWishEvent())
         self.m_objTaskMgr.add_task(memoryevent.MemoryEvent())
         self.m_objTaskMgr.add_task(boatevent.BoatEvent())
+        self.m_objTaskMgr.add_task(payhongbaoevent.PayHongBaoEvent())
