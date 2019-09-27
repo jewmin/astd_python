@@ -29,7 +29,7 @@ class ActivityTask(BaseTask):
         return self.m_objUser.m_dictActivities.get(self.m_eActivityType, False)
 
     def info(self, msg, use_gold=False):
-        self.m_ActivityMgr.info(msg, use_gold)
+        self.m_ActivityMgr.info("[{}]{}".format(self.m_szReadable, msg), use_gold)
 
     def get_xml(self, url, desc):
         return self.m_objProtocolMgr.get_xml(url, desc)
