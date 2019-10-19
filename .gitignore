@@ -6,3 +6,4 @@
 /bin/clean.sh
 /bin/logs
 /bin/cache
+/bin/*.log
