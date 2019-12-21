@@ -242,7 +242,7 @@ class CityMgr(BaseMgr):
             if "larrydto" in result.m_objResult:
                 self.select_le(result.m_objResult["larrydto"]["effect1"], result.m_objResult["larrydto"]["effect2"])
 
-            return impose_num, force_impose_cost
+        return impose_num, force_impose_cost
 
     def select_le(self, effect1, effect2):
         opt = self.get_impose_select_le(effect1, effect2)

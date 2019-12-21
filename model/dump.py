@@ -73,7 +73,7 @@ class RecordVar(object):
         args, varargs, varkw, var_locals = inspect.getargvalues(frame)
         call = ''
         if func != '?':
-            call = 'in {}{}'.format(func, inspect.formatargvalues(args, varargs, varkw, var_locals, formatvalue=lambda objvalue: '={}'.format(pydoc.text.repr(objvalue))))
+            call = ' in {}{}'.format(func, inspect.formatargvalues(args, varargs, varkw, var_locals, formatvalue=lambda objvalue: '={}'.format(pydoc.text.repr(objvalue))))
         
         highlight = {}
 

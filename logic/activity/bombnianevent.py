@@ -19,6 +19,9 @@ class BombNianEvent(ActivityTask):
         if info is None:
             return self.next_half_hour()
 
+        if "排名奖励状态" in info and info["排名奖励状态"] == 0:
+            self.get_rank_reward()
+
         if info["领奖状态"] == 1:
             info["奖励"] = sorted(info["奖励"], key=lambda reward: self.m_dictConfig["reward_index"].get(reward["rewardinfo"]["reward"]["type"], 99))
             for reward_info in info["奖励"]:
@@ -65,6 +68,8 @@ class BombNianEvent(ActivityTask):
                     "免费次数": int(result.m_objResult["playerbombnianeventinfo"]["springthundernum"]),
                     "花费金币": int(result.m_objResult["cost"]["springthundercost"]),
                 })
+            if "playerrank" in result.m_objResult:
+                info["排名奖励状态"] = int(result.m_objResult["getrankreward"])
             return info
 
     def open_gift(self, gift_id):
@@ -102,3 +107,12 @@ class BombNianEvent(ActivityTask):
                 self.info("捕抓年兽成功，获得{}".format(reward_info))
             else:
                 self.info("捕抓年兽失败")
+
+    def get_rank_reward(self):
+        url = "/root/bombNianEvent!getRankReward.action"
+        result = self.get_xml(url, "领取排名奖励")
+        if result and result.m_bSucceed:
+            reward_info = RewardInfo()
+            reward_info.handle_info(result.m_objResult["rankreward"]["rewardinfo"])
+            self.add_reward(reward_info)
+            self.info("领取年兽排名奖励，获得{}".format(reward_info))

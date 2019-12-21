@@ -97,7 +97,10 @@ class GoldGiftType(ActivityTask):
         if result and result.m_bSucceed:
             info = dict()
             info["奖励"] = result.m_objResult["reward"]
-            info["领取状态"] = map(int, result.m_objResult["rewardnum"][:-1].split(","))
+            if result.m_objResult["rewardnum"] == "":
+                info["领取状态"] = []
+            else:
+                info["领取状态"] = map(int, result.m_objResult["rewardnum"][:-1].split(","))
             return info
 
     def receive_repay_event_reward(self, reward):
