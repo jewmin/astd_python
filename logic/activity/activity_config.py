@@ -44,7 +44,7 @@ activity_config = {
     },
     # 酒神觉醒
     "YuanDanQiFu": {
-        "enable": True,  # 开启
+        "enable": False,  # 开启
         "gold": 2,  # 花费金币<=N
         "all_open_gold": 10,  # 全开花费金币<=N
         "all_open_fuqi": 200,  # 全开需要福气>=N
