@@ -66,7 +66,7 @@ class PolishTask(BaseTask):
 
         baowu_config = config["equip"]["polish"]["baowu"]
         if baowu_config["enable"]:
-            dict_info["装备的家传玉佩"] = sorted(dict_info["装备的家传玉佩"], key=lambda value: int(value["maxadd"]), reverse=True)
+            dict_info["装备的家传玉佩"] = sorted(dict_info["装备的家传玉佩"], key=lambda value: int(value["maxadd"]), reverse=False)
             for baowu in dict_info["装备的家传玉佩"]:
                 if not self.upgrade_baowu(reverse_50, baowu, dict_info["日月光华"]):
                     break
