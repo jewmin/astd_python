@@ -48,6 +48,7 @@ activity_config = {
         "gold": 2,  # 花费金币<=N
         "all_open_gold": 10,  # 全开花费金币<=N
         "all_open_fuqi": 200,  # 全开需要福气>=N
+        "all_open_jiu": 5,  # 全开需要酒>=N
     },
     # 抓捕活动
     "ArrestEvent": {
