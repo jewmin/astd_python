@@ -44,11 +44,13 @@ activity_config = {
     },
     # 酒神觉醒
     "YuanDanQiFu": {
-        "enable": False,  # 开启
+        "enable": True,  # 开启
         "gold": 2,  # 花费金币<=N
         "all_open_gold": 10,  # 全开花费金币<=N
         "all_open_fuqi": 200,  # 全开需要福气>=N
         "all_open_jiu": 5,  # 全开需要酒>=N
+        "all_open_xs": 2,  # 全开需要倍数>=N
+        "type": [1],  # 0觉醒酒 1杜康酒
     },
     # 抓捕活动
     "ArrestEvent": {
