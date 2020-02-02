@@ -42,8 +42,17 @@ class PolishTask(BaseTask):
         for i in range(len(dict_info["家传玉佩"]) - 1, -1, -1):
             baowu = dict_info["家传玉佩"][i]
             if baowu.get("generalname", None) is not None:
-                dict_info["装备的家传玉佩"].append(baowu)
                 dict_info["家传玉佩"].remove(baowu)
+                attribute_lea = int(baowu["attribute_lea"]) + int(baowu["leaadd"])
+                attribute_str = int(baowu["attribute_str"]) + int(baowu["stradd"])
+                attribute_int = int(baowu["attribute_int"]) + int(baowu["intadd"])
+                maxadd = int(baowu["maxadd"])
+                if attribute_lea < maxadd or attribute_str < maxadd or attribute_int < maxadd:
+                    if baowu["quality"] == "6":
+                        baowu["成功率"] = int(float(baowu["succprob"]) * 1000)
+                    else:
+                        baowu["成功率"] = int(float(baowu["succprob"]) * 10000)
+                    dict_info["装备的家传玉佩"].append(baowu)
             elif baowu["name"] == "日月光华" and baowu["attribute_lea"] == baowu["attribute_str"] == baowu["attribute_int"] == "50":
                 dict_info["日月光华"].append(baowu)
                 dict_info["家传玉佩"].remove(baowu)
@@ -66,7 +75,8 @@ class PolishTask(BaseTask):
 
         baowu_config = config["equip"]["polish"]["baowu"]
         if baowu_config["enable"]:
-            dict_info["装备的家传玉佩"] = sorted(dict_info["装备的家传玉佩"], key=lambda value: int(value["maxadd"]), reverse=False)
+            # dict_info["装备的家传玉佩"] = sorted(dict_info["装备的家传玉佩"], key=lambda value: int(value["maxadd"]), reverse=False)
+            dict_info["装备的家传玉佩"] = sorted(dict_info["装备的家传玉佩"], key=lambda value: (value["成功率"], value["quality"]), reverse=True)
             for baowu in dict_info["装备的家传玉佩"]:
                 if not self.upgrade_baowu(reverse_50, baowu, dict_info["日月光华"]):
                     break
