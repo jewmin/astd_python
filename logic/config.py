@@ -296,7 +296,7 @@ config = {
         "war_drum": {  # 战鼓
             "enable": True,  # 开启
             "refine_rate": 0.8,  # 余料百分比
-            "sort": [2, 1, 4, 3],  # 执行顺序
+            "sort": [2, 4, 3, 1],  # 执行顺序
             "diff_level": 5,  # 最大等级差
             "save_steelnum": 1000000,  # 保留镔铁
             "until_double": False,  # 强化到双倍

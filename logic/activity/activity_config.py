@@ -79,7 +79,7 @@ activity_config = {
     "RingEvent": {
         "enable": True,  # 开启
         "cost": 4,  # 敲钟花费金币<=N
-        "reward": 1,  # 奖励选项 1:大将令 2:镔铁
+        "reward": 2,  # 奖励选项 1:大将令 2:镔铁
     },
     # 武斗会
     "KfWD": {
