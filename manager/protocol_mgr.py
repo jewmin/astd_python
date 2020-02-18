@@ -6,6 +6,8 @@ import requests
 from manager.transfer_mgr import TransferMgr
 from model.server_result import ServerResult
 from model.enum.account_status import AccountStatus
+import json
+from collections import OrderedDict
 
 
 class ProtocolMgr(object):
@@ -24,20 +26,34 @@ class ProtocolMgr(object):
         self.m_objJar.set("JSESSIONID", j_session_id, domain=url.hostname, path="/root")
 
     def get_xml(self, url, desc):
-        self.logger.debug(desc)
+        # self.logger.debug(desc)
         server_result = self.get(url)
-        self.handle_result(server_result)
+        self.handle_result(desc, server_result)
         return server_result
 
     def post_xml(self, url, data, desc):
-        self.logger.debug(desc)
+        # self.logger.debug(desc)
         server_result = self.post(url, data)
-        self.handle_result(server_result)
+        self.handle_result(desc, server_result, data=data)
         return server_result
 
-    def handle_result(self, server_result):
+    def handle_result(self, desc, server_result, data=None):
         if server_result is not None:
-            self.logger.debug(server_result.get_debug_info())
+            logdict = OrderedDict()
+            logdict['desc'] = desc
+            logdict['uid'] = self.m_objUser.m_nId
+            logdict['name'] = self.m_objUser.m_szUserName
+            if data is None:
+                logdict['type'] = 'GET'
+            else:
+                logdict['type'] = 'POST'
+                logdict['data'] = data
+            logdict['url'] = server_result.get_url()
+            logdict['result'] = server_result.get_debug_info()
+            try:
+                self.logger.debug(json.dumps(logdict, ensure_ascii=False, default=str, sort_keys=False))
+            except Exception as ex:
+                self.logger.error("ERROR:{}|{}".format(str(ex), str(logdict)))
             if server_result.is_http_succeed():
                 if server_result.m_bSucceed:
                     if "playerupdateinfo" in server_result.m_objResult:
@@ -62,16 +78,16 @@ class ProtocolMgr(object):
 
     def get(self, url):
         real_url = "{}{}?{}".format(self.m_szGameUrl, url, self.m_objServiceFactory.get_time_mgr().get_timestamp())
-        self.logger.debug("get url={}".format(real_url))
+        # self.logger.debug("get url={}".format(real_url))
         try:
-            return ServerResult(TransferMgr.get(real_url, self.m_objJar), self.m_szIndex)
+            return ServerResult(real_url, TransferMgr.get(real_url, self.m_objJar), self.m_szIndex)
         except Exception as ex:
             self.logger.error(str(ex))
 
     def post(self, url, data):
         real_url = "{}{}?{}".format(self.m_szGameUrl, url, self.m_objServiceFactory.get_time_mgr().get_timestamp())
-        self.logger.debug("post url={} data={}".format(real_url, data))
+        # self.logger.debug("post url={} data={}".format(real_url, data))
         try:
-            return ServerResult(TransferMgr.post(real_url, data, self.m_objJar), self.m_szIndex)
+            return ServerResult(real_url, TransferMgr.post(real_url, data, self.m_objJar), self.m_szIndex)
         except Exception as ex:
             self.logger.error(str(ex))

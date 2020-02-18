@@ -5,7 +5,7 @@ from model.xml_parse import XmlParse
 
 
 class ServerResult(object):
-    def __init__(self, result, index):
+    def __init__(self, url, result, index):
         super(ServerResult, self).__init__()
         self.logger = getLogger(index)
         self.m_nHttpCode = 0
@@ -13,6 +13,7 @@ class ServerResult(object):
         self.m_szError = ""
         self.m_objResult = None
         self.m_szXml = ""
+        self.m_szUrl = url
         if result is not None and result != "":
             if result.startswith("code:"):
                 self.m_nHttpCode = int(result.replace("code:", ""))
@@ -59,3 +60,6 @@ class ServerResult(object):
             return self.m_szError
         else:
             return self.m_szXml
+
+    def get_url(self):
+        return self.m_szUrl
