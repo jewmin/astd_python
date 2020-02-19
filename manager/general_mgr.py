@@ -72,6 +72,8 @@ class GeneralMgr(BaseMgr):
         if result and result.m_bSucceed:
             msg = "免费" if need_num == 0 else "消耗{}觉醒酒".format(need_num)
             msg += "，觉醒大将{}".format(general["generalname"])
+            if "awakengeneralid" in result.m_objResult:
+                msg += "，成功觉醒"
             self.info(msg)
 
     def use_special_liquor(self, general):
