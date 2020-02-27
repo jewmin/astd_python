@@ -391,6 +391,9 @@ config = {
             "use_stone": True,  # 使用觉醒酒
             "only_awaken": True,  # 觉醒后停止
             "general": ["张良", "韩信", "项羽", "成吉思汗", "貂蝉", "赵敏", "戚继光", "孟获", "刘邦", "袁绍"],  # 觉醒将列表
+            "use_stone2": True,  # 使用杜康酒
+            "only_awaken2": True,  # 至尊觉醒后停止
+            "general2": ["项羽"],  # 至尊觉醒将列表
         },
         "tech": {  # 科技
             "enable": True,  # 开启

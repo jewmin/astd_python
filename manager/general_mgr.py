@@ -65,6 +65,20 @@ class GeneralMgr(BaseMgr):
             dict_info["满技能"] = result.m_objResult["generalawakeinfo"]["isfull"] == "1"
             return dict_info
 
+    def get_awaken2_info(self, general):
+        url = "/root/general!getAwaken2Info.action"
+        data = {"generalId": general["generalid"]}
+        result = self.get_protocol_mgr().post_xml(url, data, "至尊觉醒详情")
+        if result and result.m_bSucceed:
+            dict_info = dict()
+            dict_info["未觉醒"] = result.m_objResult["generalawakeinfo"]["isawaken"] == "0"
+            dict_info["每次消耗杜康酒"] = int(result.m_objResult["generalawakeinfo"]["dukang"])
+            dict_info["剩余杜康酒"] = int(result.m_objResult["generalawakeinfo"]["remaindukang"])
+            dict_info["千杯佳酿需求"] = int(result.m_objResult["generalawakeinfo"]["maxnum"])
+            dict_info["当前已喝"] = int(result.m_objResult["generalawakeinfo"]["num"])
+            dict_info["满技能"] = result.m_objResult["generalawakeinfo"]["isfull"] == "1"
+            return dict_info
+
     def awaken_general(self, general, need_num=0):
         url = "/root/general!awakenGeneral.action"
         data = {"generalId": general["generalid"]}
@@ -72,6 +86,16 @@ class GeneralMgr(BaseMgr):
         if result and result.m_bSucceed:
             msg = "免费" if need_num == 0 else "消耗{}觉醒酒".format(need_num)
             msg += "，觉醒大将{}".format(general["generalname"])
+            if "awakengeneralid" in result.m_objResult:
+                msg += "，成功觉醒"
+            self.info(msg)
+
+    def awaken_general2(self, general, need_num):
+        url = "/root/general!awakenGeneral2.action"
+        data = {"generalId": general["generalid"]}
+        result = self.get_protocol_mgr().post_xml(url, data, "至尊觉醒")
+        if result and result.m_bSucceed:
+            msg = "消耗{}杜康酒，至尊觉醒大将{}".format(need_num, general["generalname"])
             if "awakengeneralid" in result.m_objResult:
                 msg += "，成功觉醒"
             self.info(msg)

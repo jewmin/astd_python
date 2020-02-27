@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# import sys
+# reload(sys)
+# sys.setdefaultencoding('utf8')
 import signal
 import base64
 import argparse
