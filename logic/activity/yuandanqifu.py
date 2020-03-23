@@ -21,26 +21,27 @@ class YuanDanQiFu(ActivityTask):
 
         self.info("福气：{}/{}".format(info["福气"], info["最大福气"]))
 
-        if info["状态"] == 0:
-            if info["祈福花费金币"] <= self.m_dictConfig["gold"] and info["祈福花费金币"] <= self.get_available_gold():
-                self.start_qifu(info["祈福花费金币"])
-                return self.immediate()
-        elif info["状态"] == 1:
-            if info["福气"] >= info["最大福气"]:
-                self.qifu_active()
-            self.qifu_choose(2)
-            return self.immediate()
-        elif info["状态"] == 2:
-            # if info["宝箱总福气"] >= self.m_dictConfig["all_open_fuqi"] and info["全开花费金币"] <= self.m_dictConfig["all_open_gold"] and info["全开花费金币"] <= self.get_available_gold():
-            # if info["类型"] in self.m_dictConfig["type"] and info["剩余的酒数量"] >= self.m_dictConfig["all_open_jiu"] and info["全开花费金币"] <= self.m_dictConfig["all_open_gold"] and info["全开花费金币"] <= self.get_available_gold():
-            if info["本次祈福倍数"] >= self.m_dictConfig["all_open_xs"] and info["全开花费金币"] <= self.m_dictConfig["all_open_gold"] and info["全开花费金币"] <= self.get_available_gold():
+        if info["类型"] in self.m_dictConfig["type"]:
+            if info["状态"] == 0:
+                if info["祈福花费金币"] <= self.m_dictConfig["gold"] and info["祈福花费金币"] <= self.get_available_gold():
+                    self.start_qifu(info["祈福花费金币"])
+                    return self.immediate()
+            elif info["状态"] == 1:
                 if info["福气"] >= info["最大福气"]:
                     self.qifu_active()
-                self.fuling_enze(info["全开花费金币"])
+                self.qifu_choose(2)
                 return self.immediate()
-            else:
-                self.next_qifu()
-                return self.immediate()
+            elif info["状态"] == 2:
+                # if info["宝箱总福气"] >= self.m_dictConfig["all_open_fuqi"] and info["全开花费金币"] <= self.m_dictConfig["all_open_gold"] and info["全开花费金币"] <= self.get_available_gold():
+                # if info["类型"] in self.m_dictConfig["type"] and info["剩余的酒数量"] >= self.m_dictConfig["all_open_jiu"] and info["全开花费金币"] <= self.m_dictConfig["all_open_gold"] and info["全开花费金币"] <= self.get_available_gold():
+                if info["本次祈福倍数"] >= self.m_dictConfig["all_open_xs"] and info["全开花费金币"] <= self.m_dictConfig["all_open_gold"] and info["全开花费金币"] <= self.get_available_gold():
+                    if info["福气"] >= info["最大福气"]:
+                        self.qifu_active()
+                    self.fuling_enze(info["全开花费金币"])
+                    return self.immediate()
+                else:
+                    self.next_qifu()
+                    return self.immediate()
 
         return self.next_half_hour()
 

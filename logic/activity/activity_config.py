@@ -50,7 +50,7 @@ activity_config = {
         "all_open_fuqi": 200,  # 全开需要福气>=N
         "all_open_jiu": 5,  # 全开需要酒>=N
         "all_open_xs": 2,  # 全开需要倍数>=N
-        "type": [1],  # 0觉醒酒 1杜康酒
+        "type": [0],  # 0觉醒酒 1杜康酒
     },
     # 抓捕活动
     "ArrestEvent": {
