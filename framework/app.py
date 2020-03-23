@@ -69,7 +69,7 @@ class App(IServer):
     def init_completed(self):
         self.start()
 
-    def start(self):
+    def start(self, *args):
         self.stop()
         self.m_bServerRunning = True
         self.m_objTaskMgr.reset_running_time()
@@ -110,7 +110,7 @@ class App(IServer):
             self.logger.info("将在{}后开始重新登录".format("{}分钟".format(wait_seconds / 60) if wait_seconds >= 60 else "{}秒".format(wait_seconds)))
             self.start_re_login_thread(wait_seconds)
 
-    def start_re_login(self):
+    def start_re_login(self, *args):
         try:
             self.m_bIsReLogin = True
             self.stop_re_login_thread()
