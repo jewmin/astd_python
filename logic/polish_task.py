@@ -37,6 +37,7 @@ class PolishTask(BaseTask):
                         attribute_msg += attribute + ", "
                     equip_mgr.warning("3属性超过10且有3个技能以上的专属玉佩[{}]({})".format(specialtreasure["storeid"], attribute_msg[:-2]))
 
+        baowu_config = config["equip"]["polish"]["baowu"]
         dict_info["装备的家传玉佩"] = list()
         dict_info["日月光华"] = list()
         for i in range(len(dict_info["家传玉佩"]) - 1, -1, -1):
@@ -48,11 +49,12 @@ class PolishTask(BaseTask):
                 attribute_int = int(baowu["attribute_int"]) + int(baowu["intadd"])
                 maxadd = int(baowu["maxadd"])
                 if attribute_lea < maxadd or attribute_str < maxadd or attribute_int < maxadd:
-                    if baowu["quality"] == "6":
+                    if baowu["quality"] == "6":  # 紫宝
                         baowu["成功率"] = int(float(baowu["succprob"]) * 1000)
                     else:
                         baowu["成功率"] = int(float(baowu["succprob"]) * 10000)
-                    dict_info["装备的家传玉佩"].append(baowu)
+                    if baowu["quality"] in baowu_config["quality"]:
+                        dict_info["装备的家传玉佩"].append(baowu)
             elif baowu["name"] == "日月光华" and baowu["attribute_lea"] == baowu["attribute_str"] == baowu["attribute_int"] == "50":
                 dict_info["日月光华"].append(baowu)
                 dict_info["家传玉佩"].remove(baowu)
@@ -73,7 +75,6 @@ class PolishTask(BaseTask):
                 if not self.upgrade_specialtreasure(reverse_50, specialtreasure, dict_info["日月光华"], specialtreasure_config["attribute"], specialtreasure_config["include"], specialtreasure_config["available_attribute_len"]):
                     break
 
-        baowu_config = config["equip"]["polish"]["baowu"]
         if baowu_config["enable"]:
             # dict_info["装备的家传玉佩"] = sorted(dict_info["装备的家传玉佩"], key=lambda value: int(value["maxadd"]), reverse=False)
             dict_info["装备的家传玉佩"] = sorted(dict_info["装备的家传玉佩"], key=lambda value: (value["成功率"], value["quality"]), reverse=True)

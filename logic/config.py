@@ -338,6 +338,7 @@ config = {
             },
             "baowu": {  # 家传玉佩
                 "enable": True,  # 强化家传玉佩
+                "quality": ["6"],  # 1：白，2：蓝，3：绿，4：黄，5：红，6：紫
             },
             "specialtreasure": {  # 专属玉佩
                 "enable": True,  # 强化专属玉佩
