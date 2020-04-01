@@ -24,19 +24,23 @@ class BaseMgr(object):
             task.finishnum += num
 
     def debug(self, msg):
-        self.logger.debug(msg)
+        extra = "[uid: {} name: {}] ".format(self.m_objUser.m_nId, self.m_objUser.m_szUserName)
+        self.logger.debug(extra + msg)
 
     def info(self, msg, use_gold=False):
+        extra = "[uid: {} name: {}] ".format(self.m_objUser.m_nId, self.m_objUser.m_szUserName)
         if use_gold:
-            self.logger.getChild("gold").info(msg)
+            self.logger.getChild("gold").info(extra + msg)
         else:
-            self.logger.info(msg)
+            self.logger.info(extra + msg)
 
     def warning(self, msg):
-        self.logger.warning(msg)
+        extra = "[uid: {} name: {}] ".format(self.m_objUser.m_nId, self.m_objUser.m_szUserName)
+        self.logger.warning(extra + msg)
 
     def error(self, msg):
-        self.logger.error(msg)
+        extra = "[uid: {} name: {}] ".format(self.m_objUser.m_nId, self.m_objUser.m_szUserName)
+        self.logger.error(extra + msg)
 
     @staticmethod
     def get_impose_select_le(effect1, effect2):
