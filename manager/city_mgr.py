@@ -188,7 +188,9 @@ class CityMgr(BaseMgr):
 
     def use_building_stone(self, tower):
         url = "/root/mainCity!useBuildingStone.action"
-        result = self.get_protocol_mgr().get_xml(url, "筑造将军塔")
+        data = {"buildMode": 1}
+        # result = self.get_protocol_mgr().get_xml(url, "筑造将军塔")
+        result = self.get_protocol_mgr().post_xml(url, data, "筑造将军塔")
         if result and result.m_bSucceed:
             tower.handle_info(result.m_objResult["generaltower"])
             msg = "筑造将军塔，进度增加{}".format(tower.addprogress)
