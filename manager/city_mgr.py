@@ -215,12 +215,16 @@ class CityMgr(BaseMgr):
             need_copper = int(forces / 2)
             copper = need_copper - self.m_objUser.m_nCopper
             if copper > 0:
-                import math
-                exchange_num = int(math.ceil(float(copper) / 5000000.0))
+                # 版本更新后，导致银币兑换比例变大了
+                # import math
+                # exchange_num = int(math.ceil(float(copper) / 5000000.0))
+                # misc_mgr = self.get_service_factory().get_misc_mgr()
+                # while exchange_num > 0:
+                #     exchange_num -= 1
+                #     misc_mgr.get_tickets_reward_by_name("银币", 10)
                 misc_mgr = self.get_service_factory().get_misc_mgr()
-                while exchange_num > 0:
-                    exchange_num -= 1
-                    misc_mgr.get_tickets_reward_by_name("银币", 10)
+                while need_copper > self.m_objUser.m_nCopper:
+                    misc_mgr.get_tickets_reward_by_name("银币", 1)
             url = "/root/mainCity!draught.action"
             data = {"forceNum": int(forces)}
             result = self.get_protocol_mgr().post_xml(url, data, "征兵")
