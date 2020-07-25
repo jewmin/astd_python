@@ -184,7 +184,7 @@ config = {
                 # {"type": 57, "lv": 1, "num": 120, "needweavenum": 600},  # 磨砺石 皇家大理商人
                 # {"type": 56, "lv": 1, "num": 30, "needweavenum": 550},  # 觉醒酒 皇家关东商人
                 # {"type": 38, "lv": 50, "num": 3, "needweavenum": 260},  # 日月光华 皇家楼兰商人
-                {"type": 51, "lv": 5, "num": 1, "needweavenum": 5000},  # 5星专属 稀有黑市商人
+                # {"type": 51, "lv": 5, "num": 1, "needweavenum": 5000},  # 5星专属 稀有黑市商人
                 {"type": 51, "lv": 6, "num": 1, "needweavenum": 8000},  # 6星专属 稀有黑市商人
             ],
             "limit": {  # limit换购
@@ -201,7 +201,7 @@ config = {
                     {"type": 57, "lv": 1, "num": 120, "needweavenum": 600},  # 磨砺石 皇家大理商人
                     {"type": 56, "lv": 1, "num": 30, "needweavenum": 550},  # 觉醒酒 皇家关东商人
                     {"type": 38, "lv": 50, "num": 3, "needweavenum": 260},  # 日月光华 皇家楼兰商人
-                    {"type": 51, "lv": 5, "num": 1, "needweavenum": 5000},  # 5星专属 稀有黑市商人
+                    # {"type": 51, "lv": 5, "num": 1, "needweavenum": 5000},  # 5星专属 稀有黑市商人
                     {"type": 51, "lv": 6, "num": 1, "needweavenum": 8000},  # 6星专属 稀有黑市商人
                 ],
             },
@@ -411,12 +411,22 @@ config = {
         "awaken": {  # 觉醒
             "enable": True,  # 开启
             "use_stone": True,  # 使用觉醒酒
-            "only_awaken": False,  # 觉醒后停止
-            # "general": ["张良", "韩信", "项羽", "成吉思汗", "貂蝉", "赵敏", "戚继光", "孟获", "刘邦", "袁绍"],  # 觉醒将列表
-            "general": ["项羽", "貂蝉", "孟获", "刘邦", "袁绍"],  # 觉醒将列表
-            "use_stone2": True,  # 使用杜康酒
-            "only_awaken2": True,  # 至尊觉醒后停止
-            "general2": ["项羽"],  # 至尊觉醒将列表
+            "only_awaken": True,  # 觉醒后停止
+            "general": {
+                "孟获": 10,
+                "刘邦": 20,
+                "袁绍": 30,
+                "项羽": 40,
+                "貂蝉": 50,
+                "张良": 51,
+                "成吉思汗": 60,
+                "赵敏": 70,
+                "戚继光": 80,
+                "韩信": 90,
+            },  # 觉醒将列表
+            "general2": {
+                "项羽": 10,
+            },  # 至尊觉醒将列表
         },
         "tech": {  # 科技
             "enable": True,  # 开启
@@ -427,7 +437,7 @@ config = {
             "fast_train": 1,  # 突飞花费大将令
             "new_train": 10,  # 突破花费大将令
             "dict": {
-                "孙尚香": 720,
+                "孙尚香": 700,
                 "袁绍": 730,
                 "孟获": 740,
                 "赵敏": 750,

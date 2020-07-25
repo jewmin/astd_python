@@ -17,7 +17,7 @@ class GeneralTask(BaseTask):
         dict_info = general_mgr.get_refresh_general_info()
         if dict_info is not None:
             awaken_generals = list()
-            left_awaken = 0
+            awaken_generals2 = list() # 至尊觉醒
             for general in dict_info["武将"]:
                 if "generalname" not in general or general["online"] == "1":
                     continue
@@ -45,45 +45,53 @@ class GeneralTask(BaseTask):
 
                 # isfull maxlevel liquornum freeliquornum needliquornum needbaoshinum isawaken maxnum invalidnum
                 if config["general"]["awaken"]["enable"]:
-                    if general.get("awaken2", "0") == "1" and general["generalname"] in config["general"]["awaken"]["general2"]:
-                        detail = general_mgr.get_awaken2_info(general)
-                        if detail is None:
-                            continue
-                        if detail["满技能"]:
-                            continue
-                        if detail["未觉醒"] or not config["general"]["awaken"]["only_awaken2"]:
-                            if detail["当前已喝"] >= detail["千杯佳酿需求"]:
-                                general_mgr.use_special_liquor(general)
-                                return self.immediate()
-                            if config["general"]["awaken"]["use_stone2"] and detail["剩余杜康酒"] >= detail["每次消耗杜康酒"]:
-                                general_mgr.awaken_general2(general, detail["每次消耗杜康酒"])
-                                return self.immediate()
-                    elif "isawaken" in general and general["generalname"] in config["general"]["awaken"]["general"]:
-                        detail = general_mgr.get_awaken_general_info(general)
-                        if detail is None:
-                            continue
-                        if detail["满技能"]:
-                            continue
-                        if general["isawaken"] == "0" or not config["general"]["awaken"]["only_awaken"]:
-                            if detail["当前已喝"] >= detail["千杯佳酿需求"]:
-                                general_mgr.use_special_liquor(general)
-                                return self.immediate()
-                            if detail["免费觉醒酒"] >= detail["需要觉醒酒"]:
-                                general_mgr.awaken_general(general)
-                                return self.immediate()
-                            elif config["general"]["awaken"]["use_stone"] and detail["拥有觉醒酒"] >= detail["需要觉醒酒"]:
-                                general_mgr.awaken_general(general, detail["需要觉醒酒"])
-                                return self.immediate()
-                        else:
-                            left_awaken = detail["免费觉醒酒"]
-                            awaken_generals.append((general, detail))
-            if left_awaken > 0:
-                for general, detail in awaken_generals:
+                    if general.get("awaken2", "0") == "1":
+                        if general["generalname"] in config["general"]["awaken"]["general2"]:
+                            detail = general_mgr.get_awaken2_info(general)
+                            if detail is None:
+                                continue
+                            if detail["满技能"]:
+                                continue
+                            awaken_generals2.append((general, detail, config["general"]["awaken"]["general2"][general["generalname"]]))
+                    elif "isawaken" in general:
+                        if general["generalname"] in config["general"]["awaken"]["general"]:
+                            detail = general_mgr.get_awaken_general_info(general)
+                            if detail is None:
+                                continue
+                            if detail["满技能"]:
+                                continue
+                            priority = config["general"]["awaken"]["general"][general["generalname"]]
+                            if general["isawaken"] == "1":
+                                priority += 500
+                            awaken_generals.append((general, detail, priority))
+
+            if config["general"]["awaken"]["enable"]:
+                awaken_generals2.sort(key=lambda s: s[2])
+                awaken_generals.sort(key=lambda s: s[2])
+                for general, detail, _ in awaken_generals2:
                     if detail["当前已喝"] >= detail["千杯佳酿需求"]:
                         general_mgr.use_special_liquor(general)
                         return self.immediate()
-                    if left_awaken >= detail["需要觉醒酒"]:
+                    if detail["剩余杜康酒"] >= detail["每次消耗杜康酒"]:
+                        general_mgr.awaken_general2(general, detail["每次消耗杜康酒"])
+                        return self.immediate()
+                for general, detail, _ in awaken_generals:
+                    if detail["当前已喝"] >= detail["千杯佳酿需求"]:
+                        general_mgr.use_special_liquor(general)
+                        return self.immediate()
+                    if detail["免费觉醒酒"] >= detail["需要觉醒酒"]:
                         general_mgr.awaken_general(general)
+                        return self.immediate()
+                    if general["isawaken"] == "0":
+                        if config["general"]["awaken"]["use_stone"] and detail["拥有觉醒酒"] >= detail["需要觉醒酒"]:
+                            general_mgr.awaken_general(general, detail["需要觉醒酒"])
+                            return self.immediate()
+                        else:
+                            break
+                    if config["general"]["awaken"]["only_awaken"]:
+                        break
+                    if config["general"]["awaken"]["use_stone"] and detail["拥有觉醒酒"] >= detail["需要觉醒酒"]:
+                        general_mgr.awaken_general(general, detail["需要觉醒酒"])
                         return self.immediate()
 
         # techid techname techlevel progress requireprogress consumerestype('bintie','baoshi_18','tickets') consumenum
