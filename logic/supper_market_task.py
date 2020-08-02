@@ -42,7 +42,7 @@ class SupperMarketTask(BaseTask):
                 price_type, price = v.get_price()
                 if price_type == "copper":
                     if price > self.get_available_copper():
-                        misc_mgr.get_tickets_reward_by_name("银币", 10)
+                        misc_mgr.get_tickets_reward_by_name("银币", 1)
                     misc_mgr.buy_supper_market_commodity(v)
                     with_draw_supper_market_dto_set.add(v)
                 elif price_type == "gold" and config["market"]["buy_gold_item"]:
@@ -62,7 +62,7 @@ class SupperMarketTask(BaseTask):
                         price_type, price = v.get_price()
                         if price_type == "copper":
                             if price > self.get_available_copper():
-                                misc_mgr.get_tickets_reward_by_name("银币", 10)
+                                misc_mgr.get_tickets_reward_by_name("银币", 1)
                             misc_mgr.buy_supper_market_special_goods(v)
                         elif price_type == "gold":
                             if price <= self.get_available_gold():

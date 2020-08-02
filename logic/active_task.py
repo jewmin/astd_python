@@ -77,7 +77,7 @@ class ActiveTask(BaseTask):
                         return self.next_half_hour()
 
                     if info["消耗银币"] > self.get_available_copper():
-                        misc_mgr.get_tickets_reward_by_name("银币", 10)
+                        misc_mgr.get_tickets_reward_by_name("银币", 1)
 
                     if info["升级单个工人消耗金币"] <= active_config["refresh_refiner"]["per_cost"]:
                         info["工人们"] = sorted(info["工人们"], key=lambda value: value["id"], reverse=True)
@@ -111,7 +111,7 @@ class ActiveTask(BaseTask):
                         return self.next_half_hour()
 
                     if info["消耗银币"] > self.get_available_copper():
-                        misc_mgr.get_tickets_reward_by_name("银币", 10)
+                        misc_mgr.get_tickets_reward_by_name("银币", 1)
 
                     war_chariot_info = equip_mgr.get_war_chariot_info()
                     if war_chariot_info is None:
@@ -160,7 +160,7 @@ class ActiveTask(BaseTask):
                         elif cost[0] == "copper":
                             if real_cost <= active_config["limit"]["copper"]:
                                 if real_cost > self.get_available_copper():
-                                    misc_mgr.get_tickets_reward_by_name("银币", 10)
+                                    misc_mgr.get_tickets_reward_by_name("银币", 1)
                                 info = active_mgr.western_trade(trader, {"银币": GlobalFunc.get_short_readable(real_cost), "行动力": trader_active})
                                 self.handle_event(info)
                                 return self.immediate()
@@ -180,7 +180,7 @@ class ActiveTask(BaseTask):
                             elif cost[0] == "copper":
                                 if real_cost <= active_config["limit"]["copper"]:
                                     if real_cost > self.get_available_copper():
-                                        misc_mgr.get_tickets_reward_by_name("银币", 10)
+                                        misc_mgr.get_tickets_reward_by_name("银币", 1)
                                     info = active_mgr.western_trade(trader, {"银币": GlobalFunc.get_short_readable(real_cost), "行动力": trader_active})
                                     self.handle_event(info)
                                     return self.immediate()
