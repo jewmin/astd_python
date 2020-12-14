@@ -47,13 +47,14 @@ class PolishTask(BaseTask):
                 attribute_lea = int(baowu["attribute_lea"]) + int(baowu["leaadd"])
                 attribute_str = int(baowu["attribute_str"]) + int(baowu["stradd"])
                 attribute_int = int(baowu["attribute_int"]) + int(baowu["intadd"])
+                attribute_max = attribute_lea + attribute_str + attribute_int
                 maxadd = int(baowu["maxadd"])
                 if attribute_lea < maxadd or attribute_str < maxadd or attribute_int < maxadd:
                     if baowu["quality"] == "6":  # 紫宝
                         baowu["成功率"] = int(float(baowu["succprob"]) * 1000)
                     else:
                         baowu["成功率"] = int(float(baowu["succprob"]) * 10000)
-                    if baowu["quality"] in baowu_config["quality"]:
+                    if baowu["quality"] in baowu_config["quality"] and attribute_max < baowu_config["limit"]:
                         dict_info["装备的家传玉佩"].append(baowu)
             elif baowu["name"] == "日月光华" and baowu["attribute_lea"] == baowu["attribute_str"] == baowu["attribute_int"] == "50":
                 dict_info["日月光华"].append(baowu)
