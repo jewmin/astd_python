@@ -53,12 +53,7 @@ def init_logging():
     logging.basicConfig(level=logging.DEBUG,
                         format="%(asctime)s %(filename)s [%(levelname)s] %(message)s",
                         datefmt="%Y-%m-%d %H:%M:%S",
-                        filename="all.log")
-    # basic_handler = logging.FileHandler("all.log", encoding="utf-8")
-    # basic_handler.setLevel(logging.DEBUG)
-    # formatter = logging.Formatter("%(asctime)s %(filename)s [%(levelname)s] %(message)s")
-    # basic_handler.setFormatter(formatter)
-    # logging.getLogger().addHandler(basic_handler)
+                        handlers=[logging.FileHandler("all.log", "a", encoding="utf-8")])
 
     file_handler = TimedRotatingFileHandler("astd.log", when="D", interval=1, encoding="utf-8")
     file_handler.setLevel(logging.DEBUG)
