@@ -16,7 +16,7 @@ class XmlParse(object):
         # Save childrens
         for child in node.getchildren():
             ctag = child.tag
-            ctext = child.text.strip().encode(self._coding) if child.text is not None else ''
+            ctext = child.text.strip() if child.text is not None else ''
             ctree = self._parse_node(child)
 
             if not ctree:

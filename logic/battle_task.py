@@ -39,7 +39,7 @@ class BattleTask(BaseTask):
 
             state = info["征战事件"].get("state", "0")
             if state == "1":
-                process = map(int, info["征战事件"]["process"].split("/"))
+                process = list(map(int, info["征战事件"]["process"].split("/")))
                 while process[0] < process[1]:
                     battle_mgr.do_battle_event()
                     process[0] += 1

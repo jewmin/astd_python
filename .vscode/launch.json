@@ -10,12 +10,12 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/bin/main.py",
 			"args": [
-				"--user-name=jewmin",
-				"--role-name=英雄杯具"
+				"--user-name=jewmin,jewmin,jewminchan",
+				"--role-name=杯具,英雄杯具,"
 			],
 			"cwd": "${workspaceFolder}/bin",
 			"env": {
-				"PYTHONPATH": "h:/astdpython"
+				"PYTHONPATH": "${workspaceFolder}"
 			},
 		},
 	]

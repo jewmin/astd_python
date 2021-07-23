@@ -296,7 +296,7 @@ config = {
         "war_drum": {  # 战鼓
             "enable": True,  # 开启
             "refine_rate": 0.8,  # 余料百分比
-            "sort": [2, 4, 3, 1],  # 执行顺序
+            "sort": [2, 4, 1, 3],  # 执行顺序
             "diff_level": 5,  # 最大等级差
             "save_steelnum": 1000000,  # 保留镔铁
             "until_double": False,  # 强化到双倍
@@ -339,7 +339,7 @@ config = {
             "baowu": {  # 家传玉佩
                 "enable": True,  # 强化家传玉佩
                 "quality": ["6"],  # 1：白，2：蓝，3：绿，4：黄，5：红，6：紫
-                "limit": 423,  # 属性和上限, 超过则不强化
+                "limit": 523,  # 属性和上限, 超过则不强化
             },
             "specialtreasure": {  # 专属玉佩
                 "enable": True,  # 强化专属玉佩

@@ -48,7 +48,7 @@ class TaskMgr(object):
                 except Exception as ex:
                     self.logger.error("执行任务[{}]报错：{}".format(item.m_szReadable, str(ex)))
                     item.set_next_running_time(item.next_half_hour())
-                    if ex.message == "需要重新登录":
+                    if str(ex) == "需要重新登录":
                         break
                     else:
                         trace = traceback.format_exc()

@@ -97,7 +97,7 @@ class RecordVar(object):
         rows.append(" Local Var:")
 
         done, dump = {}, []
-        for k, v in frame.f_globals.iteritems():
+        for k, v in frame.f_globals.items():
             if not k.startswith('__'):
                 dump.append("    {} = {}".format(k, pydoc.text.repr(v)))
 

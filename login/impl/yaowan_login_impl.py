@@ -21,7 +21,7 @@ class YaoWanLogin(LoginBase):
         result = TransferMgr.post_pure(url, data, cookies)
         if result is None:
             login_result.m_eLoginStatus = LoginStatus.FailInLogin
-        elif result.content.startswith("<script>"):
+        elif result.content.decode().startswith("<script>"):
             login_result.m_eLoginStatus = LoginStatus.FailInLogin
         else:
             self.finding_server_url()

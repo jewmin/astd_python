@@ -105,7 +105,7 @@ class ActiveMgr(BaseMgr):
             use_gold = False
             msg = "花费"
             first = True
-            for k, v in cost.iteritems():
+            for k, v in cost.items():
                 if k == "金币":
                     use_gold = True
                 if first:

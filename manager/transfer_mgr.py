@@ -15,8 +15,10 @@ class TransferMgr(object):
         else:
             if result.headers["content-type"] == "application/x-gzip-compressed":
                 content = zlib.decompress(result.content)
+                content = content[3:]
             else:
                 content = result.content
+            content = content.decode()
             index = content.find("<results>")
             if index < 0:
                 return ""

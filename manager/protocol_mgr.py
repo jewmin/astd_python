@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # 协议管理
 from logging import getLogger
-from urlparse import urlparse
+from urllib.parse import urlparse
 import requests
 from manager.transfer_mgr import TransferMgr
 from model.server_result import ServerResult

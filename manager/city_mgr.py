@@ -264,7 +264,7 @@ class CityMgr(BaseMgr):
             dict_reward["征收次数"] = int(result.m_objResult["ledto"]["t"])
             dict_reward["征收CD"] = int(result.m_objResult["ledto"]["c"])
             msg = "征收问题[({})，({})]，选择答案[{}]，获得".format(effect1, effect2, opt)
-            for k, v in dict_reward.iteritems():
+            for k, v in dict_reward.items():
                 if v > 0:
                     msg += "{}+{}，".format(k, v)
                 elif v < 0:

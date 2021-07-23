@@ -33,7 +33,7 @@ class GeneralTask(BaseTask):
                         if detail["武将等级"] == 400:
                             limit_attr = self.m_objUser.m_nLevel + 20
 
-                        for value in detail["原始属性"].itervalues():
+                        for value in detail["原始属性"].values():
                             if limit_attr - int(value) > 1:
                                 if dict_info["免费白金洗次数"] > 0:
                                     result = general_mgr.refresh_general(general, 2)
@@ -194,9 +194,9 @@ class GeneralTask(BaseTask):
         general_mgr = self.m_objServiceFactory.get_general_mgr()
         old_total_attr = 0
         new_total_attr = 0
-        for value in old_attrs.itervalues():
+        for value in old_attrs.values():
             old_total_attr += int(value)
-        for value in new_attrs.itervalues():
+        for value in new_attrs.values():
             new_total_attr += int(value)
         general_mgr.refresh_general_confirm(general, new_total_attr > old_total_attr)
 

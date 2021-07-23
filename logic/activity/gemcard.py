@@ -75,7 +75,7 @@ class GemCard(ActivityTask):
             info["免费次数"] = int(result.m_objResult["gemcardinfo"]["freetimes"])
             info["购买次数花费金币"] = int(result.m_objResult["gemcardinfo"]["buygold"])
             info["卡牌"] = list()
-            combos = map(int, result.m_objResult["gemcardinfo"]["gemcardliststring"][:-1].split(","))
+            combos = list(map(int, result.m_objResult["gemcardinfo"]["gemcardliststring"][:-1].split(",")))
             for idx, combo in enumerate(combos):
                 info["卡牌"].append({"id": idx, "combo": combo})
             return info

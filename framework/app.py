@@ -174,13 +174,13 @@ class App(IServer):
         path = "logs/{}_{}_{}".format(self.m_objAccount.m_eServerType, self.m_objAccount.m_nServerId, self.m_objUser.m_nId)
         if not os.path.exists(path):
             os.makedirs(path)
-        file_handler = TimedRotatingFileHandler("{}/astd.log".format(path), when="D", interval=1)
+        file_handler = TimedRotatingFileHandler("{}/astd.log".format(path), when="D", interval=1, encoding="utf-8")
         file_handler.setLevel(logging.INFO)
         formatter = logging.Formatter("%(asctime)s %(filename)s [%(levelname)s] %(message)s")
         file_handler.setFormatter(formatter)
         logging.getLogger(self.m_szIndex).addHandler(file_handler)
 
-        file_handler_gold = TimedRotatingFileHandler("{}/gold.log".format(path), when="D", interval=1)
+        file_handler_gold = TimedRotatingFileHandler("{}/gold.log".format(path), when="D", interval=1, encoding="utf-8")
         file_handler_gold.setLevel(logging.INFO)
         file_handler_gold.setFormatter(formatter)
         logging.getLogger(self.m_szIndex).getChild("gold").addHandler(file_handler_gold)

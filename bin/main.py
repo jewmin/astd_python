@@ -17,7 +17,7 @@ g_running = False
 
 def get_account_config():
     account_list = list()
-    with open("account.ini", "r") as fd:
+    with open("account.ini", "r", encoding='utf-8') as fd:
         lines = fd.readlines()
         for line in lines:
             line = line.strip()
@@ -54,8 +54,13 @@ def init_logging():
                         format="%(asctime)s %(filename)s [%(levelname)s] %(message)s",
                         datefmt="%Y-%m-%d %H:%M:%S",
                         filename="all.log")
+    # basic_handler = logging.FileHandler("all.log", encoding="utf-8")
+    # basic_handler.setLevel(logging.DEBUG)
+    # formatter = logging.Formatter("%(asctime)s %(filename)s [%(levelname)s] %(message)s")
+    # basic_handler.setFormatter(formatter)
+    # logging.getLogger().addHandler(basic_handler)
 
-    file_handler = TimedRotatingFileHandler("astd.log", when="D", interval=1)
+    file_handler = TimedRotatingFileHandler("astd.log", when="D", interval=1, encoding="utf-8")
     file_handler.setLevel(logging.DEBUG)
     formatter = logging.Formatter("%(asctime)s %(filename)s [%(levelname)s] %(message)s")
     file_handler.setFormatter(formatter)
@@ -67,12 +72,12 @@ def init_logging():
     console.setFormatter(formatter)
     logging.getLogger().addHandler(console)
 
-    rotating = RotatingFileHandler(filename="error.log", maxBytes=1048576)
+    rotating = RotatingFileHandler(filename="error.log", maxBytes=1048576, encoding="utf-8")
     rotating.setLevel(logging.ERROR)
     rotating.setFormatter(formatter)
     logging.getLogger().addHandler(rotating)
 
-    warning_rotating = RotatingFileHandler(filename="warning.log", maxBytes=1048576)
+    warning_rotating = RotatingFileHandler(filename="warning.log", maxBytes=1048576, encoding="utf-8")
     warning_rotating.setLevel(logging.WARNING)
     warning_rotating.setFormatter(formatter)
     logging.getLogger().addHandler(warning_rotating)
@@ -132,7 +137,7 @@ def main():
     user_names = args.user_name.split(",")
     import platform
     if platform.system() == "Windows":
-        role_names = args.role_name.decode("gbk").encode("utf-8").split(",")
+        role_names = args.role_name.split(",")
     else:
         role_names = args.role_name.split(",")
     # logging.getLogger().info("原始参数：{}，角色参数：{}".format(args.role_name, role_names))

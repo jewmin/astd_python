@@ -7,7 +7,7 @@ class BaseObject(object):
         super(BaseObject, self).__init__()
 
     def handle_info(self, dict_info):
-        for key, value in dict_info.iteritems():
+        for key, value in dict_info.items():
             if hasattr(self, key):
                 origin = getattr(self, key)
                 if isinstance(origin, BaseObject):

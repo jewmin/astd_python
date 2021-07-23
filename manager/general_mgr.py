@@ -175,7 +175,7 @@ class GeneralMgr(BaseMgr):
         if result and result.m_bSucceed:
             formation_id = int(result.m_objResult["formation"]["formationid"])
             if formation_id > 0:
-                formation_id /= 20
+                formation_id //= 20
                 return self.get_formation_by_id(formation_id)
         return self.get_formation_by_id(0)
 

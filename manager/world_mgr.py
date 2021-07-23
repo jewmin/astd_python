@@ -69,7 +69,7 @@ class WorldMgr(BaseMgr):
             self.m_dictId2Areas.clear()
             self.m_dictName2Areas.clear()
             for area in result.m_objResult["newarea"]:
-                coordinate = map(int, area["coordinate"].split(","))
+                coordinate = list(map(int, area["coordinate"].split(",")))
                 y, x = coordinate[0] - 1, coordinate[1] - 1
                 if "areaid" in area:
                     area["areaid"] = int(area["areaid"])
@@ -107,7 +107,7 @@ class WorldMgr(BaseMgr):
         area = self.m_dictId2Areas[area_id]
         if include_me:
             neighbors_area_list.append(area)
-        coordinate = map(int, area["coordinate"].split(","))
+        coordinate = list(map(int, area["coordinate"].split(",")))
         y, x = coordinate[0] - 1, coordinate[1] - 1
         for ny, nx in [(y, x - 1), (y, x + 1), (y - 1, x), (y + 1, x)]:
             if 0 <= nx < self.m_nWidth and 0 <= ny < self.m_nHeight and self.m_dictXY2Areas[ny][nx] is not None:
@@ -304,7 +304,7 @@ class WorldMgr(BaseMgr):
             tasks = result.m_objResult["taskstr"].split(",")
             for pos, task in enumerate(tasks, 1):
                 if len(task) > 0:
-                    content = map(int, task.split(":"))
+                    content = list(map(int, task.split(":")))
                     if content[1] == 0:
                         self.m_dictTarget["悬赏任务列表"].append({"位置": pos, "星级": content[0]})
             self.m_dictTarget["悬赏任务列表"] = sorted(self.m_dictTarget["悬赏任务列表"], key=lambda obj: obj["星级"], reverse=True)

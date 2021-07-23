@@ -16,7 +16,7 @@ class CityTask(BaseTask):
 
         low_city_dto_list = list()
         high_city_dto_list = list()
-        for main_city_dto in self.m_objUser.m_dictMainCityBuildings.itervalues():
+        for main_city_dto in self.m_objUser.m_dictMainCityBuildings.values():
             if main_city_dto.buildlevel == self.m_objUser.m_nLevel:
                 continue
             elif main_city_dto.buildname in config["mainCity"]["build_list"]:

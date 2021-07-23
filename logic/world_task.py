@@ -221,7 +221,7 @@ class WorldTask(BaseTask):
         if fengdi_config["enable"]:
             if self.m_WorldMgr.m_dictFengDi["生产时间"] == 0 and self.m_WorldMgr.m_dictFengDi["剩余封地生产次数"] > 0:
                 if len(self.m_WorldMgr.m_dictFengDiAreas) > 0:
-                    for area in self.m_WorldMgr.m_dictFengDiAreas.itervalues():
+                    for area in self.m_WorldMgr.m_dictFengDiAreas.values():
                         if int(area["fengdicd"]) >= fengdi_config["cd"]:
                             next_area = self.get_next_move_area(area["areaname"])
                             if next_area is not None:
@@ -247,7 +247,7 @@ class WorldTask(BaseTask):
 
         # 随机屠城
         if tu_city_config["enable"] and self.m_WorldMgr.m_dictTuCity["冷却时间"] == 0 and self.m_WorldMgr.m_dictTuCity["剩余次数"] > 0 and self.m_WorldMgr.m_dictTarget["悬赏剩余次数"] == 0:
-            for area in self.m_WorldMgr.m_dictId2Areas.itervalues():
+            for area in self.m_WorldMgr.m_dictId2Areas.values():
                 if area["nation"] != self.m_objUser.m_nNation and area["areaname"] not in attack_config["exculde"]:
                     self.m_WorldMgr.tu_city(area["areaid"])
                     return self.immediate()
@@ -296,7 +296,7 @@ class WorldTask(BaseTask):
         for area in area_list:
             if area_id == area["areaid"]:
                 self.m_WorldMgr.m_nSpyAreaId = 0
-                for i in xrange(1, 100):
+                for i in range(1, 100):
                     city_list = self.m_WorldMgr.get_all_city(area_id, i)
                     if city_list is None:
                         break
@@ -320,7 +320,7 @@ class WorldTask(BaseTask):
             arrest_player = []
             arrest_npc = []
             pvp_attack_player = []
-            for i in xrange(1, 100):
+            for i in range(1, 100):
                 city_list = self.m_WorldMgr.get_all_city(area["areaid"], i)
                 if city_list is None:
                     break
@@ -418,9 +418,9 @@ class WorldTask(BaseTask):
             self.m_WorldMgr.info("已在城池[{}]".format(current_area["areaname"]))
             return None
 
-        coordinate = map(int, current_area["coordinate"].split(","))
+        coordinate = list(map(int, current_area["coordinate"].split(",")))
         current_y, current_x = coordinate[0] - 1, coordinate[1] - 1
-        coordinate = map(int, goal_area["coordinate"].split(","))
+        coordinate = list(map(int, goal_area["coordinate"].split(",")))
         goal_y, goal_x = coordinate[0] - 1, coordinate[1] - 1
         paths = self.m_WorldMgr.m_AStar.astar((current_y, current_x), (goal_y, goal_x))
         if paths is None:

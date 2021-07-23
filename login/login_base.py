@@ -2,7 +2,7 @@
 # 登录基类
 from logging import getLogger
 import hashlib
-from urlparse import urlparse
+from urllib.parse import urlparse
 from threading import Lock
 import os
 from manager.transfer_mgr import TransferMgr
@@ -43,7 +43,7 @@ class LoginBase(object):
         if not os.path.exists(folder):
             os.mkdir(folder)
         try:
-            fd = open("{}/{}".format(folder, file_name), "r+")
+            fd = open("{}/{}".format(folder, file_name), "r+", encoding='utf-8')
             content = fd.read()
             fd.close()
         except IOError as ex:

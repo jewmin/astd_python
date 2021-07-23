@@ -32,12 +32,12 @@ class RingEvent(ActivityTask):
             return self.immediate()
         elif info["对联状态"] == 2:
             need_reel_num_list = [0, 0, 0, 0]
-            reel_list = map(int, info["对联"][:-1].split(","))
+            reel_list = list(map(int, info["对联"][:-1].split(",")))
             if info["已激活次数"] == 0 and (info["敲钟"][0]["免费次数"] > 0 or info["敲钟"][0]["花费金币"] <= self.m_dictConfig["cost"]):
-                for idx in xrange(1, len(reel_list)):
+                for idx in range(1, len(reel_list)):
                     need_reel_num_list[reel_list[idx]] += 1
             else:
-                for idx in xrange(info["已激活次数"], len(reel_list)):
+                for idx in range(info["已激活次数"], len(reel_list)):
                     need_reel_num_list[reel_list[idx]] += 1
             for bell_id, reel in enumerate(info["敲钟"]):
                 num = reel["免费次数"]
@@ -118,7 +118,7 @@ class RingEvent(ActivityTask):
         url = "/root/ringEvent!openReel.action"
         result = self.get_xml(url, "打开对联")
         if result and result.m_bSucceed:
-            needs = map(int, result.m_objResult["need"][:-1].split(","))
+            needs = list(map(int, result.m_objResult["need"][:-1].split(",")))
             msg = "打开对联：{}".format(result.m_objResult["words"])
             for need in needs:
                 msg += " {}".format(reel_tuple[need])

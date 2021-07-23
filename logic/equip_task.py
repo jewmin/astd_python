@@ -59,7 +59,7 @@ class EquipTask(BaseTask):
                     if detail["免费淬炼次数"] <= 0:
                         continue
 
-                    for attr in detail["当前属性"].itervalues():
+                    for attr in detail["当前属性"].values():
                         if int(attr) < detail["最大属性"]:
                             result = equip_mgr.xi_zhu_ge(general)
                             if result is not None:
@@ -110,7 +110,7 @@ class EquipTask(BaseTask):
 
         merge_config = config["equip"]["merge"]
         if merge_config["enable"]:
-            for level in xrange(1, merge_config["level"]):
+            for level in range(1, merge_config["level"]):
                 equip_mgr.update_baoshi_whole_level(level)
 
         return self.next_half_hour()
@@ -119,8 +119,8 @@ class EquipTask(BaseTask):
     def check_attr(old_attrs, new_attrs):
         old_attr = 0
         new_attr = 0
-        for value in old_attrs.itervalues():
+        for value in old_attrs.values():
             old_attr += int(value)
-        for value in new_attrs.itervalues():
+        for value in new_attrs.values():
             new_attr += int(value)
         return new_attr > old_attr

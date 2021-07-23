@@ -34,7 +34,7 @@ class SpringFestivalWishEvent(ActivityTask):
                 return self.immediate()
         elif info["许愿状态"] == 3:  # 领奖
             if info["愿望"] is not None:
-                wishs = map(int, info["愿望"][:-1].split(","))
+                wishs = list(map(int, info["愿望"][:-1].split(",")))
                 for idx, wish in enumerate(wishs, 1):
                     if wish == 0:
                         self.receive_wish_reward(idx)
