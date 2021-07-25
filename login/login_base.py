@@ -32,7 +32,7 @@ class LoginBase(object):
         folder = "cache"
         if not os.path.exists(folder):
             os.mkdir(folder)
-        fd = open("{}/{}".format(folder, file_name), "w+")
+        fd = open("{}/{}".format(folder, file_name), "w+", encoding="utf-8")
         fd.write(file_content)
         fd.close()
         self.lock.release()

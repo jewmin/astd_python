@@ -50,7 +50,7 @@ class YaoWanLogin(LoginBase):
         if result is None:
             return ""
         else:
-            content = result.content
+            content = result.content.decode()
             game_url = self.find_server_url_from_string(content)
             if len(game_url) > 0:
                 self.save_cache_file(file_name, content)
