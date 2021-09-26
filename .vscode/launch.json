@@ -18,5 +18,19 @@
 				"PYTHONPATH": "${workspaceFolder}"
 			},
 		},
+		{
+			"name": "Python: 英雄杯具",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/bin/main.py",
+			"args": [
+				"--user-name=jewmin",
+				"--role-name=英雄杯具"
+			],
+			"cwd": "${workspaceFolder}/bin",
+			"env": {
+				"PYTHONPATH": "${workspaceFolder}"
+			},
+		},
 	]
 }

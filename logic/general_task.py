@@ -166,6 +166,8 @@ class GeneralTask(BaseTask):
                     general = dict_info["大将"][i]
                     if int(general["biglv"]) == train_info["等级上限"]:
                         dict_info["大将"].remove(general)
+                    elif int(general["quality"]) < 200:  # 品质低于200，旧武将，不训练
+                        dict_info["大将"].remove(general)
                     else:
                         general["index"] = big_config["dict"].get(general["name"], 9999)
                 dict_info["大将"] = sorted(dict_info["大将"], key=lambda obj: obj["index"])
