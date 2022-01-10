@@ -113,7 +113,7 @@ class EquipTask(BaseTask):
             for level in range(1, merge_config["level"]):
                 equip_mgr.update_baoshi_whole_level(level)
 
-        return self.next_half_hour()
+        return self.ten_minute()
 
     @staticmethod
     def check_attr(old_attrs, new_attrs):
