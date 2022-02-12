@@ -90,7 +90,7 @@ class PolishTask(BaseTask):
                 if not success:
                     break
 
-        return self.next_half_hour()
+        return self.ten_minute()
 
     def upgrade_specialtreasure(self, reverse_50, specialtreasure, list_baowu, attribute_config, include_config, available_attribute_len_config):
         equip_mgr = self.m_objServiceFactory.get_equip_mgr()
