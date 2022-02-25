@@ -32,5 +32,19 @@
 				"PYTHONPATH": "${workspaceFolder}"
 			},
 		},
+		{
+			"name": "Python: 杯具",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/bin/main.py",
+			"args": [
+				"--user-name=jewmin",
+				"--role-name=杯具"
+			],
+			"cwd": "${workspaceFolder}/bin",
+			"env": {
+				"PYTHONPATH": "${workspaceFolder}"
+			},
+		},
 	]
 }
