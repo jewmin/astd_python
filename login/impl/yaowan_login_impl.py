@@ -1,56 +1,57 @@
 # -*- coding: utf-8 -*-
 # 要玩登录
-from logging import getLogger
 import re
+from requests.cookies import RequestsCookieJar
 from login.login_base import LoginBase
-from manager.transfer_mgr import TransferMgr
 from model.login_result import LoginResult
+from manager.transfer_mgr import TransferMgr
 from model.enum.login_status import LoginStatus
 
 
 class YaoWanLogin(LoginBase):
-    def __init__(self, index):
-        super(YaoWanLogin, self).__init__(index)
-        self.logger = getLogger(index)
+    def __init__(self):
+        super().__init__()
 
-    def login(self, cookies, verify=None, extra=None):
+    async def login(self, cookies:RequestsCookieJar, verify=None, extra=None) -> LoginResult:
         self.logging()
         login_result = LoginResult()
         url = "http://www.yaowan.com/?m=user&action=loginform&subdomain=as"
         data = {"username": self.m_szUserName, "password": self.m_szPassword}
-        result = TransferMgr.post_pure(url, data, cookies)
-        if result is None:
-            login_result.m_eLoginStatus = LoginStatus.FailInLogin
-        elif result.content.decode().startswith("<script>"):
+        response = await TransferMgr.post_pure(url, data, cookies)
+        if response is None:
             login_result.m_eLoginStatus = LoginStatus.FailInLogin
         else:
-            self.finding_server_url()
-            server_url = self.get_server_url(cookies)
-            if server_url is None:
-                login_result.m_eLoginStatus = LoginStatus.FailInFindingGameUrl
+            content = await response.text()
+            if content.startswith("<script>"):
+                login_result.m_eLoginStatus = LoginStatus.FailInLogin
             else:
-                self.process_redirect(server_url, login_result, cookies)
+                self.finding_server_url()
+                server_url = await self.get_server_url(cookies)
+                if server_url is None:
+                    login_result.m_eLoginStatus = LoginStatus.FailInFindingGameUrl
+                else:
+                    await self.process_redirect(server_url, login_result, cookies)
         return login_result
 
-    def get_server_url(self, cookies):
+    async def get_server_url(self, cookies:RequestsCookieJar) -> str:
         url = "http://as.yaowan.com/as_server_list.html"
         file_name = "yao_wan_as_server_list.html"
         content = self.get_cache_file(file_name)
         if len(content) == 0:
-            return self.get_and_save_url(url, cookies, file_name)
+            return await self.get_and_save_url(url, cookies, file_name)
         else:
             game_url = self.find_server_url_from_string(content)
             if len(game_url) > 0:
                 return game_url
             else:
-                return self.get_and_save_url(url, cookies, file_name)
+                return await self.get_and_save_url(url, cookies, file_name)
 
-    def get_and_save_url(self, url, cookies, file_name):
-        result = TransferMgr.get_pure(url, cookies)
-        if result is None:
+    async def get_and_save_url(self, url:str, cookies:RequestsCookieJar, file_name:str):
+        response = await TransferMgr.get_pure(url, cookies)
+        if response is None:
             return ""
         else:
-            content = result.content
+            content = await response.text()
             game_url = self.find_server_url_from_string(content)
             if len(game_url) > 0:
                 self.save_cache_file(file_name, content)
@@ -58,9 +59,9 @@ class YaoWanLogin(LoginBase):
             else:
                 return ""
 
-    def find_server_url_from_string(self, content):
+    def find_server_url_from_string(self, content:str) -> str:
         if self.m_objAccount.m_nServerId == 218 or self.m_objAccount.m_nServerId == 219:
-            name = "要玩{}区".format(self.m_objAccount.m_nServerId)
+            name = f"要玩{self.m_objAccount.m_nServerId}区"
         elif self.m_objAccount.m_nServerId == 272:
             name = "傲视争霸区"
         elif self.m_objAccount.m_nServerId == 470:
@@ -70,8 +71,8 @@ class YaoWanLogin(LoginBase):
         elif self.m_objAccount.m_nServerId == 1000:
             name = "龍"
         else:
-            name = "双线{}区".format(self.m_objAccount.m_nServerId)
-        compiler = re.compile("<a.*href=\"(.*?)\".*>({}.*)</a>".format(name))
+            name = f"双线{self.m_objAccount.m_nServerId}区"
+        compiler = re.compile(f"<a.*href=\"(.*?)\".*>({name}.*)</a>")
         search = re.search(compiler, content)
         if search is None:
             return ""

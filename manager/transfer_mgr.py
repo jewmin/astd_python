@@ -4,7 +4,7 @@ import zlib
 import asyncio
 from logging import getLogger
 from aiohttp import ClientSession, ClientTimeout, ClientResponse
-from http.cookies import BaseCookie
+from requests.cookies import RequestsCookieJar
 
 
 class TransferMgr:
@@ -29,17 +29,17 @@ class TransferMgr:
                 return content[index:]
 
     @staticmethod
-    async def get(url:str, cookies:BaseCookie) -> str:
+    async def get(url:str, cookies:RequestsCookieJar) -> str:
         response = await TransferMgr.get_pure(url, cookies)
         return await TransferMgr.result(response)
 
     @staticmethod
-    async def post(url:str, data:dict, cookies:BaseCookie) -> str:
+    async def post(url:str, data:dict, cookies:RequestsCookieJar) -> str:
         response = await TransferMgr.post_pure(url, data, cookies)
         return await TransferMgr.result(response)
 
     @staticmethod
-    async def get_pure(url:str, cookies:BaseCookie, headers:dict=None, allow_redirects:bool=False, ssl:bool=False) -> ClientResponse:
+    async def get_pure(url:str, cookies:RequestsCookieJar, headers:dict=None, allow_redirects:bool=False, ssl:bool=False) -> ClientResponse:
         try:
             async with ClientSession(loop=asyncio.get_event_loop(), timeout=ClientTimeout(total=5)) as session:
                 async with session.get(url, cookies=cookies, headers=headers, allow_redirects=allow_redirects, ssl=ssl) as response:
@@ -49,7 +49,7 @@ class TransferMgr:
             getLogger("TransferMgr").error("GET请求失败", exc_info=True)
 
     @staticmethod
-    async def post_pure(url:str, data:dict, cookies:BaseCookie, headers:dict=None, allow_redirects:bool=False, ssl:bool=False) -> ClientResponse:
+    async def post_pure(url:str, data:dict, cookies:RequestsCookieJar, headers:dict=None, allow_redirects:bool=False, ssl:bool=False) -> ClientResponse:
         try:
             async with ClientSession(loop=asyncio.get_event_loop(), timeout=ClientTimeout(total=5)) as session:
                 async with session.post(url, data=data, cookies=cookies, headers=headers, allow_redirects=allow_redirects, ssl=ssl) as response:

@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 # 账号信息
+from requests.cookies import RequestsCookieJar
+from model.enum.server_type import ServerType
+from model.enum.account_status import AccountStatus
 
 
-class Account(object):
+class Account:
     def __init__(self):
-        super(Account, self).__init__()
-        self.m_eServerType = None
-        self.m_nServerId = None
-        self.m_szUserName = None
-        self.m_szPassword = None
-        self.m_szRoleName = None
-        self.m_eAccountStatus = None
-        self.m_szGameUrl = None
-        self.m_szJSessionId = None
-        self.m_distCookies = None
+        self.m_eServerType = ServerType.Unknown
+        self.m_nServerId = 0
+        self.m_szUserName = ''
+        self.m_szPassword = ''
+        self.m_szRoleName = ''
+        self.m_eAccountStatus = AccountStatus.DueTime
+        self.m_szGameUrl = ''
+        self.m_szJSessionId = ''
+        self.m_distCookies = RequestsCookieJar()
