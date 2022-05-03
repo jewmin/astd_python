@@ -2,6 +2,6 @@
 	"files.encoding": "utf8",
 	"editor.insertSpaces": true,
 	"editor.renderWhitespace": "all",
-	"editor.fontSize": 18,
-	"editor.fontFamily": "Source Code Variable",
+	"editor.fontSize": 14,
+	"editor.fontFamily": "Source Code Variable, Courier New",
 }

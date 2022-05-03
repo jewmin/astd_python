@@ -1,24 +1,26 @@
 # -*- coding: utf-8 -*-
 # http管理
-from logging import getLogger
-import requests
 import zlib
+import asyncio
+from logging import getLogger
+from aiohttp import ClientSession, ClientTimeout, ClientResponse
+from http.cookies import BaseCookie
 
 
-class TransferMgr(object):
+class TransferMgr:
+
     @staticmethod
-    def response(result):
-        if result is None or result.status_code == 0:
+    async def result(response:ClientResponse) -> str:
+        if response is None or response.status_code == 0:
             return "code:-1"
-        elif result.status_code != 200 and result.status_code != 304:
-            return "code:{}".format(result.status_code)
+        elif response.status_code != 200 and response.status_code != 304:
+            return f"code:{response.status_code}"
         else:
-            if result.headers["content-type"] == "application/x-gzip-compressed":
-                content = zlib.decompress(result.content)
+            content = await response.text(encoding="utf-8")
+            if response.headers["content-type"] == "application/x-gzip-compressed":
+                content = zlib.decompress(content)
                 start = content.index(b'<?xml')
                 content = content[start:]
-            else:
-                content = result.content
             content = content.decode()
             index = content.find("<results>")
             if index < 0:
@@ -27,31 +29,31 @@ class TransferMgr(object):
                 return content[index:]
 
     @staticmethod
-    def get(url, cookies):
-        result = TransferMgr.get_pure(url, cookies)
-        return TransferMgr.response(result)
+    async def get(url:str, cookies:BaseCookie) -> str:
+        response = await TransferMgr.get_pure(url, cookies)
+        return await TransferMgr.result(response)
 
     @staticmethod
-    def post(url, data, cookies):
-        result = TransferMgr.post_pure(url, data, cookies)
-        return TransferMgr.response(result)
+    async def post(url:str, data:dict, cookies:BaseCookie) -> str:
+        response = await TransferMgr.post_pure(url, data, cookies)
+        return await TransferMgr.result(response)
 
     @staticmethod
-    def get_pure(url, cookies, headers=None):
+    async def get_pure(url:str, cookies:BaseCookie, headers:dict=None, allow_redirects:bool=False, ssl:bool=False) -> ClientResponse:
         try:
-            session = requests.session()
-            response = session.get(url=url, cookies=cookies, headers=headers, allow_redirects=False)
-            cookies.update(session.cookies)
-            return response
+            async with ClientSession(loop=asyncio.get_event_loop(), timeout=ClientTimeout(total=5)) as session:
+                async with session.get(url, cookies=cookies, headers=headers, allow_redirects=allow_redirects, ssl=ssl) as response:
+                    cookies.update(response.cookies)
+                    return response
         except Exception as ex:
-            getLogger("TransferMgr").error(str(ex))
+            getLogger("TransferMgr").error("GET请求失败", exc_info=True)
 
     @staticmethod
-    def post_pure(url, data, cookies, headers=None):
+    async def post_pure(url:str, data:dict, cookies:BaseCookie, headers:dict=None, allow_redirects:bool=False, ssl:bool=False) -> ClientResponse:
         try:
-            session = requests.session()
-            response = session.post(url=url, data=data, cookies=cookies, headers=headers, allow_redirects=False)
-            cookies.update(session.cookies)
-            return response
+            async with ClientSession(loop=asyncio.get_event_loop(), timeout=ClientTimeout(total=5)) as session:
+                async with session.post(url, data=data, cookies=cookies, headers=headers, allow_redirects=allow_redirects, ssl=ssl) as response:
+                    cookies.update(response.cookies)
+                    return response
         except Exception as ex:
-            getLogger("TransferMgr").error(str(ex))
+            getLogger("TransferMgr").error("POST请求失败", exc_info=True)
