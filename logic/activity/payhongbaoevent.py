@@ -19,13 +19,16 @@ class PayHongBaoEvent(ActivityTask):
         if info is None:
             return self.next_half_hour()
 
-        if info["红包"] < info["红包上限"]:
-            self.open_pay_hongbao()
-            return self.immediate()
+        # if info["红包"] < info["红包上限"]:
+        #     self.open_pay_hongbao()
+        #     return self.immediate()
 
-        for hongbaoinfo in info["共享红包信息"]:
-            if "rewardid" in hongbaoinfo:
-                self.recv_share_hongbao(hongbaoinfo["rewardid"], hongbaoinfo["playerid"])
+        # for hongbaoinfo in info["共享红包信息"]:
+        #     if "rewardid" in hongbaoinfo:
+        #         self.recv_share_hongbao(hongbaoinfo["rewardid"], hongbaoinfo["playerid"])
+        if int(info["共享红包信息"].get('cangetnum', 0)) > 0:
+            self.recv_share_hongbao(0, info["共享红包信息"]["playerid"])
+            return self.immediate()
 
         return self.next_half_hour()
 
@@ -37,7 +40,7 @@ class PayHongBaoEvent(ActivityTask):
             info["红包"] = int(result.m_objResult["hongbaonum"])
             info["红包上限"] = int(result.m_objResult["hongbaolimit"])
             info["福袋"] = int(result.m_objResult["luckybagnum"])
-            info["共享红包信息"] = result.m_objResult["hongbaoinfo"]
+            info["共享红包信息"] = result.m_objResult.get("hongbaoinfo", {})
             return info
 
     def open_pay_hongbao(self):
@@ -54,4 +57,7 @@ class PayHongBaoEvent(ActivityTask):
         data = {"rewardId": reward_id, "playerId": player_id}
         result = self.post_xml(url, data, "拜年")
         if result and result.m_bSucceed:
-            self.info("拜年，获得{}个红包".format(result.m_objResult["thishongbaonum"]))
+            reward_info = RewardInfo()
+            reward_info.handle_info(result.m_objResult["hongbaoreward"]["rewardinfo"])
+            self.add_reward(reward_info)
+            self.info("拜年，获得{}个红包 {}".format(result.m_objResult["thishongbaonum"], reward_info))
