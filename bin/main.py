@@ -23,12 +23,10 @@ def get_account_config():
             line = line.strip()
             if len(line) == 0 or line.startswith("#"):
                 continue
-            index = line.find("=")
-            if index == -1:
+            key, _, value = line.partition("=")
+            if value == "":
                 continue
-            key = line[:index]
-            value = line[index + 1:]
-            if key is None or value is None or len(key) == 0 or len(value) == 0:
+            if len(key) == 0 or len(value) == 0:
                 continue
             account = handle_account_config(key, value)
             if account is not None:
@@ -55,11 +53,11 @@ def init_logging():
                         datefmt="%Y-%m-%d %H:%M:%S",
                         handlers=[logging.FileHandler("all.log", "a", encoding="utf-8")])
 
-    file_handler = TimedRotatingFileHandler("astd.log", when="D", interval=1, encoding="utf-8")
-    file_handler.setLevel(logging.DEBUG)
-    formatter = logging.Formatter("%(asctime)s %(filename)s [%(levelname)s] %(message)s")
-    file_handler.setFormatter(formatter)
-    logging.getLogger().addHandler(file_handler)
+    # file_handler = TimedRotatingFileHandler("astd.log", when="D", interval=1, encoding="utf-8")
+    # file_handler.setLevel(logging.DEBUG)
+    # formatter = logging.Formatter("%(asctime)s %(filename)s [%(levelname)s] %(message)s")
+    # file_handler.setFormatter(formatter)
+    # logging.getLogger().addHandler(file_handler)
 
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
