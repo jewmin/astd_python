@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # 活动管理
 from manager.base_mgr import BaseMgr
-from model.reward_info import RewardInfo
-from model.global_func import GlobalFunc
+# from model.reward_info import RewardInfo
+# from model.global_func import GlobalFunc
 
 
 class ActivityMgr(BaseMgr):

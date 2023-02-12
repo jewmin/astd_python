@@ -309,6 +309,10 @@ config = {
             "auto_exchange_bowlder": True,  # 自动兑换玉石
             "equipment_num": 20000,  # 兵器<=N
         },
+        "war_beast_temple": {  # 战兽圣殿
+            "enable": True,  # 开启
+            "gold": 10,  # 花费金币<=N
+        },
         "special_equip": {  # 装备铸造
             "enable": True,  # 开启
             "firstcost": 0,  # 铸造花费金币<=N

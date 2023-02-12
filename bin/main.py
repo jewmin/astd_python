@@ -6,7 +6,7 @@ import signal
 import base64
 import argparse
 import logging
-from logging.handlers import RotatingFileHandler, TimedRotatingFileHandler
+from logging.handlers import RotatingFileHandler
 from model.account import Account
 from model.enum.server_type import ServerType
 from framework.app import App
@@ -76,13 +76,13 @@ def init_logging():
     logging.getLogger().addHandler(warning_rotating)
 
 
-def init_pycharm_debug():
-    import pydevd
-    ip = "127.0.0.1"
-    port = 18800
-    logging.getLogger().info("init_pycharm_debug begin, connecting to pycharm(ip={}, port={})...".format(ip, port))
-    pydevd.settrace(ip, port=port, stdoutToServer=False, stderrToServer=True, suspend=False)
-    logging.getLogger().info("init_pycharm_debug end, connected to pycharm")
+# def init_pycharm_debug():
+#     import pydevd
+#     ip = "127.0.0.1"
+#     port = 18800
+#     logging.getLogger().info("init_pycharm_debug begin, connecting to pycharm(ip={}, port={})...".format(ip, port))
+#     pydevd.settrace(ip, port=port, stdoutToServer=False, stderrToServer=True, suspend=False)
+#     logging.getLogger().info("init_pycharm_debug end, connected to pycharm")
 
 
 def handle_cmd(key, value, app_list):
@@ -134,8 +134,8 @@ def main():
     else:
         role_names = args.role_name.split(",")
     # logging.getLogger().info("原始参数：{}，角色参数：{}".format(args.role_name, role_names))
-    if args.enable_debug:
-        init_pycharm_debug()
+    # if args.enable_debug:
+    #     init_pycharm_debug()
     if len(user_names) != len(role_names):
         logging.getLogger().error("参数不对，账号与角色数量不匹配")
     else:
