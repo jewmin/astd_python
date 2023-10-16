@@ -46,5 +46,19 @@
 				"PYTHONPATH": "${workspaceFolder}"
 			},
 		},
+		{
+			"name": "Python: 草帽",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/bin/main.py",
+			"args": [
+				"--user-name=jewminchan",
+				"--role-name="
+			],
+			"cwd": "${workspaceFolder}/bin",
+			"env": {
+				"PYTHONPATH": "${workspaceFolder}"
+			},
+		},
 	]
 }

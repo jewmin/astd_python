@@ -66,3 +66,25 @@ class CommonTask(BaseTask):
         # 自动委派
         if config["mainCity"]["auto_trade"]:
             misc_mgr.get_player_merchant()
+
+        # 征收活动
+        self.getEventGiftInfo()
+
+    def getEventGiftInfo(self):
+        url = "/root/gift!getEventGiftInfo.action"
+        result = self.m_objProtocolMgr.get_xml(url, "征收活动")
+        if result and result.m_bSucceed:
+            rewardnum = result.m_objResult.get("rewardnum")
+            if rewardnum:
+                rewardnum = list(map(int, rewardnum[:-1].split(",")))
+                for idx, reward in enumerate(rewardnum):
+                    if reward == 1:
+                        self.receiveEventReward(idx)
+
+    def receiveEventReward(self, idx):
+        url = "/root/gift!receiveEventReward.action"
+        data = {"id": idx}
+        result = self.m_objProtocolMgr.post_xml(url, data, "领取礼包")
+        if result and result.m_bSucceed:
+            ticket = int(result.m_objResult["message"])
+            self.m_objServiceFactory.m_objMiscMgr.info("领取礼包, 获得点券+{}".format(ticket))

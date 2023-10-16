@@ -107,7 +107,7 @@ class App(IServer):
     def start_re_login_timer_impl(self, wait_seconds):
         if wait_seconds == 0:
             self.start_re_login()
-        elif self.m_timerReLogin is None:
+        else:
             self.logger.info("将在{}后开始重新登录".format("{}分钟".format(wait_seconds / 60) if wait_seconds >= 60 else "{}秒".format(wait_seconds)))
             self.start_re_login_thread(wait_seconds)
 
@@ -118,6 +118,7 @@ class App(IServer):
             self.do_login()
         except Exception as ex:
             self.logger.error("重新登录定时器异常：{}".format(str(ex)))
+            self.start_re_login_timer()
 
     def start_re_login_thread(self, wait_seconds):
         self.stop_re_login_thread()
@@ -175,13 +176,15 @@ class App(IServer):
         path = "logs/{}_{}_{}".format(self.m_objAccount.m_eServerType, self.m_objAccount.m_nServerId, self.m_objUser.m_nId)
         if not os.path.exists(path):
             os.makedirs(path)
-        file_handler = TimedRotatingFileHandler("{}/astd.log".format(path), when="D", interval=1, encoding="utf-8")
+        # file_handler = TimedRotatingFileHandler("{}/astd.log".format(path), when="D", interval=1, encoding="utf-8")
+        file_handler = logging.FileHandler(f"{path}/astd.log", encoding="utf-8")
         file_handler.setLevel(logging.INFO)
         formatter = logging.Formatter("%(asctime)s %(filename)s [%(levelname)s] %(message)s")
         file_handler.setFormatter(formatter)
         logging.getLogger(self.m_szIndex).addHandler(file_handler)
 
-        file_handler_gold = TimedRotatingFileHandler("{}/gold.log".format(path), when="D", interval=1, encoding="utf-8")
+        # file_handler_gold = TimedRotatingFileHandler("{}/gold.log".format(path), when="D", interval=1, encoding="utf-8")
+        file_handler_gold = logging.FileHandler(f"{path}/gold.log", encoding="utf-8")
         file_handler_gold.setLevel(logging.INFO)
         file_handler_gold.setFormatter(formatter)
         logging.getLogger(self.m_szIndex).getChild("gold").addHandler(file_handler_gold)

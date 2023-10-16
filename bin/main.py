@@ -65,15 +65,15 @@ def init_logging():
     console.setFormatter(formatter)
     logging.getLogger().addHandler(console)
 
-    rotating = RotatingFileHandler(filename="error.log", maxBytes=1048576, encoding="utf-8")
-    rotating.setLevel(logging.ERROR)
-    rotating.setFormatter(formatter)
-    logging.getLogger().addHandler(rotating)
+    # rotating = RotatingFileHandler(filename="error.log", maxBytes=1048576, encoding="utf-8")
+    # rotating.setLevel(logging.ERROR)
+    # rotating.setFormatter(formatter)
+    # logging.getLogger().addHandler(rotating)
 
-    warning_rotating = RotatingFileHandler(filename="warning.log", maxBytes=1048576, encoding="utf-8")
-    warning_rotating.setLevel(logging.WARNING)
-    warning_rotating.setFormatter(formatter)
-    logging.getLogger().addHandler(warning_rotating)
+    # warning_rotating = RotatingFileHandler(filename="warning.log", maxBytes=1048576, encoding="utf-8")
+    # warning_rotating.setLevel(logging.WARNING)
+    # warning_rotating.setFormatter(formatter)
+    # logging.getLogger().addHandler(warning_rotating)
 
 
 # def init_pycharm_debug():

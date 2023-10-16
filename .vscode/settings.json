@@ -3,5 +3,5 @@
 	"editor.insertSpaces": true,
 	"editor.renderWhitespace": "all",
 	"editor.fontSize": 14,
-	"editor.fontFamily": "'Cascadia Code PL Light', 'Source Code Pro', 'Courier New', monospace"
+	"editor.fontFamily": "'Cascadia Code PL', 'Source Code Pro', 'Courier New', monospace"
 }

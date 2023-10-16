@@ -50,13 +50,13 @@ activity_config = {
         "all_open_fuqi": 200,  # 全开需要福气>=N
         "all_open_jiu": 5,  # 全开需要酒>=N
         "all_open_xs": 2,  # 全开需要倍数>=N
-        "type": [0],  # 0觉醒酒 1杜康酒
+        "type": [0, 1],  # 0觉醒酒 1杜康酒
     },
     # 抓捕活动
     "ArrestEvent": {
         "enable": True,  # 开启
         "high_gold": 0,  # 使用鞭子花费金币<=N
-        "buy_gold": 5,  # 购买抓捕令花费金币<=N
+        "buy_gold": 0,  # 购买抓捕令花费金币<=N
     },
     # 充值赠礼
     "GiftEvent": {
@@ -72,7 +72,7 @@ activity_config = {
         "enable": True,  # 开启
         "unlock": {"0": 1, "1": 4, "2": 2, "3": 3},  # 开启宝箱顺序，"镔铁", "点卷", "宝物", "宝石"
         "cost_limit": 150000,  # 邀功花费军功<=N
-        "sail_gold": 5,  # 发船花费金币<=N
+        "sail_gold": 0,  # 发船花费金币<=N
         "arrow_diff": 10000,  # 承重差<=N
     },
     # 新年敲钟
@@ -88,10 +88,10 @@ activity_config = {
     # 百家宴
     "DuanWuEvent": {
         "enable": True,  # 开启
-        "gold_hunger": 3,  # 粽子花费金币<=N
+        "gold_hunger": 0,  # 粽子花费金币<=N
         "limit_hunger": 8,  # 免费粽子，饥饿度<=N
         "gold_round": 0,  # 轮数花费金币<=N
-        "general": ["刘邦", "赵敏", "孟获", "袁绍"],  # 大将令列表
+        "general": ["张良", "孟获", "戚继光", "孙尚香"],  # 大将令列表
     },
     # 宝塔活动
     "TowerStage": {
@@ -105,7 +105,7 @@ activity_config = {
     # 群雄煮酒
     "QingMingEvent": {
         "enable": True,  # 开启
-        "buycost": 10,  # 购买轮数花费金币<=N
+        "buycost": 0,  # 购买轮数花费金币<=N
         "golddrinkcost": 0,  # 酒仙附体花费金币<=N
         "golddrink": [True, True, True, True, True, True, True, False],  # 酒仙附体限制
         "drink": [30, 40, 50, 60, 70, 75, 95, 999],  # 醉意限制
@@ -123,9 +123,9 @@ activity_config = {
     # 超级翻牌
     "SuperFanPai": {
         "enable": True,  # 开启
-        "buyall": 20,  # 卡牌全开花费金币<=N
+        "buyall": 0,  # 卡牌全开花费金币<=N
         "superlv": 18,  # 卡牌全开限制，宝石等级>=N
-        "buyone": 5,  # 购买次数花费金币<=N
+        "buyone": 0,  # 购买次数花费金币<=N
     },
     # 消费送礼
     "DoubleElevenEvent": {
@@ -155,7 +155,7 @@ activity_config = {
     # 雪地通商
     "SnowTrading": {
         "enable": True,  # 开启
-        "choose": 1,  # 选择奖励 1:镔铁 2:点券
+        "choose": 2,  # 选择奖励 1:镔铁 2:点券
         "reinforce": {  # 加固雪橇
             "enable": False,  # 开启
             "cost": 0,  # 加固雪橇花费金币<=N
@@ -179,7 +179,7 @@ activity_config = {
     # 中秋月饼
     "EatMoonCakeEvent": {
         "enable": True,  # 开启
-        "gold": 7,  # 花费金币<=N
+        "gold": 0,  # 花费金币<=N
     },
     # 许愿
     "SpringFestivalWishEvent": {
@@ -189,7 +189,7 @@ activity_config = {
     "MemoryEvent": {
         "enable": True,  # 开启
         "hongbaocost": 0,  # 开红包花费金币<=N
-        "wishcost": 8,  # 拜年花费金币<=N
+        "wishcost": 0,  # 拜年花费金币<=N
     },
     # 龙舟
     "BoatEvent": {

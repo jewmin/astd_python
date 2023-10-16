@@ -149,7 +149,7 @@ config = {
             "enable": True,  # 开启功能
             "finish_task": True,  # 完成日常任务
             "do_high": True,  # 高效状态
-            "do_tired": True,  # 疲劳状态
+            "do_tired": False,  # 疲劳状态
             "refresh": 0,  # 刷新换购商人花费金币<=N
             "list": [  # 换购商人列表
                 # "皇家南越商人",
@@ -195,7 +195,7 @@ config = {
         "refine": {  # 精炼
             "enable": True,  # 开启功能
             "finish_task": True,  # 完成日常任务
-            "do_high": True,  # 高效状态
+            "do_high": False,  # 高效状态
             "do_tired": False,  # 疲劳状态
             "refresh_refiner": {  # 升级精炼工人
                 "per_cost": 0,  # 花费金币<=N
@@ -311,7 +311,10 @@ config = {
         },
         "war_beast_temple": {  # 战兽圣殿
             "enable": True,  # 开启
-            "gold": 10,  # 花费金币<=N
+            "gold": 0,  # 花费金币<=N
+        },
+        "war_beast": {  # 战兽
+            "enable": True,  # 开启
         },
         "special_equip": {  # 装备铸造
             "enable": True,  # 开启

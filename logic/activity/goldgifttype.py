@@ -116,4 +116,4 @@ class GoldGiftType(ActivityTask):
             reward_info = RewardInfo()
             reward_info.m_listRewards.append(reward1)
             self.add_reward(reward_info)
-            self.info("军资回馈，领取礼包，获得{}".format(reward_info))
+        self.info("军资回馈，领取礼包，获得{}".format(reward_info))
