@@ -91,5 +91,5 @@ class WarbeastTempleTask(BaseTask):
         result = self.m_objProtocolMgr.post_xml(url, data, "喂养战兽")
         if result and result.m_bSucceed:
             warbeast = result.m_objResult["warbeast"]
-            self.m_objProtocolMgr.logger.info("喂养战兽[%s], 当前进度(%s/%s)", warbeast["warbeastid"], warbeast["exp"], warbeast["upexp"])
+            self.m_objServiceFactory.m_objMiscMgr.info("喂养战兽[{}], 当前进度({}/{})".format(warbeast["warbeastid"], warbeast["exp"], warbeast["upexp"]))
             return warbeast
