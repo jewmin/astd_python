@@ -13,7 +13,7 @@ config = {
     },
     "mainCity": {
         "auto_get_login_reward": True,  # 自动领取登录奖励(今日手气、礼包、登录送礼、恭贺、俸禄)
-        "auto_build_general_tower": False,  # 自动筑造将军塔
+        "auto_build_general_tower": True,  # 自动筑造将军塔
         "auto_right_army": True,  # 自动征义兵
         "auto_apply_token": True,  # 自动领取军令
         "build_list": ["纺织局", "铁匠铺", "招商局", "军机处", "商店", "钱庄", "账房", "账房二", "铸币厂", "兵营", "校场", "校场二", "校场三", "银库一", "银库二", "民居一", "民居二", "民居三", "民居四", "民居五", "民居六", "民居七", "民居八", "民居九", "民居十", "货仓", "城墙"],  # 建造列表，只建造列表中的建筑

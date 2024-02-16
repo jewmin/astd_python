@@ -23,12 +23,15 @@ class PayHongBaoEvent(ActivityTask):
         #     self.open_pay_hongbao()
         #     return self.immediate()
 
-        # for hongbaoinfo in info["共享红包信息"]:
+        for hongbaoinfo in info["共享红包信息"]:
         #     if "rewardid" in hongbaoinfo:
         #         self.recv_share_hongbao(hongbaoinfo["rewardid"], hongbaoinfo["playerid"])
-        if int(info["共享红包信息"].get('cangetnum', 0)) > 0:
-            self.recv_share_hongbao(0, info["共享红包信息"]["playerid"])
-            return self.immediate()
+        # if int(info["共享红包信息"].get('cangetnum', 0)) > 0:
+            # self.recv_share_hongbao(0, info["共享红包信息"]["playerid"])
+            # return self.immediate()
+            if int(hongbaoinfo.get('cangetnum', 0)) > 0:
+                self.recv_share_hongbao(0, hongbaoinfo["playerid"])
+                return self.immediate()
 
         return self.next_half_hour()
 
@@ -40,7 +43,9 @@ class PayHongBaoEvent(ActivityTask):
             info["红包"] = int(result.m_objResult["hongbaonum"])
             info["红包上限"] = int(result.m_objResult["hongbaolimit"])
             info["福袋"] = int(result.m_objResult["luckybagnum"])
-            info["共享红包信息"] = result.m_objResult.get("hongbaoinfo", {})
+            info["共享红包信息"] = result.m_objResult.get("hongbaoinfo", [])
+            if not isinstance(info["共享红包信息"], list):
+                info["共享红包信息"] = [info["共享红包信息"]]
             return info
 
     def open_pay_hongbao(self):
